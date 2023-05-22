@@ -1,0 +1,391 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A7477F812A1BBCCF00D79747 /* SupernovaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F802A1BBCCF00D79747 /* SupernovaApp.swift */; };
+		A7477F832A1BBCCF00D79747 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F822A1BBCCF00D79747 /* ContentView.swift */; };
+		A7477F852A1BBCD100D79747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7477F842A1BBCD100D79747 /* Assets.xcassets */; };
+		A7477F882A1BBCD100D79747 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7477F872A1BBCD100D79747 /* Preview Assets.xcassets */; };
+		A7477F8F2A1BBD4D00D79747 /* LoginLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F8E2A1BBD4D00D79747 /* LoginLogo.swift */; };
+		A7477F922A1BBD9900D79747 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = A7477F912A1BBD9900D79747 /* Supabase */; };
+		A7477F942A1BBDAF00D79747 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F932A1BBDAF00D79747 /* LoginView.swift */; };
+		A7477F962A1BBDC000D79747 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F952A1BBDC000D79747 /* Extensions.swift */; };
+		A7477F982A1BBDD800D79747 /* TextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F972A1BBDD800D79747 /* TextEntry.swift */; };
+		A7477F9A2A1BBDE300D79747 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F992A1BBDE300D79747 /* DashboardView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A7477F7D2A1BBCCF00D79747 /* Supernova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Supernova.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7477F802A1BBCCF00D79747 /* SupernovaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupernovaApp.swift; sourceTree = "<group>"; };
+		A7477F822A1BBCCF00D79747 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A7477F842A1BBCD100D79747 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A7477F872A1BBCD100D79747 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A7477F8E2A1BBD4D00D79747 /* LoginLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginLogo.swift; sourceTree = "<group>"; };
+		A7477F932A1BBDAF00D79747 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		A7477F952A1BBDC000D79747 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A7477F972A1BBDD800D79747 /* TextEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntry.swift; sourceTree = "<group>"; };
+		A7477F992A1BBDE300D79747 /* DashboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A7477F7A2A1BBCCF00D79747 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7477F922A1BBD9900D79747 /* Supabase in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A7477F742A1BBCCF00D79747 = {
+			isa = PBXGroup;
+			children = (
+				A7477F7F2A1BBCCF00D79747 /* Supernova */,
+				A7477F7E2A1BBCCF00D79747 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A7477F7E2A1BBCCF00D79747 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A7477F7D2A1BBCCF00D79747 /* Supernova.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A7477F7F2A1BBCCF00D79747 /* Supernova */ = {
+			isa = PBXGroup;
+			children = (
+				A7477F8E2A1BBD4D00D79747 /* LoginLogo.swift */,
+				A7477F802A1BBCCF00D79747 /* SupernovaApp.swift */,
+				A7477F822A1BBCCF00D79747 /* ContentView.swift */,
+				A7477F932A1BBDAF00D79747 /* LoginView.swift */,
+				A7477F972A1BBDD800D79747 /* TextEntry.swift */,
+				A7477F992A1BBDE300D79747 /* DashboardView.swift */,
+				A7477F952A1BBDC000D79747 /* Extensions.swift */,
+				A7477F842A1BBCD100D79747 /* Assets.xcassets */,
+				A7477F862A1BBCD100D79747 /* Preview Content */,
+			);
+			path = Supernova;
+			sourceTree = "<group>";
+		};
+		A7477F862A1BBCD100D79747 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A7477F872A1BBCD100D79747 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A7477F7C2A1BBCCF00D79747 /* Supernova */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7477F8B2A1BBCD100D79747 /* Build configuration list for PBXNativeTarget "Supernova" */;
+			buildPhases = (
+				A7477F792A1BBCCF00D79747 /* Sources */,
+				A7477F7A2A1BBCCF00D79747 /* Frameworks */,
+				A7477F7B2A1BBCCF00D79747 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Supernova;
+			packageProductDependencies = (
+				A7477F912A1BBD9900D79747 /* Supabase */,
+			);
+			productName = Supernova;
+			productReference = A7477F7D2A1BBCCF00D79747 /* Supernova.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A7477F752A1BBCCF00D79747 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A7477F7C2A1BBCCF00D79747 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+				};
+			};
+			buildConfigurationList = A7477F782A1BBCCF00D79747 /* Build configuration list for PBXProject "Supernova" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A7477F742A1BBCCF00D79747;
+			packageReferences = (
+				A7477F902A1BBD9900D79747 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			productRefGroup = A7477F7E2A1BBCCF00D79747 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A7477F7C2A1BBCCF00D79747 /* Supernova */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A7477F7B2A1BBCCF00D79747 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7477F882A1BBCD100D79747 /* Preview Assets.xcassets in Resources */,
+				A7477F852A1BBCD100D79747 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A7477F792A1BBCCF00D79747 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7477F962A1BBDC000D79747 /* Extensions.swift in Sources */,
+				A7477F982A1BBDD800D79747 /* TextEntry.swift in Sources */,
+				A7477F832A1BBCCF00D79747 /* ContentView.swift in Sources */,
+				A7477F9A2A1BBDE300D79747 /* DashboardView.swift in Sources */,
+				A7477F812A1BBCCF00D79747 /* SupernovaApp.swift in Sources */,
+				A7477F942A1BBDAF00D79747 /* LoginView.swift in Sources */,
+				A7477F8F2A1BBD4D00D79747 /* LoginLogo.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A7477F892A1BBCD100D79747 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A7477F8A2A1BBCD100D79747 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A7477F8C2A1BBCD100D79747 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Supernova/Preview Content\"";
+				DEVELOPMENT_TEAM = 27RN89Z549;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.Supernova;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A7477F8D2A1BBCD100D79747 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Supernova/Preview Content\"";
+				DEVELOPMENT_TEAM = 27RN89Z549;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.Supernova;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A7477F782A1BBCCF00D79747 /* Build configuration list for PBXProject "Supernova" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7477F892A1BBCD100D79747 /* Debug */,
+				A7477F8A2A1BBCD100D79747 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7477F8B2A1BBCD100D79747 /* Build configuration list for PBXNativeTarget "Supernova" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7477F8C2A1BBCD100D79747 /* Debug */,
+				A7477F8D2A1BBCD100D79747 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A7477F902A1BBD9900D79747 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A7477F912A1BBD9900D79747 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7477F902A1BBD9900D79747 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A7477F752A1BBCCF00D79747 /* Project object */;
+}
