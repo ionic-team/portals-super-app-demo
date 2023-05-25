@@ -8,28 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		A7477F812A1BBCCF00D79747 /* SupernovaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F802A1BBCCF00D79747 /* SupernovaApp.swift */; };
-		A7477F832A1BBCCF00D79747 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F822A1BBCCF00D79747 /* ContentView.swift */; };
 		A7477F852A1BBCD100D79747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7477F842A1BBCD100D79747 /* Assets.xcassets */; };
 		A7477F882A1BBCD100D79747 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7477F872A1BBCD100D79747 /* Preview Assets.xcassets */; };
 		A7477F8F2A1BBD4D00D79747 /* LoginLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F8E2A1BBD4D00D79747 /* LoginLogo.swift */; };
 		A7477F922A1BBD9900D79747 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = A7477F912A1BBD9900D79747 /* Supabase */; };
 		A7477F942A1BBDAF00D79747 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F932A1BBDAF00D79747 /* LoginView.swift */; };
 		A7477F962A1BBDC000D79747 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F952A1BBDC000D79747 /* Extensions.swift */; };
-		A7477F982A1BBDD800D79747 /* TextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F972A1BBDD800D79747 /* TextEntry.swift */; };
 		A7477F9A2A1BBDE300D79747 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7477F992A1BBDE300D79747 /* DashboardView.swift */; };
+		A7999FE42A1BC16F00D08C51 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = A7999FE32A1BC16F00D08C51 /* Dependencies */; };
+		A7999FE62A1BC6E000D08C51 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7999FE52A1BC6E000D08C51 /* Dependencies.swift */; };
+		A7999FE92A1BE55F00D08C51 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = A7999FE82A1BE55F00D08C51 /* ComposableArchitecture */; };
+		A7999FEC2A1D200000D08C51 /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7999FEB2A1D200000D08C51 /* LoginFeature.swift */; };
+		A7F805122A1D3F4A0060A74D /* MiniApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F805112A1D3F4A0060A74D /* MiniApp.swift */; };
+		A7F805142A1D3F790060A74D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F805132A1D3F790060A74D /* Event.swift */; };
+		A7F805162A1D3FC20060A74D /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F805152A1D3FC20060A74D /* NewsItem.swift */; };
+		A7F805182A1D40000060A74D /* DashboardFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F805172A1D40000060A74D /* DashboardFeature.swift */; };
+		A7F8051B2A1D44220060A74D /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F8051A2A1D44220060A74D /* AppFeature.swift */; };
+		A7F8051D2A1D46330060A74D /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F8051C2A1D46330060A74D /* AppView.swift */; };
+		A7F805202A1D4E540060A74D /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = A7F8051F2A1D4E540060A74D /* SkeletonUI */; };
+		A7F805232A1D61420060A74D /* Portal+create.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F805222A1D61420060A74D /* Portal+create.swift */; };
+		A7F805262A1D61CE0060A74D /* IonicPortals in Frameworks */ = {isa = PBXBuildFile; productRef = A7F805252A1D61CE0060A74D /* IonicPortals */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A7477F7D2A1BBCCF00D79747 /* Supernova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Supernova.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7477F802A1BBCCF00D79747 /* SupernovaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupernovaApp.swift; sourceTree = "<group>"; };
-		A7477F822A1BBCCF00D79747 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A7477F842A1BBCD100D79747 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A7477F872A1BBCD100D79747 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A7477F8E2A1BBD4D00D79747 /* LoginLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginLogo.swift; sourceTree = "<group>"; };
 		A7477F932A1BBDAF00D79747 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A7477F952A1BBDC000D79747 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		A7477F972A1BBDD800D79747 /* TextEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntry.swift; sourceTree = "<group>"; };
 		A7477F992A1BBDE300D79747 /* DashboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		A7999FE52A1BC6E000D08C51 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
+		A7999FEB2A1D200000D08C51 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
+		A7F805112A1D3F4A0060A74D /* MiniApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniApp.swift; sourceTree = "<group>"; };
+		A7F805132A1D3F790060A74D /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		A7F805152A1D3FC20060A74D /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
+		A7F805172A1D40000060A74D /* DashboardFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardFeature.swift; sourceTree = "<group>"; };
+		A7F8051A2A1D44220060A74D /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
+		A7F8051C2A1D46330060A74D /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		A7F805222A1D61420060A74D /* Portal+create.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Portal+create.swift"; sourceTree = "<group>"; };
+		A7F805272A1D701B0060A74D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +57,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7477F922A1BBD9900D79747 /* Supabase in Frameworks */,
+				A7F805202A1D4E540060A74D /* SkeletonUI in Frameworks */,
+				A7F805262A1D61CE0060A74D /* IonicPortals in Frameworks */,
+				A7999FE42A1BC16F00D08C51 /* Dependencies in Frameworks */,
+				A7999FE92A1BE55F00D08C51 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,15 +86,17 @@
 		A7477F7F2A1BBCCF00D79747 /* Supernova */ = {
 			isa = PBXGroup;
 			children = (
-				A7477F8E2A1BBD4D00D79747 /* LoginLogo.swift */,
+				A7F805272A1D701B0060A74D /* Info.plist */,
+				A7F805212A1D612B0060A74D /* Portals */,
+				A7F805192A1D440E0060A74D /* App */,
+				A7F805102A1D3F3C0060A74D /* Model */,
+				A7F8050F2A1D3EF60060A74D /* Dashboard */,
+				A7999FEA2A1BE59400D08C51 /* Login */,
 				A7477F802A1BBCCF00D79747 /* SupernovaApp.swift */,
-				A7477F822A1BBCCF00D79747 /* ContentView.swift */,
-				A7477F932A1BBDAF00D79747 /* LoginView.swift */,
-				A7477F972A1BBDD800D79747 /* TextEntry.swift */,
-				A7477F992A1BBDE300D79747 /* DashboardView.swift */,
 				A7477F952A1BBDC000D79747 /* Extensions.swift */,
 				A7477F842A1BBCD100D79747 /* Assets.xcassets */,
 				A7477F862A1BBCD100D79747 /* Preview Content */,
+				A7999FE52A1BC6E000D08C51 /* Dependencies.swift */,
 			);
 			path = Supernova;
 			sourceTree = "<group>";
@@ -82,6 +107,52 @@
 				A7477F872A1BBCD100D79747 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A7999FEA2A1BE59400D08C51 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				A7477F8E2A1BBD4D00D79747 /* LoginLogo.swift */,
+				A7477F932A1BBDAF00D79747 /* LoginView.swift */,
+				A7999FEB2A1D200000D08C51 /* LoginFeature.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		A7F8050F2A1D3EF60060A74D /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				A7477F992A1BBDE300D79747 /* DashboardView.swift */,
+				A7F805172A1D40000060A74D /* DashboardFeature.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		A7F805102A1D3F3C0060A74D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A7F805112A1D3F4A0060A74D /* MiniApp.swift */,
+				A7F805132A1D3F790060A74D /* Event.swift */,
+				A7F805152A1D3FC20060A74D /* NewsItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A7F805192A1D440E0060A74D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A7F8051A2A1D44220060A74D /* AppFeature.swift */,
+				A7F8051C2A1D46330060A74D /* AppView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A7F805212A1D612B0060A74D /* Portals */ = {
+			isa = PBXGroup;
+			children = (
+				A7F805222A1D61420060A74D /* Portal+create.swift */,
+			);
+			path = Portals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,6 +173,10 @@
 			name = Supernova;
 			packageProductDependencies = (
 				A7477F912A1BBD9900D79747 /* Supabase */,
+				A7999FE32A1BC16F00D08C51 /* Dependencies */,
+				A7999FE82A1BE55F00D08C51 /* ComposableArchitecture */,
+				A7F8051F2A1D4E540060A74D /* SkeletonUI */,
+				A7F805252A1D61CE0060A74D /* IonicPortals */,
 			);
 			productName = Supernova;
 			productReference = A7477F7D2A1BBCCF00D79747 /* Supernova.app */;
@@ -133,6 +208,10 @@
 			mainGroup = A7477F742A1BBCCF00D79747;
 			packageReferences = (
 				A7477F902A1BBD9900D79747 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				A7999FE22A1BC16F00D08C51 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				A7999FE72A1BE55F00D08C51 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				A7F8051E2A1D4E540060A74D /* XCRemoteSwiftPackageReference "SkeletonUI" */,
+				A7F805242A1D61CE0060A74D /* XCRemoteSwiftPackageReference "ionic-portals-ios" */,
 			);
 			productRefGroup = A7477F7E2A1BBCCF00D79747 /* Products */;
 			projectDirPath = "";
@@ -160,13 +239,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7F805122A1D3F4A0060A74D /* MiniApp.swift in Sources */,
+				A7F805162A1D3FC20060A74D /* NewsItem.swift in Sources */,
+				A7F805142A1D3F790060A74D /* Event.swift in Sources */,
 				A7477F962A1BBDC000D79747 /* Extensions.swift in Sources */,
-				A7477F982A1BBDD800D79747 /* TextEntry.swift in Sources */,
-				A7477F832A1BBCCF00D79747 /* ContentView.swift in Sources */,
+				A7F805182A1D40000060A74D /* DashboardFeature.swift in Sources */,
 				A7477F9A2A1BBDE300D79747 /* DashboardView.swift in Sources */,
+				A7F8051D2A1D46330060A74D /* AppView.swift in Sources */,
 				A7477F812A1BBCCF00D79747 /* SupernovaApp.swift in Sources */,
 				A7477F942A1BBDAF00D79747 /* LoginView.swift in Sources */,
+				A7999FE62A1BC6E000D08C51 /* Dependencies.swift in Sources */,
 				A7477F8F2A1BBD4D00D79747 /* LoginLogo.swift in Sources */,
+				A7F805232A1D61420060A74D /* Portal+create.swift in Sources */,
+				A7F8051B2A1D44220060A74D /* AppFeature.swift in Sources */,
+				A7999FEC2A1D200000D08C51 /* LoginFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +384,7 @@
 				DEVELOPMENT_TEAM = 27RN89Z549;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Supernova/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -327,6 +414,7 @@
 				DEVELOPMENT_TEAM = 27RN89Z549;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Supernova/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -377,6 +465,38 @@
 				minimumVersion = 0.2.1;
 			};
 		};
+		A7999FE22A1BC16F00D08C51 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+		A7999FE72A1BE55F00D08C51 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.53.2;
+			};
+		};
+		A7F8051E2A1D4E540060A74D /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CSolanaM/SkeletonUI";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		A7F805242A1D61CE0060A74D /* XCRemoteSwiftPackageReference "ionic-portals-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ionic-team/ionic-portals-ios";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -384,6 +504,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A7477F902A1BBD9900D79747 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
+		};
+		A7999FE32A1BC16F00D08C51 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7999FE22A1BC16F00D08C51 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+		A7999FE82A1BE55F00D08C51 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7999FE72A1BE55F00D08C51 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		A7F8051F2A1D4E540060A74D /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7F8051E2A1D4E540060A74D /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
+		};
+		A7F805252A1D61CE0060A74D /* IonicPortals */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7F805242A1D61CE0060A74D /* XCRemoteSwiftPackageReference "ionic-portals-ios" */;
+			productName = IonicPortals;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
