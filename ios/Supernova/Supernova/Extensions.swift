@@ -24,8 +24,32 @@ extension URL: ExpressibleByStringLiteral {
     }
 }
 
-extension SupabaseClient {
-    static let live: SupabaseClient = {
-        SupabaseClient(supabaseURL: "http://localhost:542321", supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0")
-    }()
+extension Image {
+    static var timeTracking: Image {
+        Image("ionicon_time")
+    }
+    
+    static var hr: Image {
+        Image("ionicon_people")
+    }
+    
+    static var perks: Image {
+        Image("ionicon_sparkles")
+    }
+    
+    static var news: Image {
+        Image("ionicon_newspaper")
+    }
+    
+    static var chevron: Image {
+        Image("ionicon_chevron")
+    }
+    
+    static var mail: Image {
+        Image("ionicon_mail")
+    }
+    
+    static var lock: Image {
+        Image("ionicon_lock")
+    }
 }
