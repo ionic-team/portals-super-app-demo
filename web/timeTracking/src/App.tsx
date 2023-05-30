@@ -28,6 +28,7 @@ import TimeTrackingManager from "./pages/TimeTrackingManager";
 import Home from "./pages/Home";
 import TimeTrackingSalesperson from "./pages/TimeTrackingSalesperson";
 import HumanResourcesManager from "./pages/HumanResourcesManager";
+import PeoplePerks from "./pages/PeoplePerks";
 
 setupIonicReact();
 
@@ -64,6 +65,9 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/human-resources/manager">
             <HumanResourcesManager session={session} />
+          </Route>
+          <Route exact path="/people-perks">
+            <PeoplePerks session={session} />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>

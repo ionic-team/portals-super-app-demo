@@ -14,11 +14,15 @@ const Home = () => {
 
   const handleRouteSalesperson = () => {
     history.push("/time-tracking/salesperson");
-  }
+  };
 
   const handleRouteHRManager = () => {
     history.push("/human-resources/manager");
-  }
+  };
+
+  const handlePeoplePerks = () => {
+    history.push("/people-perks");
+  };
 
   return (
     <IonPage
@@ -31,10 +35,17 @@ const Home = () => {
           "text-align": "center",
         }}
       >
-        <IonButton onClick={handleRouteContractor}>Time Tracking - Contractor</IonButton>
-        <IonButton onClick={handleRouteManager}>Time Tracking - Manager</IonButton>
-        <IonButton onClick={handleRouteSalesperson}>Time Tracking - Salesperson</IonButton>
+        <IonButton onClick={handleRouteContractor}>
+          Time Tracking - Contractor
+        </IonButton>
+        <IonButton onClick={handleRouteManager}>
+          Time Tracking - Manager
+        </IonButton>
+        <IonButton onClick={handleRouteSalesperson}>
+          Time Tracking - Salesperson
+        </IonButton>
         <IonButton onClick={handleRouteHRManager}>HR Manager</IonButton>
+        <IonButton onClick={handlePeoplePerks}>People Perks</IonButton>
       </IonContent>
     </IonPage>
   );
