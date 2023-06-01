@@ -1,5 +1,6 @@
 package io.ionic.superapp.ui.dashboard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,10 @@ class AppAdapter(private val apps: List<App>) : RecyclerView.Adapter<AppAdapter.
         val appItem = apps[position]
         holder.appLabel.text = appItem.name
         holder.appIcon.setImageResource(appItem.drawableId)
+
+        holder.itemView.setOnClickListener {
+            Log.d("Tap", "Tapped ${appItem.name}")
+        }
     }
 
     class AppViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

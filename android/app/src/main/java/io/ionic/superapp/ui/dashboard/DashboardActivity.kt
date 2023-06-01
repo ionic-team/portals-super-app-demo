@@ -11,6 +11,7 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import io.ionic.superapp.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
@@ -24,9 +25,9 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        val appList : RecyclerView = findViewById(R.id.dashboard_app_list)
-        val recentActivityList : RecyclerView = findViewById(R.id.recent_activity_list)
-        val newsFeedList : RecyclerView = findViewById(R.id.newsfeed_list)
+        val appList: RecyclerView = findViewById(R.id.dashboard_app_list)
+        val recentActivityList: RecyclerView = findViewById(R.id.recent_activity_list)
+        val newsFeedList: RecyclerView = findViewById(R.id.newsfeed_list)
 
         appList.layoutManager = LinearLayoutManager(this)
         recentActivityList.layoutManager = LinearLayoutManager(this)
@@ -58,6 +59,7 @@ class DashboardActivity : AppCompatActivity() {
         newsFeedSkeleton.showSkeleton()
 
         CoroutineScope(Dispatchers.Main).launch {
+            delay(1400L)
             dashboardViewModel.update()
         }
     }

@@ -4,7 +4,7 @@ import android.app.Application
 import io.ionic.portals.PortalManager
 import java.util.*
 
-class SuperApplication: Application() {
+class SuperApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

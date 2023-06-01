@@ -13,10 +13,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import io.ionic.superapp.R
 import io.ionic.superapp.databinding.ActivityLoginBinding
 import io.ionic.superapp.ui.dashboard.DashboardActivity
-
 
 class LoginActivity : AppCompatActivity() {
 

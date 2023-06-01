@@ -8,16 +8,15 @@ import io.ionic.superapp.data.model.App
 import io.ionic.superapp.data.model.Event
 import io.ionic.superapp.data.model.News
 
-class DashboardViewModel() : ViewModel() {
-
+class DashboardViewModel : ViewModel() {
     private val _appList = MutableLiveData<List<App>>()
-    val appList : LiveData<List<App>> = _appList
+    val appList: LiveData<List<App>> = _appList
 
     private val _eventList = MutableLiveData<List<Event>>()
-    val eventList : LiveData<List<Event>> = _eventList
+    val eventList: LiveData<List<Event>> = _eventList
 
     private val _newsList = MutableLiveData<List<News>>()
-    val newsList : LiveData<List<News>> = _newsList
+    val newsList: LiveData<List<News>> = _newsList
 
     suspend fun update() {
         val apps = DataManager.instance.getApps()
