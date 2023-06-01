@@ -25,7 +25,6 @@ class EventAdapter(private val events: List<Event>) :
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val eventItem = events[position]
         holder.binding.rowText.text = eventItem.description
-        holder.binding.eventIcon.setColorFilter(Color.BLACK)
 
         if (eventItem.description.contains("PTO")) {
             holder.binding.eventIcon.setImageResource(R.drawable.time)
