@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   IonContent,
   IonHeader,
@@ -15,15 +15,24 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
+  IonInput,
 } from "@ionic/react";
 import PreviousPerksGiven from "../components/PreviousPerksGiven";
-import { SessionObj, User, Perk, PerkEvent } from "../definitions";
-import perks from "../perks.json";
+import { SessionObj, PerkEvent } from "../definitions";
 import users from "../users.json";
 import perksEntries from "../perks-entries.json";
 
 const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
+
+  const modal = useRef<HTMLIonModalElement>(null);
+  const page = useRef(null);
+  const [presentingElement, setPresentingElement] =
+    useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setPresentingElement(page.current);
+  }, []);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -36,28 +45,28 @@ const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
   const handleAddEntry = () => {
     setShowModal(false);
   };
-  console.log(session.user.userType);
 
   const [perkEvents, setPerkEvents] = useState<PerkEvent[]>(perksEntries);
 
   return (
-    <IonPage>
+    <IonPage ref={page}>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
             <IonBackButton text={"Dashboard"} />
           </IonButtons>
-          <IonTitle>People Perks</IonTitle>
+          <IonTitle>Perks</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">People Perks</IonTitle>
+            <IonTitle size="large">Perks</IonTitle>
           </IonToolbar>
         </IonHeader>
         <PreviousPerksGiven perksGiven={perkEvents}></PreviousPerksGiven>
         <IonModal
+          ref={modal}
           isOpen={showModal}
           onDidDismiss={handleCloseModal}
           showBackdrop={true}
@@ -67,10 +76,10 @@ const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
               <IonButtons slot="start">
                 <IonButton onClick={handleCloseModal}>Cancel</IonButton>
               </IonButtons>
-              <IonTitle>New Entry</IonTitle>
+              <IonTitle>Give a Perk</IonTitle>
               <IonButtons slot="end">
                 <IonButton strong={true} onClick={handleAddEntry}>
-                  Create
+                  Give
                 </IonButton>
               </IonButtons>
             </IonToolbar>
@@ -79,17 +88,17 @@ const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
             <IonList inset={true}>
               <IonItem>
                 <IonLabel>Give</IonLabel>
-                <IonSelect placeholder="Select">
-                  {perks.map((perk) => (
-                    <IonSelectOption>{perk.name}</IonSelectOption>
+                <IonSelect placeholder="Select amount">
+                  {[5, 10, 20, 25, 50, 75, 100].map((perkAmount) => (
+                    <IonSelectOption>{perkAmount}</IonSelectOption>
                   ))}
                 </IonSelect>
               </IonItem>
             </IonList>
             <IonList inset={true}>
               <IonItem>
-                <IonLabel>to</IonLabel>
-                <IonSelect placeholder="Select">
+                <IonLabel>To</IonLabel>
+                <IonSelect placeholder="Select recipient">
                   {users.map((user) => (
                     <IonSelectOption>
                       {user.firstName} {user.lastName}
@@ -98,14 +107,15 @@ const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
                 </IonSelect>
               </IonItem>
             </IonList>
-            <IonButton
-              id="open-modal"
-              expand="block"
-              style={{ margin: "16px" }}
-              onClick={handleAddEntry}
-            >
-              Give the perk
-            </IonButton>
+            <IonList inset={true}>
+              <IonItem>
+                <IonLabel>For</IonLabel>
+                <IonInput
+                  placeholder="Write a few words"
+                  style={{ textAlign: "right" }}
+                />
+              </IonItem>
+            </IonList>
           </IonContent>
         </IonModal>
       </IonContent>

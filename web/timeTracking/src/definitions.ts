@@ -32,10 +32,6 @@ export interface PerkEvent {
   givingUserId: number;
   receivingUserId: number;
   date: string;
-  perkId: number;
-}
-
-export interface Perk {
-  id: number;
-  name: string;
+  amount: number;
+  message: string;
 }
