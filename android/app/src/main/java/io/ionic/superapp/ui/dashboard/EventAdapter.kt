@@ -25,14 +25,14 @@ class EventAdapter(private val events: List<Event>) :
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val eventItem = events[position]
         holder.binding.rowText.text = eventItem.description
-        holder.binding.notificationIcon.setColorFilter(Color.BLACK)
+        holder.binding.eventIcon.setColorFilter(Color.BLACK)
 
         if (eventItem.description.contains("PTO")) {
-            holder.binding.notificationIcon.setImageResource(R.drawable.time)
+            holder.binding.eventIcon.setImageResource(R.drawable.time)
         } else if (eventItem.description.contains("perks")) {
-            holder.binding.notificationIcon.setImageResource(R.drawable.sparkles)
+            holder.binding.eventIcon.setImageResource(R.drawable.sparkles)
         } else {
-            holder.binding.notificationIcon.setImageResource(R.drawable.people)
+            holder.binding.eventIcon.setImageResource(R.drawable.people)
         }
 
         holder.itemView.setOnClickListener {
