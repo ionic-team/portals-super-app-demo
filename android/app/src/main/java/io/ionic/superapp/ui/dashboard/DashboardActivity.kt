@@ -1,20 +1,21 @@
 package io.ionic.superapp.ui.dashboard
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.UiModeManager
+import android.graphics.Color
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import io.ionic.superapp.R
 import io.ionic.superapp.databinding.ActivityDashboardBinding
-import io.ionic.superapp.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
@@ -60,6 +61,8 @@ class DashboardActivity : AppCompatActivity() {
             newsFeedList.adapter = NewsAdapter(it)
         })
 
+        setSkeletonColors()
+
         appSkeleton.showSkeleton()
         recentActivitySkeleton.showSkeleton()
         newsFeedSkeleton.showSkeleton()
@@ -68,5 +71,27 @@ class DashboardActivity : AppCompatActivity() {
             delay(1400L)
             dashboardViewModel.update()
         }
+    }
+
+    private fun setSkeletonColors() {
+        val uiModeManager = getSystemService(UI_MODE_SERVICE) as UiModeManager
+        val mode = uiModeManager.nightMode
+
+        // Default skeleton colors
+        var maskColor = Color.parseColor("#E0E0E0")
+        var shimmerColor = Color.parseColor("#D5D5D5")
+
+        // Dark mode skeleton colors
+        if (mode == UiModeManager.MODE_NIGHT_YES) {
+            maskColor = Color.DKGRAY
+            shimmerColor = Color.GRAY
+        }
+
+        appSkeleton.maskColor = maskColor
+        appSkeleton.shimmerColor = shimmerColor
+        recentActivitySkeleton.maskColor = maskColor
+        recentActivitySkeleton.shimmerColor = shimmerColor
+        newsFeedSkeleton.maskColor = maskColor
+        newsFeedSkeleton.shimmerColor = shimmerColor
     }
 }
