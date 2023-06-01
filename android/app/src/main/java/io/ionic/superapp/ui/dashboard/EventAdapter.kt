@@ -3,21 +3,19 @@ package io.ionic.superapp.ui.dashboard
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.ionic.superapp.R
 import io.ionic.superapp.data.model.Event
+import io.ionic.superapp.databinding.NotificationRowItemBinding
 
 class EventAdapter(private val events: List<Event>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.notification_row_item, parent, false)
-        return EventViewHolder(view)
+        val binding =
+            NotificationRowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return EventViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -26,15 +24,15 @@ class EventAdapter(private val events: List<Event>) :
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val eventItem = events[position]
-        holder.eventText.text = eventItem.description
+        holder.binding.rowText.text = eventItem.description
+        holder.binding.notificationIcon.setColorFilter(Color.BLACK)
 
-        holder.eventIcon.setColorFilter(Color.BLACK)
         if (eventItem.description.contains("PTO")) {
-            holder.eventIcon.setImageResource(R.drawable.time)
+            holder.binding.notificationIcon.setImageResource(R.drawable.time)
         } else if (eventItem.description.contains("perks")) {
-            holder.eventIcon.setImageResource(R.drawable.sparkles)
+            holder.binding.notificationIcon.setImageResource(R.drawable.sparkles)
         } else {
-            holder.eventIcon.setImageResource(R.drawable.people)
+            holder.binding.notificationIcon.setImageResource(R.drawable.people)
         }
 
         holder.itemView.setOnClickListener {
@@ -42,8 +40,6 @@ class EventAdapter(private val events: List<Event>) :
         }
     }
 
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val eventText: TextView = itemView.findViewById(R.id.row_text)
-        val eventIcon: ImageView = itemView.findViewById(R.id.notification_icon)
-    }
+    class EventViewHolder(val binding: NotificationRowItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

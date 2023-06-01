@@ -9,12 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import io.ionic.superapp.R
+import io.ionic.superapp.databinding.ActivityDashboardBinding
+import io.ionic.superapp.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDashboardBinding
+
     private lateinit var appSkeleton: Skeleton
     private lateinit var recentActivitySkeleton: Skeleton
     private lateinit var newsFeedSkeleton: Skeleton
@@ -23,11 +27,13 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
 
-        val appList: RecyclerView = findViewById(R.id.dashboard_app_list)
-        val recentActivityList: RecyclerView = findViewById(R.id.recent_activity_list)
-        val newsFeedList: RecyclerView = findViewById(R.id.newsfeed_list)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val appList = binding.dashboardAppList
+        val recentActivityList = binding.recentActivityList
+        val newsFeedList = binding.newsfeedList
 
         appList.layoutManager = LinearLayoutManager(this)
         recentActivityList.layoutManager = LinearLayoutManager(this)
