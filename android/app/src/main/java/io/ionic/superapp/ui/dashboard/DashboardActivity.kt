@@ -1,6 +1,7 @@
 package io.ionic.superapp.ui.dashboard
 
 import android.app.UiModeManager
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import io.ionic.superapp.R
+import io.ionic.superapp.data.DataManager
 import io.ionic.superapp.databinding.ActivityDashboardBinding
+import io.ionic.superapp.ui.app.AppActivity
+import io.ionic.superapp.ui.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -35,6 +39,7 @@ class DashboardActivity : AppCompatActivity() {
         val appList = binding.dashboardAppList
         val recentActivityList = binding.recentActivityList
         val newsFeedList = binding.newsfeedList
+        val logoutLink = binding.logoutLink
 
         appList.layoutManager = LinearLayoutManager(this)
         recentActivityList.layoutManager = LinearLayoutManager(this)
@@ -66,6 +71,14 @@ class DashboardActivity : AppCompatActivity() {
         appSkeleton.showSkeleton()
         recentActivitySkeleton.showSkeleton()
         newsFeedSkeleton.showSkeleton()
+
+        logoutLink.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                dashboardViewModel.logout()
+                startActivity(Intent(this@DashboardActivity, LoginActivity::class.java))
+                finish()
+            }
+        }
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(1400L)
