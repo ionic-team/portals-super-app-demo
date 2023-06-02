@@ -27,4 +27,8 @@ class DashboardViewModel : ViewModel() {
         _eventList.value = events
         _newsList.value = news
     }
+
+    suspend fun logout() {
+        DataManager.instance.logout()
+    }
 }

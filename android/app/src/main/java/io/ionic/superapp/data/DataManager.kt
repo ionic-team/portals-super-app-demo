@@ -91,7 +91,7 @@ class DataManager {
         return sessionMap
     }
 
-    fun logout() {
-        if(client.gotrue.invalidateSession())
+    suspend fun logout() {
+        client.gotrue.invalidateSession()
     }
 }
