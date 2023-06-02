@@ -49,22 +49,11 @@ private enum ClientKey: DependencyKey {
                     .value as [NewsItem]
             },
             getEvents: {
-//                return []
                 do {
-                    struct EventsArgs: Encodable {
-                         let p_id: String
-                    }
                     let session = try await supabase.auth.session
-                    let response = try await supabase.database.rpc(fn: "get_events", params: ["p_id": session.user.id.uuidString])
+                    return try await supabase.database.rpc(fn: "get_events", params: ["employee_id": session.user.id])
                         .execute()
                         .value as [Event]
-//                    let response: [Event] = try await supabase.database.from("events")
-//                        .select()
-//                        .eq(column: "user", value: session.user.id)
-//                        .execute()
-//                        .value
-
-                    return response
                 } catch let error {
                     print(error.localizedDescription)
                     return []

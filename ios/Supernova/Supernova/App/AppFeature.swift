@@ -31,11 +31,18 @@ struct AppFeature: ReducerProtocol {
         
         Reduce { state, action in
             switch action {
-            case .loginAction(.loginSucceeded):
-                return .run { await $0(.dashboardAction(.fetchAll)) }
+            case .loginAction(.loginSucceeded(let accessToken, let refreshToken)):
+                let credentials = Credentials(accessToken: accessToken, refreshToken: refreshToken)
+                return .run { send in
+                    await send(.dashboardAction(.authorizedUser(credentials)))
+                    await send(.dashboardAction(.fetchAll))
+                }
 
             case .loginAction(.logout):
-                return .run { await $0(.dashboardAction(.reset)) }
+                return .run { send in
+                    await send(.dashboardAction(.authorizedUser(nil)))
+                    await send(.dashboardAction(.reset))
+                }
                 
             default:
                 return .none

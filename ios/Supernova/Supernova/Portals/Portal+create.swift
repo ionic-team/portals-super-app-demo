@@ -10,7 +10,7 @@ import Capacitor
 import Dependencies
 import IonicPortals
 
-struct Credentials: Encodable {
+struct Credentials: Encodable, Hashable {
     var url: URL
     var accessToken: String
     var refreshToken: String
@@ -36,7 +36,7 @@ extension Portal {
         }
 
         return Portal(
-            name: app.id,
+            name: "webstub",
             initialContext: initialContext
         )
     }
