@@ -1,13 +1,16 @@
 package io.ionic.superapp.ui.dashboard
 
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.ionic.superapp.data.model.App
 import io.ionic.superapp.databinding.AppRowItemBinding
+import io.ionic.superapp.ui.app.AppActivity
 
-class AppAdapter(private val apps: List<App>) : RecyclerView.Adapter<AppAdapter.AppViewHolder>() {
+class AppAdapter(private val apps: List<App>, private val activity: Activity) : RecyclerView.Adapter<AppAdapter.AppViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
         val binding = AppRowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,7 +27,9 @@ class AppAdapter(private val apps: List<App>) : RecyclerView.Adapter<AppAdapter.
         holder.binding.appIcon.setImageResource(appItem.drawableId)
 
         holder.itemView.setOnClickListener {
-            Log.d("Tap", "Tapped ${appItem.name}")
+            activity.startActivity(Intent(activity, AppActivity::class.java).apply {
+                putExtra("portalName", appItem.portalName)
+            })
         }
     }
 

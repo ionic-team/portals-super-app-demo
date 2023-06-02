@@ -3,11 +3,12 @@ package io.ionic.superapp.ui.dashboard
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import io.ionic.superapp.data.model.News
 import io.ionic.superapp.databinding.NotificationRowItemBinding
 
-class NewsAdapter(private val news: List<News>) :
+class NewsAdapter(private val news: List<News>, private val fragmentManager: FragmentManager) :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -26,6 +27,7 @@ class NewsAdapter(private val news: List<News>) :
 
         holder.itemView.setOnClickListener {
             Log.d("Tap", "Tapped ${newsItem.headline}")
+            NewsReaderDialog(newsItem).display(fragmentManager)
         }
     }
 

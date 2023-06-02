@@ -1,5 +1,7 @@
 package io.ionic.superapp.ui.dashboard
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import io.ionic.superapp.R
 import io.ionic.superapp.data.model.Event
 import io.ionic.superapp.databinding.NotificationRowItemBinding
+import io.ionic.superapp.ui.app.AppActivity
 
-class EventAdapter(private val events: List<Event>) :
+class EventAdapter(private val events: List<Event>, private val activity: Activity) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -35,7 +38,10 @@ class EventAdapter(private val events: List<Event>) :
         }
 
         holder.itemView.setOnClickListener {
-            Log.d("Tap", "Tapped ${eventItem.description}")
+            activity.startActivity(Intent(activity, AppActivity::class.java).apply {
+                putExtra("portalName", eventItem.type)
+                putExtra("eventId", eventItem.id.toString())
+            })
         }
     }
 

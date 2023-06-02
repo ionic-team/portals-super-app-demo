@@ -48,17 +48,17 @@ class DashboardActivity : AppCompatActivity() {
 
         dashboardViewModel.appList.observe(this, Observer {
             appSkeleton.showOriginal()
-            appList.adapter = AppAdapter(it)
+            appList.adapter = AppAdapter(it, this)
         })
 
         dashboardViewModel.eventList.observe(this, Observer {
             recentActivitySkeleton.showOriginal()
-            recentActivityList.adapter = EventAdapter(it)
+            recentActivityList.adapter = EventAdapter(it, this)
         })
 
         dashboardViewModel.newsList.observe(this, Observer {
             newsFeedSkeleton.showOriginal()
-            newsFeedList.adapter = NewsAdapter(it)
+            newsFeedList.adapter = NewsAdapter(it, supportFragmentManager)
         })
 
         setSkeletonColors()
