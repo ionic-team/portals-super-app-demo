@@ -25,6 +25,13 @@
         </activity>
 
         <activity
+            android:name=".ui.app.AppActivity"
+            android:theme="@style/Theme.SuperApp.Dashboard"
+            android:exported="true">
+
+        </activity>
+
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login">

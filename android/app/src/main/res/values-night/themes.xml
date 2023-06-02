@@ -23,4 +23,13 @@
     <style name="Theme.SuperApp.Dashboard" parent="Theme.SuperApp">
         <item name="listColor">#1B1B1B</item>
     </style>
+
+    <style name="Theme.SuperApp.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorPrimaryDark">#1B1B1B</item>
+        <item name="colorAccent">@color/super_500</item>
+        <item name="colorPrimary">@color/super_200</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">#1B1B1B</item>
+        <item name="actionMenuTextColor">#F2F1F6</item>
+    </style>
 </resources>

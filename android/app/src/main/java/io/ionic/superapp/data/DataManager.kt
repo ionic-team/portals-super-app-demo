@@ -37,7 +37,7 @@ class DataManager {
 
     suspend fun login(email: String, password: String): Boolean {
         try {
-            val result = client.gotrue.loginWith(Email) {
+            client.gotrue.loginWith(Email) {
                 this.email = email
                 this.password = password
             }
@@ -81,7 +81,17 @@ class DataManager {
         return listOf(timeApp, hrApp, perksApp)
     }
 
-    fun logout() {
+    fun getSessionObject(): HashMap<String, String> {
+        val sessionMap = HashMap<String, String>()
+        session?.let {
+            sessionMap["refreshToken"] = it.refreshToken
+            sessionMap["accessToken"] = it.accessToken
+        }
 
+        return sessionMap
+    }
+
+    fun logout() {
+        if(client.gotrue.invalidateSession())
     }
 }

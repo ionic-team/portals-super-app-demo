@@ -60,7 +60,8 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="See all"
                     android:textColor="?colorPrimary"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/recent_activity_more_chevron"
@@ -68,6 +69,7 @@
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/chevron"
+                    android:visibility="gone"
                     app:tint="?colorPrimary" />
 
             </LinearLayout>
@@ -113,7 +115,8 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="See all"
                     android:textColor="?colorPrimary"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/newsfeed_more_chevron"
@@ -121,6 +124,7 @@
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/chevron"
+                    android:visibility="gone"
                     app:tint="?colorPrimary" />
 
             </LinearLayout>

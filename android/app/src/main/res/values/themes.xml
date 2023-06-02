@@ -26,4 +26,13 @@
         <item name="android:statusBarColor">#F2F1F6</item>
         <item name="listColor">@color/white</item>
     </style>
+
+    <style name="Theme.SuperApp.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorPrimaryDark">@color/super_500</item>
+        <item name="colorAccent">@color/super_500</item>
+        <item name="colorPrimary">@color/super_200</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">#F2F1F6</item>
+        <item name="actionMenuTextColor">@color/black</item>
+    </style>
 </resources>
