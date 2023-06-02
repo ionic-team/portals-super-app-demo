@@ -29,6 +29,7 @@ import Home from "./pages/Home";
 import TimeTrackingSalesperson from "./components/time-tracking/TimeTrackingSalesperson";
 import HumanResourcesManager from "./components/human-resources/HumanResourcesManager";
 import HumanResourcesContractor from "./components/human-resources/HumanResourcesContractor";
+import PeoplePerks from "./components/perks/PeoplePerks";
 
 setupIonicReact();
 
@@ -68,6 +69,9 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/human-resources/contractor">
             <HumanResourcesContractor session={session} />
+          </Route>
+          <Route exact path="/people-perks">
+            <PeoplePerks session={session} />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>

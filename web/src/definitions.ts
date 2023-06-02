@@ -26,3 +26,16 @@ export interface Event {
   rel: string;
   text: string;
 }
+
+export interface PerkEvent {
+  id: number;
+  givingUserId: number;
+  receivingUserId: number;
+  date: string;
+  perkId: number;
+}
+
+export interface Perk {
+  id: number;
+  name: string;
+}
