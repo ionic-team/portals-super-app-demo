@@ -1,0 +1,37 @@
+[
+    {
+      "id": 100,
+      "givingUserId": 1,
+      "receivingUserId": 2,
+      "date": "05/22/2023",
+      "perkId": 1
+    },
+    {
+      "id": 1,
+      "givingUserId": 1,
+      "receivingUserId": 2,
+      "date": "03/05/2023",
+      "perkId": 2
+    },
+    {
+      "id": 2,
+      "givingUserId": 2,
+      "receivingUserId": 1,
+      "date": "03/06/2023",
+      "perkId": 2
+    },
+    {
+      "id": 3,
+      "givingUserId": 2,
+      "receivingUserId": 1,
+      "date": "03/07/2023",
+      "perkId": 3
+    },
+    {
+      "id": 4,
+      "givingUserId": 2,
+      "receivingUserId": 1,
+      "date": "03/08/2023",
+      "perkId": 7
+    }
+  ]
