@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -10,15 +10,20 @@ import {
   IonButton,
   IonListHeader,
   IonList,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonNote,
+  IonLoading,
 } from "@ionic/react";
-import { SessionObj } from "../definitions";
 import LeaveApprovalListModal from "./LeaveApprovalListModal";
-import { calendar } from "ionicons/icons";
 import TimeOffItem from "./TimeOffItem";
+import {
+  loadAssignedPTORequests,
+  loadUser,
+  processPTORequest,
+} from "../../../supabaseApi/supabaseApi";
+import {
+  PTORequest,
+  SessionObj,
+  UserRequest,
+} from "../../../supabaseApi/types";
 
 interface HumanResourcesManagerProps {
   session: SessionObj;
@@ -27,23 +32,33 @@ interface HumanResourcesManagerProps {
 const HumanResourcesManager: React.FC<HumanResourcesManagerProps> = ({
   session,
 }) => {
+  const [userRequests, setUserRequests] = useState<UserRequest[]>();
+
+  const loadUserRequests = async () => {
+    const updatedUserRequests = [];
+    const requests: PTORequest[] = (await loadAssignedPTORequests(
+      session.user.id
+    )) as PTORequest[];
+    for (const request of requests) {
+      const user = await loadUser(request.requester);
+      updatedUserRequests.push({ user, request });
+    }
+    setUserRequests(updatedUserRequests);
+  };
+
+  useEffect(() => {
+    loadUserRequests();
+  }, []);
+
   const [showModal, setShowModal] = useState(false);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString();
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleApproveRequest = () => {
-    setShowModal(false);
-  };
-
-  const handleDenyRequest = () => {
-    setShowModal(false);
-  };
+  if (!userRequests) {
+    return <IonLoading />;
+  }
 
   return (
     <IonPage>
@@ -64,37 +79,71 @@ const HumanResourcesManager: React.FC<HumanResourcesManagerProps> = ({
         <IonButton
           expand="block"
           style={{ margin: "23px 16px 23px 16px" }}
-          onClick={handleOpenModal}
+          onClick={() => setShowModal(true)}
         >
-          Time Off Requests (3)
+          {`Time Off Requests (${
+            userRequests.filter((ur) => ur.request.approval_status === 2).length
+          })`}
         </IonButton>
         <IonListHeader>Previous Time Off Requests</IonListHeader>
         <IonList inset={true}>
-          <TimeOffItem
-            label="04/01/2023"
-            note="Requested: 03/07/2023"
-            status="Approved"
-          />
-          <TimeOffItem
-            label="04/01/2023"
-            note="Requested: 03/07/2023"
-            status="Denied"
-          />
-          <TimeOffItem
-            label="04/01/2023"
-            note="Requested: 03/07/2023"
-            status="Pending"
-          />
+          {userRequests?.map((ur) => (
+            <TimeOffItem
+              key={ur.request.id}
+              label={
+                formatDate(ur.request.start_date) +
+                " - " +
+                formatDate(ur.request.end_date)
+              }
+              note={"Requested: " + formatDate(ur.request.requested_at)}
+              status={ur.request.approval_status}
+            />
+          ))}
         </IonList>
         <LeaveApprovalListModal
           showModal={showModal}
-          onCloseModal={handleCloseModal}
-          onApproveLeave={handleApproveRequest}
-          onDenyLeave={handleDenyRequest}
+          userRequests={userRequests}
+          reloadUserRequests={loadUserRequests}
+          onCloseModal={() => setShowModal(false)}
         />
       </IonContent>
     </IonPage>
   );
 };
+
+// interface HumanResourcesManagerLoaderProps {
+//   session: SessionObj;
+// }
+
+// const HumanResourcesManagerLoader: React.FC<
+//   HumanResourcesManagerLoaderProps
+// > = ({ session }) => {
+//   const [userRequests, setUserRequests] = useState<UserRequest[]>();
+//   const loadUserRequests = async () => {
+//     const updatedUserRequests = [];
+//     const requests = await loadAssignedPTORequests(session.user.id);
+//     for (const request of requests) {
+//       const user = await loadUser(request.requester);
+//       updatedUserRequests.push({ request, user });
+//     }
+//     setUserRequests(updatedUserRequests);
+//   };
+
+//   const processRequest = async (requestId: number, approve: boolean) => {
+//     await processPTORequest(requestId, approve);
+//   };
+
+//   useEffect(() => {
+//     loadUserRequests();
+//   }, []);
+
+//   if (!userRequests) {
+//     return <IonLoading />;
+//   }
+
+//   return (
+//     <HumanResourcesManager session={session} userRequests={userRequests} />
+//   );
+// };
 
 export default HumanResourcesManager;

@@ -4,21 +4,25 @@ import { calendar } from "ionicons/icons";
 interface TimeOffItemProps {
   label: string;
   note: string;
-  status: "Approved" | "Denied" | "Pending";
+  status: number;
 }
 
 const TimeOffItem: React.FC<TimeOffItemProps> = ({ label, note, status }) => {
   let color;
+  let statusText;
 
   switch (status) {
-    case "Approved":
+    case 0:
       color = "success";
+      statusText = "Approved";
       break;
-    case "Denied":
+    case 1:
       color = "danger";
+      statusText = "Denied";
       break;
-    case "Pending":
+    case 2:
       color = "medium";
+      statusText = "Pending";
       break;
   }
 
@@ -43,7 +47,7 @@ const TimeOffItem: React.FC<TimeOffItemProps> = ({ label, note, status }) => {
         </IonNote>
       </IonLabel>
       <IonNote color={color} slot="end" style={{ fontSize: "0.9em" }}>
-        {status}
+        {statusText}
       </IonNote>
     </IonItem>
   );

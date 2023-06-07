@@ -8,7 +8,6 @@ import {
   IonContent,
   IonList,
   IonItem,
-  IonLabel,
   IonInput,
 } from "@ionic/react";
 import { useState } from "react";
@@ -16,34 +15,28 @@ import { useState } from "react";
 interface AddCustomerModalProps {
   showModal: boolean;
   onCloseModal: () => void;
-  onAddCustomer: () => void;
-  presentingElement: HTMLElement;
+  onAddCustomer: (name: string) => void;
 }
 
 const AddCustomerModal: React.FC<AddCustomerModalProps> = ({
   showModal,
   onCloseModal,
   onAddCustomer,
-  presentingElement,
 }) => {
-  const [inputValue, setInputValue] = useState("");
+  const [customerName, setCustomerName] = useState("");
 
   const handleInputChange = (value: string) => {
-    setInputValue(value);
+    setCustomerName(value);
   };
 
-  const handleAddCustomer = () => {
-    onAddCustomer();
+  const handleAddCustomer = (name: string) => {
+    onAddCustomer(name);
     onCloseModal();
-    setInputValue("");
+    setCustomerName("");
   };
 
   return (
-    <IonModal
-      isOpen={showModal}
-      onDidDismiss={onCloseModal}
-      presentingElement={presentingElement}
-    >
+    <IonModal isOpen={showModal} onDidDismiss={onCloseModal}>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -52,9 +45,9 @@ const AddCustomerModal: React.FC<AddCustomerModalProps> = ({
           <IonTitle>Add Customer</IonTitle>
           <IonButtons slot="end">
             <IonButton
-              onClick={handleAddCustomer}
+              onClick={() => handleAddCustomer(customerName)}
               strong={true}
-              disabled={!inputValue}
+              disabled={!customerName}
             >
               Add
             </IonButton>
@@ -67,7 +60,7 @@ const AddCustomerModal: React.FC<AddCustomerModalProps> = ({
             <IonInput
               label="Customer Name"
               placeholder="Enter"
-              value={inputValue}
+              value={customerName}
               onInput={(e) =>
                 handleInputChange((e.target as HTMLInputElement).value)
               }

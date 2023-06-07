@@ -18,11 +18,12 @@ import {
   IonText,
 } from "@ionic/react";
 import { useEffect, useRef, useState } from "react";
+import { PTORequest } from "../../../supabaseApi/types";
 
 interface LeaveRequestModalProps {
   showModal: boolean;
   onCloseModal: () => void;
-  onSubmitRequest: () => void;
+  onSubmitRequest: (startDate: string, endDate: string, type: string) => void;
 }
 
 const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
@@ -32,6 +33,7 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
 }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [type, setType] = useState("Vacation");
   const [validDates, setValidDates] = useState(true);
 
   const handleStartDateChange = (value: any) => {
@@ -50,7 +52,14 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
 
   const handleCloseModal = () => {
     onCloseModal();
+    setStartDate(new Date());
+    setEndDate(new Date());
     setValidDates(true);
+  };
+
+  const handleSubmitRequest = () => {
+    onSubmitRequest(startDate.toDateString(), endDate.toDateString(), type);
+    handleCloseModal();
   };
 
   useEffect(() => {
@@ -72,7 +81,7 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
           <IonButtons slot="end">
             <IonButton
               strong={true}
-              onClick={onSubmitRequest}
+              onClick={handleSubmitRequest}
               disabled={!validDates}
             >
               Submit
@@ -83,7 +92,13 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
       <IonContent>
         <IonList inset={true}>
           <IonItem>
-            <IonSelect label="Type" interface="popover" placeholder="Vacation">
+            <IonSelect
+              label="Type"
+              interface="popover"
+              placeholder="Vacation"
+              defaultValue="Vacation"
+              onIonChange={(e) => setType(e.detail.value)}
+            >
               <IonSelectOption>Vacation</IonSelectOption>
               <IonSelectOption>Sick</IonSelectOption>
             </IonSelect>

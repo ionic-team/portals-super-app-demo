@@ -9,27 +9,42 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonDatetimeButton,
-  IonDatetime,
   IonNote,
   IonFooter,
-  IonBackButton,
 } from "@ionic/react";
 import UserCard from "./UserCard";
+import { processPTORequest } from "../../../supabaseApi/supabaseApi";
 
 interface LeaveApprovalDetailModal {
   showModal: boolean;
+  requestId: number;
+  firstName: string;
+  lastName: string;
+  userType: string;
+  startDate: string;
+  endDate: string;
+  duration: string;
+  type: string;
   onCloseModal: () => void;
-  onApproveLeave: () => void;
-  onDenyLeave: () => void;
 }
 
 const LeaveApprovalDetailModal: React.FC<LeaveApprovalDetailModal> = ({
   showModal,
+  requestId,
+  firstName,
+  lastName,
+  userType,
+  startDate,
+  endDate,
+  duration,
+  type,
   onCloseModal,
-  onApproveLeave,
-  onDenyLeave,
 }) => {
+  const handleProcessRequest = async (approvalStatus: number) => {
+    await processPTORequest(requestId, approvalStatus);
+    onCloseModal();
+  };
+
   return (
     <IonModal
       isOpen={showModal}
@@ -47,54 +62,39 @@ const LeaveApprovalDetailModal: React.FC<LeaveApprovalDetailModal> = ({
       <IonContent>
         <IonList inset={true}>
           <UserCard
-            firstName="Trevor"
-            lastName="Lambert"
-            primaryDetail="Contractor"
-            secondaryDetail="8 Hours | DMV"
+            firstName={firstName}
+            lastName={lastName}
+            primaryDetail={userType}
             isButton={false}
           />
         </IonList>
         <IonList inset={true}>
           <IonItem>
             <IonLabel>From</IonLabel>
-            <IonDatetimeButton datetime="datetime" disabled={true} />
-            <IonModal keepContentsMounted={true}>
-              <IonDatetime id="datetime" presentation="date" />
-            </IonModal>
+            <IonButton disabled={true}>{startDate}</IonButton>
           </IonItem>
           <IonItem>
             <IonLabel>To</IonLabel>
-            <IonDatetimeButton datetime="datetime2" disabled={true} />
-            <IonModal keepContentsMounted={true}>
-              <IonDatetime id="datetime2" presentation="date" />
-            </IonModal>
+            <IonButton disabled={true}>{endDate}</IonButton>
           </IonItem>
           <IonItem>
             <IonLabel>Total</IonLabel>
-            <IonNote slot="end"> 3 Days</IonNote>
+            <IonNote slot="end">{duration}</IonNote>
           </IonItem>
         </IonList>
         <IonList inset={true}>
           <IonItem>
             <IonLabel>Type</IonLabel>
-            <IonNote slot="end">Vacation</IonNote>
+            <IonNote slot="end">{type}</IonNote>
           </IonItem>
         </IonList>
       </IonContent>
       <IonFooter>
         <IonToolbar>
-          <IonButton
-            style={{ "--background-activated": "#fd7568" }}
-            expand="block"
-            onClick={onApproveLeave}
-          >
+          <IonButton expand="block" onClick={() => handleProcessRequest(0)}>
             Approve Leave
           </IonButton>
-          <IonButton
-            style={{ "--background": "#FFEDEE", "--color": "#FD686A" }}
-            expand="block"
-            onClick={onDenyLeave}
-          >
+          <IonButton expand="block" onClick={() => handleProcessRequest(1)}>
             Deny Time
           </IonButton>
         </IonToolbar>

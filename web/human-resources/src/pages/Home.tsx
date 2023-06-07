@@ -20,7 +20,7 @@ const Home = () => {
     >
       <IonContent
         style={{
-          "text-align": "center",
+          "textAlign": "center",
         }}
       >
         <IonButton onClick={handleRouteHRManager}>Manager</IonButton>

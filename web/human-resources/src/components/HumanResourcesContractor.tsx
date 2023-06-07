@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -8,39 +8,55 @@ import {
   IonButtons,
   IonBackButton,
   IonButton,
-  IonModal,
-  IonFooter,
   IonList,
-  IonItem,
-  IonLabel,
-  IonDatetimeButton,
-  IonDatetime,
-  IonSelect,
-  IonSelectOption,
   IonListHeader,
 } from "@ionic/react";
-import PreviousTimeEntries from "./PreviousTimeEntries";
-import { SessionObj, Entry } from "../definitions";
-import companies from "../companies.json";
-import timeEntries from "../time-entries.json";
 import LeaveRequestModal from "./LeaveRequestModal";
 import TimeOffItem from "./TimeOffItem";
+import {
+  createPTORequest,
+  loadUserPTORequests,
+} from "../../../supabaseApi/supabaseApi";
+import { SessionObj, PTORequest } from "../../../supabaseApi/types";
 
 const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
   session,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [requests, setRequests] = useState<PTORequest[] | null>();
 
-  const handleOpenModal = () => {
-    setShowModal(true);
+  const useLoadContractorPTO = async () => {
+    const requests = (await loadUserPTORequests(session.user.id)) as PTORequest[];
+    setRequests(requests);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const useCreatePTORequest = async (
+    startDate: string,
+    endDate: string,
+    type: string
+  ) => {
+    const request: PTORequest = {
+      requested_at: new Date().toDateString(),
+      requester: session.user.id,
+      approver: session.user.manager,
+      start_date: startDate,
+      end_date: endDate,
+      type: type,
+      approval_status: 2,
+    };
+    console.log(request);
+    await createPTORequest(request);
+    await useLoadContractorPTO();
   };
 
-  const handleSubmitRequest = () => {
-    setShowModal(false);
+  useEffect(() => {
+    useLoadContractorPTO();
+  }, []);
+
+  const formatDate = (date: string) => {
+    const [year, month, day] = date.split("-");
+    const convertedDate = `${month}/${day}/${year}`;
+    return convertedDate;
   };
 
   return (
@@ -62,32 +78,29 @@ const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
         <IonButton
           expand="block"
           style={{ margin: "23px 16px 8px 16px" }}
-          onClick={handleOpenModal}
+          onClick={() => setShowModal(true)}
         >
           Request Time Off
         </IonButton>
         <IonListHeader>My Time Off Requests</IonListHeader>
         <IonList inset={true}>
-          <TimeOffItem
-            label="04/01/2023"
-            note="Requested: 03/07/2023"
-            status="Approved"
-          />
-          <TimeOffItem
-            label="04/01/2023"
-            note="Requested: 03/07/2023"
-            status="Denied"
-          />
-          <TimeOffItem
-            label="04/01/2023"
-            note="Requested: 03/07/2023"
-            status="Pending"
-          />
+          {requests?.map((request) => (
+            <TimeOffItem
+              key={request.id}
+              label={
+                formatDate(request.start_date) +
+                " - " +
+                formatDate(request.end_date)
+              }
+              note={"Requested: " + formatDate(request.requested_at)}
+              status={request.approval_status}
+            />
+          ))}
         </IonList>
         <LeaveRequestModal
           showModal={showModal}
-          onCloseModal={handleCloseModal}
-          onSubmitRequest={handleSubmitRequest}
+          onCloseModal={() => setShowModal(false)}
+          onSubmitRequest={useCreatePTORequest}
         />
       </IonContent>
     </IonPage>

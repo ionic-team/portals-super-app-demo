@@ -52,7 +52,7 @@ const UserCard: React.FC<UserCardProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          "background-color": generateColor(),
+          "backgroundColor": generateColor(),
         }}
       >
         {initials}

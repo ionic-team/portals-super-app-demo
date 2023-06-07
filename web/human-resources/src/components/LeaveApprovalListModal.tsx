@@ -8,48 +8,51 @@ import {
   IonContent,
   IonList,
 } from "@ionic/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import UserCard from "./UserCard";
-import LeaveRequestDetailModal from "./LeaveApprovalDetailModal";
 import LeaveApprovalDetailModal from "./LeaveApprovalDetailModal";
+import { UserRequest } from "../../../supabaseApi/types";
 
 interface LeaveRequestListModalProps {
   showModal: boolean;
+  userRequests: UserRequest[];
+  reloadUserRequests: () => void;
   onCloseModal: () => void;
-  onApproveLeave: () => void;
-  onDenyLeave: () => void;
 }
 
 const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
   showModal,
+  userRequests,
+  reloadUserRequests,
   onCloseModal,
-  onApproveLeave,
-  onDenyLeave,
 }) => {
   const [showDetailModal, setShowDetailModal] = useState(false);
-
-  const handleOpenDetailModal = () => {
-    setShowDetailModal(true);
-  };
+  const [selectedUserRequest, setSelectedUserRequest] = useState<UserRequest>();
 
   const handleCloseDetailModal = () => {
+    reloadUserRequests();
     setShowDetailModal(false);
   };
 
-  const handleCloseAllModals = () => {
-    handleCloseDetailModal();
-  };
-
-  const handleApproveLeave = () => {
-    setShowDetailModal(false);
-  };
-
-  const handleDenyLeave = () => {
-    setShowDetailModal(false);
-  };
-
-  const handleShowDetails = () => {
+  const handleShowDetails = (ur: UserRequest) => {
+    setSelectedUserRequest(ur);
     setShowDetailModal(true);
+  };
+
+  const formatDate = (date: string) => {
+    return new Date(date).toDateString().replace(/(.{3})/, "$1,");
+  };
+
+  const getDateDifference = function (startDate: string, endDate: string) {
+    const dt1 = new Date(startDate);
+    const dt2 = new Date(endDate);
+    const difference = Math.floor(
+      (Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) -
+        Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
+        (1000 * 60 * 60 * 24)
+    );
+    const text = difference > 1 ? " days" : " day";
+    return difference + text;
   };
 
   return (
@@ -64,36 +67,56 @@ const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
             <IonButtons slot="start">
               <IonButton onClick={onCloseModal}>Cancel</IonButton>
             </IonButtons>
-            <IonTitle>Time Off Requests (3)</IonTitle>
+            <IonTitle>{`Time Off Requests (${
+              userRequests.filter((ur) => ur.request.approval_status === 2)
+                .length
+            })`}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
           <IonList inset={true}>
-            <UserCard
-              onClick={handleShowDetails}
-              firstName="Trevor"
-              lastName="Lambert"
-              primaryDetail="Contractor"
-              secondaryDetail="8 Hours | DMV"
-              isButton={true}
-            />
-            <UserCard
-              onClick={handleShowDetails}
-              firstName="Vanessa"
-              lastName="Silva"
-              primaryDetail="Contractor"
-              secondaryDetail="8 Hours | DMV"
-              isButton={true}
-            />
+            {userRequests.map((ur) => {
+              return (
+                ur.request.approval_status === 2 && (
+                  <UserCard
+                    key={ur.request.id}
+                    firstName={ur.user.first_name}
+                    lastName={ur.user.last_name}
+                    primaryDetail={formatDate(ur.request.requested_at)}
+                    secondaryDetail={
+                      getDateDifference(
+                        ur.request.start_date,
+                        ur.request.end_date
+                      ) +
+                      " | " +
+                      ur.request.type
+                    }
+                    isButton={true}
+                    onClick={() => handleShowDetails(ur)}
+                  />
+                )
+              );
+            })}
           </IonList>
         </IonContent>
       </IonModal>
-      <LeaveApprovalDetailModal
-        showModal={showDetailModal}
-        onCloseModal={handleCloseDetailModal}
-        onApproveLeave={handleApproveLeave}
-        onDenyLeave={handleDenyLeave}
-      />
+      {selectedUserRequest && (
+        <LeaveApprovalDetailModal
+          showModal={showDetailModal}
+          requestId={selectedUserRequest.request.id!}
+          firstName={selectedUserRequest.user.first_name}
+          lastName={selectedUserRequest.user.last_name}
+          userType={selectedUserRequest.user.user_type}
+          startDate={selectedUserRequest.request.start_date}
+          endDate={selectedUserRequest.request.end_date}
+          duration={getDateDifference(
+            selectedUserRequest.request.start_date,
+            selectedUserRequest.request.end_date
+          )}
+          type={selectedUserRequest.request.type}
+          onCloseModal={handleCloseDetailModal}
+        />
+      )}
     </>
   );
 };

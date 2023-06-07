@@ -1,12 +1,12 @@
 import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { SessionObj, Entry, Event } from "./definitions";
 import { useState } from "react";
-import userList from "./users.json";
+import userList from "../../supabaseApi/users.json";
 import Home from "./pages/Home";
 import HumanResourcesContractor from "./components/HumanResourcesContractor";
 import HumanResourcesManager from "./components/HumanResourcesManager";
+import { SessionObj } from "../../supabaseApi/types";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -30,9 +30,13 @@ import "./theme/variables.css";
 setupIonicReact();
 
 const App: React.FC = () => {
-  const user = userList[0];
-  const [session, setSession] = useState<SessionObj>({
-    user,
+  const contractor = userList[0];
+  const manager = userList[1];
+  const [sessionContractor, setSessionContractor] = useState<SessionObj>({
+    user: contractor,
+  });
+  const [sessionManager, setSessionManager] = useState<SessionObj>({
+    user: manager,
   });
 
   return (
@@ -43,10 +47,10 @@ const App: React.FC = () => {
             <Home />
           </Route>
           <Route exact path="/human-resources/manager">
-            <HumanResourcesManager session={session} />
+            <HumanResourcesManager session={sessionManager} />
           </Route>
           <Route exact path="/human-resources/contractor">
-            <HumanResourcesContractor session={session} />
+            <HumanResourcesContractor session={sessionContractor} />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>
