@@ -13,20 +13,25 @@ struct AppView: View {
     let store: StoreOf<AppFeature>
 
     var body: some View {
-        WithViewStore(store, observe: \.loginState.isLoggedOut) { vs in
-            DashboardView(store: store.scope(state: \.dashboardState, action: AppAction.dashboardAction))
-                .fullScreenCover(isPresented: .constant(vs.state)) {
-                    LoginView(store: store.scope(state: \.loginState, action: AppAction.loginAction))
-                }
-                .toolbar {
-                    Button("Log Out") {
-                        vs.send(.loginAction(.logout))
+        NavigationStackStore(store.scope(state: \.dashboardState.path, action: { .dashboardAction(.path($0)) })) {
+            WithViewStore(store, observe: \.loginState.isLoggedOut) { vs in
+                DashboardView(store: store.scope(state: \.dashboardState, action: AppAction.dashboardAction))
+                    .fullScreenCover(isPresented: .constant(vs.state)) {
+                        LoginView(store: store.scope(state: \.loginState, action: AppAction.loginAction))
                     }
-                    .tint(Color.superPrimary)
-                }
-                .task { @MainActor in
-                    vs.send(.loginAction(.useCurrentSessionIfAvailable))
-                }
+                    .toolbar {
+                        Button("Log Out") {
+                            vs.send(.loginAction(.logout))
+                        }
+                        .tint(Color.superPrimary)
+                    }
+                    .task { @MainActor in
+                        try? await Task.sleep(for: .seconds(2))
+                        vs.send(.loginAction(.useCurrentSessionIfAvailable))
+                    }
+            }
+        } destination: {
+            MiniAppView(store: $0)
         }
     }
 }

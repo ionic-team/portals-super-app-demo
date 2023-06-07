@@ -35,7 +35,8 @@ private enum ClientKey: DependencyKey {
             },
             getApps: {
                 do {
-                    return try await supabase.database.from("apps")
+                    let session = try await supabase.auth.session
+                    return try await supabase.database.rpc(fn: "get_apps", params: ["employee_id": session.user.id])
                         .execute()
                         .value as [MiniApp]
                 } catch let error {
@@ -90,10 +91,10 @@ private enum ClientKey: DependencyKey {
             },
             getNewsFeed: {
                 [
-                    .init(title: "Why Things Are Going Good", id: 0),
-                    .init(title: "New Product Release Cadence", id: 1),
-                    .init(title: "Changes to Our Benefits Plan", id: 2),
-                    .init(title: "How AI is Changing How We Work", id: 3)
+                    .init(title: "Why Things Are Going Good", id: 0, body: ""),
+                    .init(title: "New Product Release Cadence", id: 1, body: ""),
+                    .init(title: "Changes to Our Benefits Plan", id: 2, body: ""),
+                    .init(title: "How AI is Changing How We Work", id: 3, body: "")
                 ]
             },
             getEvents: {

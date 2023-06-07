@@ -43,6 +43,11 @@ struct AppFeature: ReducerProtocol {
                     await send(.dashboardAction(.authorizedUser(nil)))
                     await send(.dashboardAction(.reset))
                 }
+            
+            case .dashboardAction(.logoutButtonTapped):
+                return .run { send in
+                    await send(.loginAction(.logout))
+                }
                 
             default:
                 return .none

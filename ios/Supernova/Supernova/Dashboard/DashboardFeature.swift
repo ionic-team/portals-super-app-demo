@@ -7,19 +7,6 @@
 
 import ComposableArchitecture
 
-struct SelectedApp: Hashable {
-    var app: MiniApp
-    var credentials: Credentials
-    var id: UInt?
-}
-
-extension SelectedApp {
-    init?(miniApp: MiniApp?, credentials: Credentials?, id: UInt?) {
-        guard let app = miniApp, let credentials = credentials else { return nil }
-        self.init(app: app, credentials: credentials, id: id)
-    }
-}
-
 typealias DashboardState = DashboardFeature.State
 typealias DashboardAction = DashboardFeature.Action
 
@@ -48,6 +35,7 @@ struct DashboardFeature: ReducerProtocol {
         case fetchNewsFeed
         case fetchEvents
         case reset
+        case logoutButtonTapped
     }
     
     var body: some ReducerProtocolOf<Self> {
@@ -103,7 +91,7 @@ struct DashboardFeature: ReducerProtocol {
                 state.newsFeed = nil
                 return .none
                 
-            case .path:
+            case .path, .logoutButtonTapped:
                 return .none
             }
         }
