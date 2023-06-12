@@ -7,10 +7,11 @@
 
 struct NewsItem: Identifiable, Equatable, Decodable {
     enum CodingKeys: String, CodingKey {
-        case id
+        case id, body
         case title = "headline"
     }
 
     var title: String
     var id: UInt
+    var body: String
 }

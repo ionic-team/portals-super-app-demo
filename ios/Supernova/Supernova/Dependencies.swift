@@ -9,6 +9,7 @@ import Foundation
 import Supabase
 import PostgREST
 import Dependencies
+import XCTestDynamicOverlay
 
 private enum ClientKey: DependencyKey {
     static let liveValue: Client = {
@@ -35,7 +36,8 @@ private enum ClientKey: DependencyKey {
             },
             getApps: {
                 do {
-                    return try await supabase.database.from("apps")
+                    let session = try await supabase.auth.session
+                    return try await supabase.database.rpc(fn: "get_apps", params: ["employee_id": session.user.id])
                         .execute()
                         .value as [MiniApp]
                 } catch let error {
@@ -49,22 +51,11 @@ private enum ClientKey: DependencyKey {
                     .value as [NewsItem]
             },
             getEvents: {
-//                return []
                 do {
-                    struct EventsArgs: Encodable {
-                         let p_id: String
-                    }
                     let session = try await supabase.auth.session
-                    let response = try await supabase.database.rpc(fn: "get_events", params: ["p_id": session.user.id.uuidString])
+                    return try await supabase.database.rpc(fn: "get_events", params: ["employee_id": session.user.id])
                         .execute()
                         .value as [Event]
-//                    let response: [Event] = try await supabase.database.from("events")
-//                        .select()
-//                        .eq(column: "user", value: session.user.id)
-//                        .execute()
-//                        .value
-
-                    return response
                 } catch let error {
                     print(error.localizedDescription)
                     return []
@@ -73,9 +64,21 @@ private enum ClientKey: DependencyKey {
         )
     }()
 
-    static let testValue: Client = {
+    static let testValue = Client(
+        signIn: unimplemented(),
+        existingSession: unimplemented(),
+        signout: unimplemented(),
+        getApps: unimplemented(),
+        getNewsFeed: unimplemented(),
+        getEvents: unimplemented()
+    )
+
+    static let previewValue: Client = {
+        // We want to be able to simulate network latency for the preview
+        @Dependency(\.continuousClock) var clock
         return Client(
             signIn: { email, password in
+                try await clock.sleep(for: .seconds(1))
                 print("Signed in \(email)")
                 return ("accessToken", "refreshToken")
             },
@@ -84,7 +87,8 @@ private enum ClientKey: DependencyKey {
             },
             signout: { },
             getApps: {
-                [
+                try await clock.sleep(for: .seconds(1))
+                return [
                     .init(
                         id: "time",
                         name: "Time Tracking"
@@ -100,15 +104,17 @@ private enum ClientKey: DependencyKey {
                 ]
             },
             getNewsFeed: {
-                [
-                    .init(title: "Why Things Are Going Good", id: 0),
-                    .init(title: "New Product Release Cadence", id: 1),
-                    .init(title: "Changes to Our Benefits Plan", id: 2),
-                    .init(title: "How AI is Changing How We Work", id: 3)
+                try await clock.sleep(for: .seconds(1))
+                return [
+                    .init(title: "Why Things Are Going Good", id: 0, body: ""),
+                    .init(title: "New Product Release Cadence", id: 1, body: ""),
+                    .init(title: "Changes to Our Benefits Plan", id: 2, body: ""),
+                    .init(title: "How AI is Changing How We Work", id: 3, body: "")
                 ]
             },
             getEvents: {
-                [
+                try await clock.sleep(for: .seconds(1))
+                return [
                     .init(
                         title: "Perk received from William Perdue",
                         kind: .perks(1),
@@ -138,50 +144,17 @@ private enum ClientKey: DependencyKey {
             }
         )
     }()
-
-    static let previewValue: Client = {
-        // We want to be able to simulate network latency for the preview
-        @Dependency(\.continuousClock) var clock
-        
-        var test = testValue
-        var oldsignin = test.signIn
-        var oldApps = test.getApps
-        var oldEvents = test.getEvents
-        var oldNews = test.getNewsFeed
-        
-        test.signIn = { email, password in
-            try await clock.sleep(for: .seconds(1))
-            return try await oldsignin(email, password)
-        }
-        
-        test.getApps = {
-            try await clock.sleep(for: .seconds(1))
-            return try await oldApps()
-        }
-        
-        test.getEvents = {
-            try await clock.sleep(for: .seconds(1))
-            return try await oldEvents()
-        }
-        
-        test.getNewsFeed = {
-            try await clock.sleep(for: .seconds(1))
-            return try await oldNews()
-        }
-        
-        return test
-    }()
 }
 
 private enum ClientUrlKey: DependencyKey {
     static let liveValue: URL = "http://localhost:54321"
-    static let testValue: URL = "http://asdf.com"
+    static let testValue: URL = "http://testurl.com"
     static let previewValue = testValue
 }
 
 private enum ClientSecretKey: DependencyKey {
     static let liveValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
-    static let testValue = "imalittletepot"
+    static let testValue = "testsecret"
     static let previewValue = testValue
 }
 

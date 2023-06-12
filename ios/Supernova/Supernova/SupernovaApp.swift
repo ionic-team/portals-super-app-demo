@@ -7,10 +7,13 @@
 
 import SwiftUI
 import ComposableArchitecture
+import IonicPortals
 
 @main
 struct SupernovaApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    init() {
+        PortalsRegistrationManager.shared.register(key:"YOUR_KEY_HERE")
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -20,14 +23,5 @@ struct SupernovaApp: App {
                 }
             )
         }
-    }
-}
-
-import Supabase
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-    @Dependency(\.client.signout) var client
-    func applicationWillTerminate(_ application: UIApplication) {
-        Task { try await client() }
     }
 }

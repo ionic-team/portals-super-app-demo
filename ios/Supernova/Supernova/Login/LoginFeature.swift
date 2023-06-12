@@ -25,8 +25,6 @@ struct LoginFeature: ReducerProtocol {
         var loginStatus: LoginStatus = .inProcess
         var email: String = ""
         var password: String = ""
-        var sessionToken: String?
-        var refreshToken: String?
         
         var isLoggedOut: Bool {
             loginStatus == .loggedOut
@@ -76,8 +74,6 @@ struct LoginFeature: ReducerProtocol {
             
         case .logout:
             state.loginStatus = .loggedOut
-            state.refreshToken = nil
-            state.sessionToken = nil
             state.password = ""
             state.email = ""
             return .run { _ in

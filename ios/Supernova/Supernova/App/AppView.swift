@@ -13,10 +13,10 @@ struct AppView: View {
     let store: StoreOf<AppFeature>
 
     var body: some View {
-        WithViewStore(store) { vs in
-            NavigationView {
+        NavigationStackStore(store.scope(state: \.dashboardState.path, action: { .dashboardAction(.path($0)) })) {
+            WithViewStore(store, observe: \.loginState.isLoggedOut) { vs in
                 DashboardView(store: store.scope(state: \.dashboardState, action: AppAction.dashboardAction))
-                    .fullScreenCover(isPresented: .constant(vs.loginState.isLoggedOut)) {
+                    .fullScreenCover(isPresented: .constant(vs.state)) {
                         LoginView(store: store.scope(state: \.loginState, action: AppAction.loginAction))
                     }
                     .toolbar {
@@ -26,16 +26,19 @@ struct AppView: View {
                         .tint(Color.superPrimary)
                     }
                     .task { @MainActor in
+                        try? await Task.sleep(for: .seconds(2))
                         vs.send(.loginAction(.useCurrentSessionIfAvailable))
                     }
             }
+        } destination: {
+            MiniAppView(store: $0)
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             AppView(
                 store: Store(initialState: AppFeature.State()) {
                     AppFeature()

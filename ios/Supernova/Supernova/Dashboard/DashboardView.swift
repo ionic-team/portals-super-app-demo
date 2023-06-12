@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Dependencies
 import SkeletonUI
 import ComposableArchitecture
 
@@ -17,75 +16,11 @@ struct DashboardView: View {
         WithViewStore(store) { vs in
             List {
                 Section {
-                    if vs.apps?.count == 0 {
-                        Text("Nothing to see here")
-                    } else {
-                        SkeletonForEach(with: vs.apps ?? [], quantity: 2) { isLoading, app in
-                            NavigationLink {
-                                Text(app?.id ?? "")
-                            } label: {
-                                HStack(spacing: 0) {
-                                    Group {
-                                        if let app = app {
-                                            app.symbol
-                                        } else {
-                                            RoundedRectangle(cornerRadius: 2, style: .continuous)
-                                                .skeleton(with: isLoading)
-                                                .shape(type: .rounded(.radius(5, style: .continuous)))
-                                        }
-                                    }
-                                    .frame(width: 32, height: 32)
-                                    
-                                    Spacer()
-                                        .frame(minWidth: 8, maxWidth: 23)
-                                    Text(app?.name ?? "")
-                                        .skeleton(with: isLoading)
-                                        .frame(maxHeight: isLoading ? 32 : .infinity)
-                                        .font(.system(size: 17, weight: .semibold))
-                                }
-                            }
-                            .padding([.top, .bottom], 3)
-                            .alignmentGuide(.listRowSeparatorLeading) { d in
-                                d[.leading]
-                            }
-                        }
-                    }
+                    MiniAppsView(miniApps: vs.apps, credentials: vs.credentials)
                 }
                 
                 Section {
-                    if vs.events?.count == 0 {
-                       Text("All caught up 🎉")
-                    } else {
-                        SkeletonForEach(with: vs.events ?? [], quantity: 5) { isLoading, event in
-                            HStack(spacing: 0) {
-                                Group {
-                                    if let event = event {
-                                        event.image
-                                            .resizableAndScaledToFit()
-                                            .foregroundColor(event.read ? .primary.opacity(0.3) : .primary)
-                                    } else {
-                                        Rectangle()
-                                            .skeleton(with: isLoading)
-                                            .shape(type: .rounded(.radius(5, style: .continuous)))
-                                    }
-                                }
-                                .frame(width: 20, height: 20)
-                                
-                                Spacer()
-                                    .frame(minWidth: 8, maxWidth: 12)
-                                
-                                Text(event?.title)
-                                    .skeleton(with: isLoading)
-                                    .frame(maxHeight: isLoading ? 20 : .infinity)
-                                    .font(.system(size: 17, weight: .regular))
-                                    .foregroundColor(event?.read ?? false ? .primary.opacity(0.6) : .primary)
-                            }
-                            .frame(height: 36)
-                            .alignmentGuide(.listRowSeparatorLeading) { d in
-                                d[.leading]
-                            }
-                        }
-                    }
+                    EventsView(events: vs.events, credentials: vs.credentials)
                 } header: {
                     HStack {
                         Text("Recent Activity")
@@ -108,32 +43,11 @@ struct DashboardView: View {
                 }
                 
                 Section {
-                    if vs.newsFeed?.count == 0 {
-                        Text("No news to catch up on 😴")
-                    } else {
-                        SkeletonForEach(with: vs.newsFeed ?? [], quantity: 5) { isLoading, item in
-                            HStack(spacing: 0) {
-                                Image.news
-                                    .resizableAndScaledToFit()
-                                    .frame(width: 20, height: 20)
-                                
-                                Spacer()
-                                    .frame(minWidth: 8, maxWidth: 12)
-                                
-                                Text(item?.title)
-                                    .skeleton(with: isLoading)
-                                    .shape(type: .rounded(.radius(20, style: .continuous)))
-                                    .frame(maxHeight: isLoading ? 20 : .infinity)
-                            }
-                            .frame(maxHeight: 46)
-                            .alignmentGuide(.listRowSeparatorLeading) { d in
-                                d[.leading]
-                            }
-                        }
-                    }
+                    NewsFeedView(newsFeed: vs.newsFeed)
                 } header: {
                     HStack {
                         Text("Newsfeed")
+                            .font(.system(size: 22, weight: .bold))
                         
                         Spacer()
                         
@@ -216,3 +130,4 @@ extension Image {
             .scaledToFit()
     }
 }
+
