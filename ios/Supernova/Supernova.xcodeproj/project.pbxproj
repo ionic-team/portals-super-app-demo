@@ -206,7 +206,7 @@
 				A7477F792A1BBCCF00D79747 /* Sources */,
 				A7477F7A2A1BBCCF00D79747 /* Frameworks */,
 				A7477F7B2A1BBCCF00D79747 /* Resources */,
-				A757F9BB2A212076002A443A /* ShellScript */,
+				A757F9BB2A212076002A443A /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -281,7 +281,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A757F9BB2A212076002A443A /* ShellScript */ = {
+		A757F9BB2A212076002A443A /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -290,13 +290,14 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nEMBEDDED_DIR=\"${BUILT_PRODUCTS_DIR}/${TARGET_NAME}.app\"\nAPP_NAME=\"webstub\"\nAPP_PATH=\"/Users/steven0351/Downloads/just-the-vip-page-static\"\n#APP_PATH=\"../web-stub/web-stub/dist\"\nZIP_NAME=\"${APP_NAME}.zip\"\nEMBEDDED_APP_PATH=\"${EMBEDDED_DIR}/${APP_NAME}\"\n\nif [ -d \"${EMBEDDED_DIR}/${APP_NAME}\" ]\nthen\n    rm -rf $EMBEDDED_APP_PATH\nfi\n\nmkdir $EMBEDDED_APP_PATH\ncd $APP_PATH\nzip -vr \"${ZIP_NAME}\" * -x \"*.DS_Store\"\nunzip \"${ZIP_NAME}\" -d $EMBEDDED_APP_PATH\nrm \"${ZIP_NAME}\"\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert # Type a script or drag a script file from your workspace to insert its path.\nEMBEDDED_DIR=\"${BUILT_PRODUCTS_DIR}/${TARGET_NAME}.app/portals\"\nAPP_LIST=(\n    \"perks|/../../web/perks/dist\"\n#    \"hr|/../../web/human-resources/dist\"\n#    \"crm|/../../web/crm/dist\"\n#    \"time|/../../web/time-tracking/dist\"\n)\n\necho \"App ${TARGET_NAME} is being copied! ${EMBEDDED_APP}\";\n\nmkdir \"${EMBEDDED_DIR}\"\n\nfor APP_INFO in ${APP_LIST[@]}\ndo\n    IFS=\"|\" read -r -a arr <<< \"${APP_INFO}\"\n    APP_NAME=\"${arr[0]}\"\n    EMBEDDED_APP=\"${SRCROOT}${arr[1]}\"\n    \n    echo \"${APP_NAME} ${EMBEDDED_APP}\"\n    \n    if [ -d \"${EMBEDDED_DIR}/${APP_NAME}\" ]\n    then\n        cd \"${EMBEDDED_DIR}\"\n        rm -r \"${APP_NAME}\"\n    fi\n\n    mkdir \"${EMBEDDED_DIR}/${APP_NAME}\"\n\n    ZIP_FILE=\"${APP_NAME}.zip\"\n\n    if [ -d \"${EMBEDDED_APP}\" ] \n    then\n        cd \"${EMBEDDED_APP}\"\n        zip -vr \"${ZIP_FILE}\" * -x \"*.DS_Store\"\n        unzip \"${ZIP_FILE}\" -d \"${EMBEDDED_DIR}/${APP_NAME}\"\n        rm \"${ZIP_FILE}\"\n    else\n        echo \"App ${APP_NAME} has not been built! ${EMBEDDED_APP}\"\n        exit 999\n    fi\ndone\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

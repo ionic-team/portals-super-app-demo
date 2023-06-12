@@ -21,7 +21,8 @@ extension Portal {
         }
 
         return Portal(
-            name: "webstub",
+            name: selectedApp.app.id,
+            startDir: "portals/\(selectedApp.app.id)",
             initialContext: initialContext
         )
         .adding(Dismiss(dismiss: dismiss))

@@ -20,8 +20,12 @@ struct MiniAppView: View {
                     let task = await MainActor.run { vs.send(.dismiss) }
                     await task.finish()
                 }
-            )
+                
+            ){
+                $0.webView?.isInspectable = true
+            }
             .navigationBarBackButtonHidden(true)
+            .ignoresSafeArea()
         }
     }
 }

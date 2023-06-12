@@ -15,12 +15,21 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
+  IonIcon,
 } from "@ionic/react";
 import PreviousPerksGiven from "./PreviousPerksGiven";
+import { chevronBackOutline } from "ionicons/icons";
 import { SessionObj, User, Perk, PerkEvent } from "../definitions";
 import perks from "../perks.json";
 import users from "../users.json";
 import perksEntries from "../perks-entries.json";
+import { registerPlugin } from "@capacitor/core/";
+
+interface DismissPlugin {
+  dismiss(): Promise<void>;
+}
+
+const dismissPlugin = registerPlugin<DismissPlugin>("Dismiss", {});
 
 const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
@@ -45,7 +54,17 @@ const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton text={"Dashboard"} />
+            <IonButton>
+              <IonIcon
+                icon={chevronBackOutline}
+                slot="start"
+                onClick={() => {
+                  console.log("here");
+                  dismissPlugin.dismiss();
+                }}
+              ></IonIcon>
+              Dashboard
+            </IonButton>
           </IonButtons>
           <IonTitle>People Perks</IonTitle>
         </IonToolbar>
