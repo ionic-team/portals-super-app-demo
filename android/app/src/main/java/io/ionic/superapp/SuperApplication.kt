@@ -18,7 +18,7 @@ class SuperApplication : Application() {
         val timeContext = HashMap<String, String>()
         timeContext["startingRoute"] = "/time"
         PortalManager.newPortal("time")
-            .setStartDir("webapp")
+            .setStartDir("time-tracking")
             .setInitialContext(timeContext)
             .create()
 
@@ -26,7 +26,7 @@ class SuperApplication : Application() {
         val hrContext = HashMap<String, String>()
         hrContext["startingRoute"] = "/hr"
         PortalManager.newPortal("hr")
-            .setStartDir("webapp")
+            .setStartDir("human-resources")
             .setInitialContext(hrContext)
             .create()
 
@@ -34,8 +34,16 @@ class SuperApplication : Application() {
         val perksContext = HashMap<String, String>()
         perksContext["startingRoute"] = "/perks"
         PortalManager.newPortal("perks")
-            .setStartDir("webapp")
+            .setStartDir("perks")
             .setInitialContext(perksContext)
+            .create()
+
+        // CRM Portal
+        val crmContext = HashMap<String, String>()
+        perksContext["startingRoute"] = "/crm"
+        PortalManager.newPortal("crm")
+            .setStartDir("crm")
+            .setInitialContext(crmContext)
             .create()
     }
 }

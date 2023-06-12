@@ -57,3 +57,32 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
+
+task CopyPerksWebAssets(type: Copy) {
+    def webBuildFolder = '../../web/perks/dist'
+    from webBuildFolder
+    into layout.projectDirectory.dir("src/main/assets/perks")
+}
+
+task CopyHRWebAssets(type: Copy) {
+    def webBuildFolder = '../../web/human-resources/dist'
+    from webBuildFolder
+    into layout.projectDirectory.dir("src/main/assets/human-resources")
+}
+
+task CopyCRMWebAssets(type: Copy) {
+    def webBuildFolder = '../../web/crm/dist'
+    from webBuildFolder
+    into layout.projectDirectory.dir("src/main/assets/crm")
+}
+
+task CopyTimeWebAssets(type: Copy) {
+    def webBuildFolder = '../../web/time-tracking/dist'
+    from webBuildFolder
+    into layout.projectDirectory.dir("src/main/assets/time-tracking")
+}
+
+preBuild.dependsOn(CopyPerksWebAssets)
+preBuild.dependsOn(CopyHRWebAssets)
+preBuild.dependsOn(CopyCRMWebAssets)
+preBuild.dependsOn(CopyTimeWebAssets)
