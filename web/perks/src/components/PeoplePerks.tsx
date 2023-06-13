@@ -6,7 +6,6 @@ import {
   IonTitle,
   IonToolbar,
   IonButtons,
-  IonBackButton,
   IonButton,
   IonModal,
   IonFooter,
@@ -19,19 +18,14 @@ import {
 } from "@ionic/react";
 import PreviousPerksGiven from "./PreviousPerksGiven";
 import { chevronBackOutline } from "ionicons/icons";
-import { SessionObj, User, Perk, PerkEvent } from "../definitions";
+import { Perk, PerkEvent } from "../definitions";
 import perks from "../perks.json";
 import users from "../users.json";
 import perksEntries from "../perks-entries.json";
-import { registerPlugin } from "@capacitor/core/";
+import { dismissPlugin } from "../super-app";
+import { Session, User } from "@supabase/supabase-js";
 
-interface DismissPlugin {
-  dismiss(): Promise<void>;
-}
-
-const dismissPlugin = registerPlugin<DismissPlugin>("Dismiss", {});
-
-const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
+const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -45,7 +39,7 @@ const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
   const handleAddEntry = () => {
     setShowModal(false);
   };
-  console.log(session.user.userType);
+  console.log(session.user.app_metadata.provider);
 
   const [perkEvents, setPerkEvents] = useState<PerkEvent[]>(perksEntries);
 
@@ -54,15 +48,12 @@ const PeoplePerks: React.FC<{ session: SessionObj }> = ({ session }) => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonButton>
-              <IonIcon
-                icon={chevronBackOutline}
-                slot="start"
-                onClick={() => {
-                  console.log("here");
-                  dismissPlugin.dismiss();
-                }}
-              ></IonIcon>
+            <IonButton
+              onClick={() => {
+                dismissPlugin.dismiss();
+              }}
+            >
+              <IonIcon icon={chevronBackOutline} slot="start"></IonIcon>
               Dashboard
             </IonButton>
           </IonButtons>

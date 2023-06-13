@@ -3,7 +3,6 @@ import {
   IonItem,
   IonLabel,
   IonIcon,
-  IonNote,
   IonListHeader,
 } from "@ionic/react";
 import { sparkles } from "ionicons/icons";

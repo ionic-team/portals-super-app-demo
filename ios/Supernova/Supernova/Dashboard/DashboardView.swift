@@ -25,19 +25,6 @@ struct DashboardView: View {
                     HStack {
                         Text("Recent Activity")
                             .font(.system(size: 22, weight: .bold))
-                        
-                        Spacer()
-                        
-                        NavigationLink {
-                            Text("Hello")
-                        } label: {
-                            HStack(spacing: 7) {
-                                Text("See all")
-                                Image.chevron
-                            }
-                            .foregroundColor(.superPrimary)
-                        }
-                        .font(.system(size: 15, weight: .medium))
                     }
                     .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 0))
                 }
@@ -48,24 +35,12 @@ struct DashboardView: View {
                     HStack {
                         Text("Newsfeed")
                             .font(.system(size: 22, weight: .bold))
-                        
-                        Spacer()
-                        
-                        NavigationLink {
-                            Text("Hello")
-                        } label: {
-                            HStack(spacing: 7) {
-                                Text("See all")
-                                Image.chevron
-                            }
-                            .foregroundColor(.superPrimary)
-                        }
-                        .font(.system(size: 15, weight: .medium))
-                        
                     }
                     .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 0))
                 }
             }
+            .listRowBackground(Color.pink)
+            .background(Color.pink)
             .listStyle(.insetGrouped)
             .headerProminence(.increased)
             .navigationTitle("Dashboard")
@@ -84,50 +59,6 @@ struct DashboardView_Previews: PreviewProvider {
                     }
             }
         }
-    }
-}
-
-extension MiniApp {
-    @ViewBuilder
-    var symbol: some View {
-        switch id {
-        case "hr":
-            Image.hr
-                .resizableAndScaledToFit()
-                .foregroundColor(.superTeal)
-        case "perks":
-            Image.perks
-                .resizableAndScaledToFit()
-                .foregroundColor(.superGold)
-        case "time":
-            Image.timeTracking
-                .resizableAndScaledToFit()
-                .foregroundColor(.superPrimary)
-        default:
-            Image(systemName: "nosign.app")
-                .resizableAndScaledToFit()
-                .foregroundColor(.superPrimary)
-        }
-    }
-}
-
-extension Event {
-    var image: Image {
-        switch kind {
-        case .time:
-            return .timeTracking
-        case .hr:
-            return .hr
-        case .perks:
-            return .perks
-        }
-    }
-}
-
-extension Image {
-    func resizableAndScaledToFit() -> some View {
-        resizable()
-            .scaledToFit()
     }
 }
 
