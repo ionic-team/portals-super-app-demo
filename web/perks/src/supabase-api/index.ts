@@ -1,5 +1,5 @@
 import { createClient, Session } from "@supabase/supabase-js";
-import { User } from "./types";
+import { PerkEvent, UnsavedPerkEvent, User } from "../definitions";
 
 const supabaseUrl = "http://localhost:54321";
 const supabaseKey =
@@ -9,14 +9,31 @@ const serviceKey =
 
 export const supabase = createClient(supabaseUrl, serviceKey!);
 
-export const loadUser = async (uuid: string) => {
-  const { data, error } = await supabase
-    .from("employees")
-    .select("*")
-    .eq("id", uuid);
+export const getUsers = async () => {
+  const { data, error } = await supabase.from("employees").select("*");
   if (error) {
     console.error("Error:", error);
   }
-  const user: User = data?.[0] as User;
-  return user;
+  return data as User[];
+};
+
+export const getPerks = async () => {
+  const { data, error } = await supabase.from("perks").select("*");
+  if (error) {
+    console.error("Error:", error);
+  }
+  return data as PerkEvent[];
+};
+
+export const createPerksEntry = async (event: UnsavedPerkEvent) => {
+  const { data, error } = await supabase.rpc("insert_perk", {
+    giver_id: event.givingUserId,
+    receiver_id: event.receivingUserId,
+    gift_amount: event.amount,
+    gift_reason: event.reason,
+  });
+  if (error) {
+    console.error("Error:", error);
+  }
+  return data;
 };

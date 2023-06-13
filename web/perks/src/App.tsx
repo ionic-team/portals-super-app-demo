@@ -21,7 +21,7 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import { initialContext } from "./super-app";
-import { supabase, loadUser } from "./supabase-api";
+import { supabase } from "./supabase-api";
 import { Session } from "@supabase/supabase-js";
 
 setupIonicReact();

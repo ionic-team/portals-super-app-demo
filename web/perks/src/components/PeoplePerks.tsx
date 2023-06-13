@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   IonContent,
   IonHeader,
@@ -6,6 +6,7 @@ import {
   IonTitle,
   IonToolbar,
   IonButtons,
+  IonIcon,
   IonButton,
   IonModal,
   IonFooter,
@@ -14,37 +15,78 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
-  IonIcon,
+  IonInput,
 } from "@ionic/react";
-import PreviousPerksGiven from "./PreviousPerksGiven";
 import { chevronBackOutline } from "ionicons/icons";
-import { Perk, PerkEvent } from "../definitions";
-import perks from "../perks.json";
-import users from "../users.json";
-import perksEntries from "../perks-entries.json";
+import PreviousPerksGiven from "../components/PreviousPerksGiven";
+import { PerkEvent, User } from "../definitions";
+import { Session } from "@supabase/supabase-js";
+import { createPerksEntry, getPerks, getUsers } from "../supabase-api";
 import { dismissPlugin } from "../super-app";
-import { Session, User } from "@supabase/supabase-js";
 
 const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
+  const modal = useRef<HTMLIonModalElement>(null);
+  const page = useRef(null);
+  const [presentingElement, setPresentingElement] =
+    useState<HTMLElement | null>(null);
 
-  const handleCloseModal = () => {
+  useEffect(() => {
+    setPresentingElement(page.current);
+  }, []);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    // declare the async data fetching function
+    const fetchData = async () => {
+      const users = await getUsers();
+      const perks = await getPerks();
+
+      if (isSubscribed) {
+        setUsers(users);
+        setPerks(perks);
+      }
+    };
+
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
+
+    // cancel any future `setData`
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
+
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleAddEntry = async (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    const target = event.target as typeof event.target & {
+      receivingUserId: { value: string };
+      amount: { value: string };
+      reason: { value: string };
+    };
+
+    await createPerksEntry({
+      givingUserId: session.user.id,
+      receivingUserId: target.receivingUserId.value,
+      amount: parseInt(target.amount.value, 10),
+      reason: target.reason.value,
+    });
     setShowModal(false);
   };
 
-  const handleAddEntry = () => {
-    setShowModal(false);
-  };
-  console.log(session.user.app_metadata.provider);
-
-  const [perkEvents, setPerkEvents] = useState<PerkEvent[]>(perksEntries);
+  const [perkEvents, setPerkEvents] = useState<PerkEvent[]>([]);
 
   return (
-    <IonPage>
+    <IonPage ref={page}>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -57,66 +99,77 @@ const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
               Dashboard
             </IonButton>
           </IonButtons>
-          <IonTitle>People Perks</IonTitle>
+          <IonTitle>Perks</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">People Perks</IonTitle>
+            <IonTitle size="large">Perks</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <PreviousPerksGiven perksGiven={perkEvents}></PreviousPerksGiven>
+        <PreviousPerksGiven
+          perksGiven={perkEvents}
+          users={users}
+        ></PreviousPerksGiven>
         <IonModal
+          ref={modal}
           isOpen={showModal}
           onDidDismiss={handleCloseModal}
           showBackdrop={true}
         >
-          <IonHeader className="ion-no-border ios-no-background">
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonButton onClick={handleCloseModal}>Cancel</IonButton>
-              </IonButtons>
-              <IonTitle>New Entry</IonTitle>
-              <IonButtons slot="end">
-                <IonButton strong={true} onClick={handleAddEntry}>
-                  Create
-                </IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent>
-            <IonList inset={true}>
-              <IonItem>
-                <IonLabel>Give</IonLabel>
-                <IonSelect placeholder="Select">
-                  {perks.map((perk) => (
-                    <IonSelectOption>{perk.name}</IonSelectOption>
-                  ))}
-                </IonSelect>
-              </IonItem>
-            </IonList>
-            <IonList inset={true}>
-              <IonItem>
-                <IonLabel>to</IonLabel>
-                <IonSelect placeholder="Select">
-                  {users.map((user) => (
-                    <IonSelectOption>
-                      {user.firstName} {user.lastName}
-                    </IonSelectOption>
-                  ))}
-                </IonSelect>
-              </IonItem>
-            </IonList>
-            <IonButton
-              id="open-modal"
-              expand="block"
-              style={{ margin: "16px" }}
-              onClick={handleAddEntry}
-            >
-              Give the perk
-            </IonButton>
-          </IonContent>
+          <form onSubmit={handleAddEntry}>
+            <IonHeader className="ion-no-border ios-no-background">
+              <IonToolbar>
+                <IonButtons slot="start">
+                  <IonButton onClick={handleCloseModal}>Cancel</IonButton>
+                </IonButtons>
+                <IonTitle>Give a Perk</IonTitle>
+                <IonButtons slot="end">
+                  <IonButton strong={true} type="submit">
+                    Give
+                  </IonButton>
+                </IonButtons>
+              </IonToolbar>
+            </IonHeader>
+            <IonContent>
+              <IonList inset={true}>
+                <IonItem>
+                  <IonLabel>Give</IonLabel>
+                  <IonSelect name="amount" placeholder="Select amount">
+                    {[5, 10, 20, 25, 50, 75, 100].map((perkAmount) => (
+                      <IonSelectOption>{perkAmount}</IonSelectOption>
+                    ))}
+                  </IonSelect>
+                </IonItem>
+              </IonList>
+              <IonList inset={true}>
+                <IonItem>
+                  <IonLabel>To</IonLabel>
+                  <IonSelect
+                    name="receivingUserId"
+                    placeholder="Select recipient"
+                  >
+                    {users.map((user) => (
+                      <IonSelectOption value={user.id}>
+                        {user.first_name} {user.last_name}
+                      </IonSelectOption>
+                    ))}
+                  </IonSelect>
+                </IonItem>
+              </IonList>
+              <IonList inset={true}>
+                <IonItem>
+                  <IonLabel>For</IonLabel>
+                  <IonInput
+                    name="reason"
+                    placeholder="Write a few words"
+                    style={{ textAlign: "right" }}
+                  />
+                </IonItem>
+              </IonList>
+            </IonContent>
+          </form>
         </IonModal>
       </IonContent>
       <IonFooter>
