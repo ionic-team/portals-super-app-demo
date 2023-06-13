@@ -27,13 +27,13 @@ export const getPerks = async () => {
 
 export const createPerksEntry = async (event: UnsavedPerkEvent) => {
   const { data, error } = await supabase.rpc("insert_perk", {
-    giver_id: event.givingUserId,
-    receiver_id: event.receivingUserId,
+    giver_id: event.giver,
+    receiver_id: event.receiver,
     gift_amount: event.amount,
     gift_reason: event.reason,
   });
   if (error) {
     console.error("Error:", error);
   }
-  return data;
+  return data as PerkEvent;
 };

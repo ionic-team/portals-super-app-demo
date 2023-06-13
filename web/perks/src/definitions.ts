@@ -9,11 +9,10 @@ export type User = {
 
 export type PerkEvent = {
   id: string;
-  givingUserId: string;
-  receivingUserId: string;
-  date: string;
+  giver: string;
+  receiver: string;
+  created_at: string;
   amount: number;
   reason: string;
 };
-
-export type UnsavedPerkEvent = Omit<PerkEvent, "id" | "date">;
+export type UnsavedPerkEvent = Omit<PerkEvent, "id" | "created_at">;

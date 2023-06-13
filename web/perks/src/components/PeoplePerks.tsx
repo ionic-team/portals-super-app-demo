@@ -27,36 +27,34 @@ import { dismissPlugin } from "../super-app";
 const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
+  const [perkEvents, setPerkEvents] = useState<PerkEvent[]>([]);
 
+  const formRef = useRef<HTMLFormElement>(null);
   const modal = useRef<HTMLIonModalElement>(null);
   const page = useRef(null);
-  const [presentingElement, setPresentingElement] =
-    useState<HTMLElement | null>(null);
+  const [presentingElement, setPresentingElement] = useState<
+    HTMLElement | undefined
+  >(undefined);
 
   useEffect(() => {
-    setPresentingElement(page.current);
+    setPresentingElement(page.current === null ? undefined : page.current);
   }, []);
 
   useEffect(() => {
     let isSubscribed = true;
 
-    // declare the async data fetching function
     const fetchData = async () => {
       const users = await getUsers();
       const perks = await getPerks();
 
       if (isSubscribed) {
         setUsers(users);
-        setPerks(perks);
+        setPerkEvents(perks);
       }
     };
 
-    // call the function
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
+    fetchData().catch(console.error);
 
-    // cancel any future `setData`
     return () => {
       isSubscribed = false;
     };
@@ -66,24 +64,18 @@ const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
   const handleCloseModal = () => setShowModal(false);
 
   const handleAddEntry = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
+    const formData = new FormData(formRef.current!);
 
-    const target = event.target as typeof event.target & {
-      receivingUserId: { value: string };
-      amount: { value: string };
-      reason: { value: string };
-    };
-
-    await createPerksEntry({
-      givingUserId: session.user.id,
-      receivingUserId: target.receivingUserId.value,
-      amount: parseInt(target.amount.value, 10),
-      reason: target.reason.value,
+    const response = await createPerksEntry({
+      giver: session.user.id,
+      receiver: formData.get("receiver") as string,
+      amount: parseInt(formData.get("amount") as string, 10),
+      reason: formData.get("reason") as string,
     });
+
+    setPerkEvents([...perkEvents, response]);
     setShowModal(false);
   };
-
-  const [perkEvents, setPerkEvents] = useState<PerkEvent[]>([]);
 
   return (
     <IonPage ref={page}>
@@ -117,22 +109,23 @@ const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
           isOpen={showModal}
           onDidDismiss={handleCloseModal}
           showBackdrop={true}
+          presentingElement={presentingElement}
         >
-          <form onSubmit={handleAddEntry}>
-            <IonHeader className="ion-no-border ios-no-background">
-              <IonToolbar>
-                <IonButtons slot="start">
-                  <IonButton onClick={handleCloseModal}>Cancel</IonButton>
-                </IonButtons>
-                <IonTitle>Give a Perk</IonTitle>
-                <IonButtons slot="end">
-                  <IonButton strong={true} type="submit">
-                    Give
-                  </IonButton>
-                </IonButtons>
-              </IonToolbar>
-            </IonHeader>
-            <IonContent>
+          <IonHeader className="ion-no-border ios-no-background">
+            <IonToolbar>
+              <IonButtons slot="start">
+                <IonButton onClick={handleCloseModal}>Cancel</IonButton>
+              </IonButtons>
+              <IonTitle>Give a Perk</IonTitle>
+              <IonButtons slot="end">
+                <IonButton strong={true} onClick={handleAddEntry}>
+                  Give
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <form ref={formRef} onSubmit={handleAddEntry}>
               <IonList inset={true}>
                 <IonItem>
                   <IonLabel>Give</IonLabel>
@@ -146,10 +139,7 @@ const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
               <IonList inset={true}>
                 <IonItem>
                   <IonLabel>To</IonLabel>
-                  <IonSelect
-                    name="receivingUserId"
-                    placeholder="Select recipient"
-                  >
+                  <IonSelect name="receiver" placeholder="Select recipient">
                     {users.map((user) => (
                       <IonSelectOption value={user.id}>
                         {user.first_name} {user.last_name}
@@ -168,8 +158,8 @@ const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
                   />
                 </IonItem>
               </IonList>
-            </IonContent>
-          </form>
+            </form>
+          </IonContent>
         </IonModal>
       </IonContent>
       <IonFooter>

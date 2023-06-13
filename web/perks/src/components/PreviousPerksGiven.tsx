@@ -16,19 +16,21 @@ const PreviousPerksGiven: React.FC<{
       <IonListHeader>Perks Activity</IonListHeader>
       <IonList inset={true}>
         {perksGiven.map((perkEvent) => {
-          const givingUser = users.find(
-            (user) => user.id === perkEvent.givingUserId
-          );
+          const givingUser = users.find((user) => user.id === perkEvent.giver);
           const receivingUser = users.find(
-            (user) => user.id === perkEvent.receivingUserId
+            (user) => user.id === perkEvent.receiver
           );
+          console.log(givingUser, receivingUser, users, perkEvent);
 
-          const date = new Date(perkEvent.date).toLocaleDateString("en-us", {
-            weekday: "short",
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
+          const date = new Date(perkEvent.created_at).toLocaleDateString(
+            "en-us",
+            {
+              weekday: "short",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            }
+          );
 
           return (
             <IonItem button detail={false} lines="full" key={perkEvent.id}>
