@@ -20,8 +20,7 @@ import {
 import { chevronBackOutline } from "ionicons/icons";
 import PreviousPerksGiven from "../components/PreviousPerksGiven";
 import { PerkEvent, User } from "../definitions";
-import { Session } from "@supabase/supabase-js";
-import { createPerksEntry, getPerks, getUsers } from "../supabase-api";
+import { createPerksEntry, getPerks, getUsers, Session } from "../supabase-api";
 import { dismissPlugin } from "../super-app";
 
 const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
@@ -63,7 +62,7 @@ const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  const handleAddEntry = async (event: React.SyntheticEvent) => {
+  const handleAddEntry = async () => {
     const formData = new FormData(formRef.current!);
 
     const response = await createPerksEntry({
