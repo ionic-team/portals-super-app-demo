@@ -7,6 +7,18 @@ create table "public"."perks" (
     "reason" text not null
 );
 
+create view "public"."perks_full" as
+	select 
+		perks.amount, 
+		e_giver.first_name as giver_first_name, 
+		e_giver.last_name as giver_last_name, 
+		e_receiver.first_name as receiver_first_name, 
+		e_receiver.last_name as receiver_last_name, 
+		perks.reason, 
+		perks.created_at 
+	from perks
+		inner join employees as e_giver on perks.giver = e_giver.id
+		inner join employees as e_receiver on perks.receiver = e_receiver.id;
 
 alter table "public"."perks" enable row level security;
 
@@ -14,9 +26,9 @@ alter table "public"."apps" add column "role_access" text[];
 
 alter table "public"."time_entries" alter column "approval_status" set default '0'::smallint;
 
-CREATE UNIQUE INDEX perks_pkey ON public.perks USING btree (id);
+--CREATE UNIQUE INDEX perks_pkey ON public.perks USING btree (id);
 
-alter table "public"."perks" add constraint "perks_pkey" PRIMARY KEY using index "perks_pkey";
+--alter table "public"."perks" add constraint "perks_pkey" PRIMARY KEY using index "perks_pkey";
 
 alter table "public"."perks" add constraint "perks_giver_fkey" FOREIGN KEY (giver) REFERENCES employees(id) ON DELETE SET NULL not valid;
 
@@ -64,6 +76,15 @@ CREATE OR REPLACE FUNCTION public.get_perks()
  LANGUAGE sql
 AS $function$
     select * from perks;
+$function$
+;
+
+
+CREATE OR REPLACE FUNCTION public.get_full_perks()
+ RETURNS SETOF perks_full
+ LANGUAGE sql
+AS $function$
+    select * from perks_full;
 $function$
 ;
 
