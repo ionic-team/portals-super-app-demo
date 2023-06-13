@@ -1,7 +1,3 @@
-export interface SessionObj {
-  user: User;
-}
-
 export interface User {
   id: number;
   firstName: string;
