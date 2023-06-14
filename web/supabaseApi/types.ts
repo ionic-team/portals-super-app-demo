@@ -1,19 +1,3 @@
-export type InitialContext = {
-  name: string;
-  value: {
-    supabase: {
-      url: string;
-      accessToken: string;
-      refreshToken: string;
-    };
-    resourceId: number;
-  };
-};
-
-export type SessionObj = {
-  user: User;
-};
-
 export type User = {
   id: string;
   first_name: string;

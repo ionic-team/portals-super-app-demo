@@ -1,12 +1,12 @@
 import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { useState } from "react";
-import userList from "../../supabaseApi/users.json";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import HumanResourcesContractor from "./components/HumanResourcesContractor";
 import HumanResourcesManager from "./components/HumanResourcesManager";
-import { SessionObj } from "../../supabaseApi/types";
+import { supabase, Session } from "../../supabaseApi/supabaseApi";
+import { initialContext } from "./super-app";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -30,14 +30,30 @@ import "./theme/variables.css";
 setupIonicReact();
 
 const App: React.FC = () => {
-  const contractor = userList[0];
-  const manager = userList[1];
-  const [sessionContractor, setSessionContractor] = useState<SessionObj>({
-    user: contractor,
-  });
-  const [sessionManager, setSessionManager] = useState<SessionObj>({
-    user: manager,
-  });
+  const [session, setSession] = useState<Session | null>();
+
+  useEffect(() => {
+    supabase.auth
+      .setSession({
+        access_token: initialContext.supabase.accessToken,
+        refresh_token: initialContext.supabase.refreshToken,
+      })
+      .then(({ data }) => {
+        setSession(data.session);
+      });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (!session) {
+    return <></>;
+  }
 
   return (
     <IonApp>
@@ -47,10 +63,10 @@ const App: React.FC = () => {
             <Home />
           </Route>
           <Route exact path="/human-resources/manager">
-            <HumanResourcesManager session={sessionManager} />
+            <HumanResourcesManager session={session} />
           </Route>
           <Route exact path="/human-resources/contractor">
-            <HumanResourcesContractor session={sessionContractor} />
+            <HumanResourcesContractor session={session} />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>
