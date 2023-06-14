@@ -1,37 +1,18 @@
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  userType: string;
-  avatarUrl: string;
-}
-
-export interface Entry {
-  id: number;
-  companyId: number;
-  length: number;
-  date: string;
-  status: string;
-}
-
-export interface Event {
+export type User = {
   id: string;
-  username: string;
-  src: string;
-  rel: string;
-  text: string;
-}
+  created_at: string;
+  first_name: string;
+  last_name: string;
+  manager: string;
+  role: string;
+};
 
-export interface PerkEvent {
-  id: number;
-  givingUserId: number;
-  receivingUserId: number;
-  date: string;
-  perkId: number;
-}
-
-export interface Perk {
-  id: number;
-  name: string;
-}
+export type PerkEvent = {
+  id: string;
+  giver: string;
+  receiver: string;
+  created_at: string;
+  amount: number;
+  reason: string;
+};
+export type UnsavedPerkEvent = Omit<PerkEvent, "id" | "created_at">;

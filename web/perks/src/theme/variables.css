@@ -2,6 +2,10 @@
 http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
+body {
+  background-color: #f2f1f6
+}
+
 :root {
   --supernova-red: #fd686a;
   --supernova-yellow: #fbb82c;

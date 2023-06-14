@@ -17,10 +17,14 @@ struct MiniAppFeature: ReducerProtocol {
         let app: MiniApp
         let credentials: Credentials
         var id: UInt? = nil
+        var hideNavBar = false
+        var fadeIn = false
     }
     
     enum Action {
         case dismiss
+        case hideNavBar
+        case fadeIn
     }
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -29,6 +33,14 @@ struct MiniAppFeature: ReducerProtocol {
             return .run { _ in
                 await dismiss()
             }
+
+        case .hideNavBar:
+            state.hideNavBar = true
+            return .none
+            
+        case .fadeIn:
+            state.fadeIn = true
+            return .none
         }
     }
 }

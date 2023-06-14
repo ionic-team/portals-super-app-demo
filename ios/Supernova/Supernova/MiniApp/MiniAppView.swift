@@ -17,17 +17,23 @@ struct MiniAppView: View {
         WithViewStore(store) { vs in
             PortalView(
                 portal: .create(from: vs.state) {
-                    let task = await MainActor.run { vs.send(.dismiss) }
-                    await task.finish()
+                    vs.sendOnMainThread(action: .dismiss)
+                } onLoad: {
+                    vs.sendOnMainThread(action: .fadeIn, animation: .linear(duration: 0.25))
                 }
-                
-            ){
-                $0.webView?.isInspectable = true
-            }
-            .navigationBarBackButtonHidden(true)
+            )
+            .onAppear { vs.send(.hideNavBar) }
+            .toolbar(vs.hideNavBar ? .hidden : .automatic, for: .navigationBar)
             .ignoresSafeArea()
+            .opacity(vs.fadeIn ? 1.0 : 0.0)
         }
     }
 }
 
-
+extension ViewStore {
+    @MainActor
+    @discardableResult
+    func sendOnMainThread(action: ViewAction, animation: Animation? = nil) -> ViewStoreTask {
+        send(action, animation: animation)
+    }
+}

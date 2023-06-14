@@ -1,5 +1,7 @@
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { useState, useEffect } from "react";
+import { initialContext } from "./super-app";
+import { supabase, Session } from "./supabase-api";
 import PeoplePerks from "./components/PeoplePerks";
 
 /* Core CSS required for Ionic components to work properly */
@@ -20,9 +22,6 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import { initialContext } from "./super-app";
-import { supabase, loadUser } from "./supabase-api";
-import { Session } from "@supabase/supabase-js";
 
 setupIonicReact();
 
