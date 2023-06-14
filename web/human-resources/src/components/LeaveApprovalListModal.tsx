@@ -7,35 +7,37 @@ import {
   IonTitle,
   IonContent,
   IonList,
+  IonLoading,
 } from "@ionic/react";
 import { useState } from "react";
 import UserCard from "./UserCard";
 import LeaveApprovalDetailModal from "./LeaveApprovalDetailModal";
-import { UserRequest } from "../../../supabaseApi/types";
+import { Employee, PTOApproval } from "../../../supabaseApi/types";
+import { getEmployee } from "../../../supabaseApi/supabaseApi";
 
 interface LeaveRequestListModalProps {
   showModal: boolean;
-  userRequests: UserRequest[];
-  reloadUserRequests: () => void;
+  approvals: PTOApproval[];
   onCloseModal: () => void;
+  onReloadApprovals: () => void;
 }
 
 const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
   showModal,
-  userRequests,
-  reloadUserRequests,
+  approvals,
   onCloseModal,
+  onReloadApprovals,
 }) => {
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const [selectedUserRequest, setSelectedUserRequest] = useState<UserRequest>();
+  const [selectedApproval, setSelectedApproval] = useState<PTOApproval>();
 
   const handleCloseDetailModal = () => {
-    reloadUserRequests();
+    onReloadApprovals();
     setShowDetailModal(false);
   };
 
-  const handleShowDetails = (ur: UserRequest) => {
-    setSelectedUserRequest(ur);
+  const handleShowDetails = (approval: PTOApproval) => {
+    setSelectedApproval(approval);
     setShowDetailModal(true);
   };
 
@@ -44,15 +46,17 @@ const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
   };
 
   const getDateDifference = function (startDate: string, endDate: string) {
-    const dt1 = new Date(startDate);
-    const dt2 = new Date(endDate);
-    const difference = Math.floor(
-      (Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) -
-        Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
-        (1000 * 60 * 60 * 24)
-    );
-    const text = difference > 1 ? " days" : " day";
-    return difference + text;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const differenceInTime = end.getTime() - start.getTime();
+    const lengthInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)) + 1;
+    const text = lengthInDays > 1 ? " days" : " day";
+    return lengthInDays + text;
+  };
+
+  const handleGetEmployee = async (id: string) => {
+    const employee: Employee = await getEmployee(id);
+    return employee;
   };
 
   return (
@@ -62,58 +66,45 @@ const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
         onDidDismiss={onCloseModal}
         showBackdrop={true}
       >
-        <IonHeader className="ion-no-border ios-no-background">
+        <IonHeader className="ion-no-border">
           <IonToolbar>
-            <IonButtons slot="start">
+            <IonButtons>
               <IonButton onClick={onCloseModal}>Cancel</IonButton>
             </IonButtons>
-            <IonTitle>{`Time Off Requests (${
-              userRequests.filter((ur) => ur.request.approval_status === 2)
-                .length
-            })`}</IonTitle>
+            <IonTitle>{`Time Off Requests (${approvals.length})`}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
           <IonList inset={true}>
-            {userRequests.map((ur) => {
-              return (
-                ur.request.approval_status === 2 && (
-                  <UserCard
-                    key={ur.request.id}
-                    firstName={ur.user.first_name}
-                    lastName={ur.user.last_name}
-                    primaryDetail={formatDate(ur.request.requested_at)}
-                    secondaryDetail={
-                      getDateDifference(
-                        ur.request.start_date,
-                        ur.request.end_date
-                      ) +
-                      " | " +
-                      ur.request.type
-                    }
-                    isButton={true}
-                    onClick={() => handleShowDetails(ur)}
-                  />
-                )
-              );
-            })}
+            {approvals.map((approval) => (
+              <UserCard
+                key={approval.pto_request.id}
+                firstName={approval.employee.first_name}
+                lastName={approval.employee.last_name}
+                primaryDetail={formatDate(approval.pto_request.requested_at)}
+                secondaryDetail={
+                  getDateDifference(
+                    approval.pto_request.start_date,
+                    approval.pto_request.end_date
+                  ) +
+                  " | " +
+                  approval.pto_request.type
+                }
+                isButton={true}
+                onClick={() => handleShowDetails(approval)}
+              />
+            ))}
           </IonList>
         </IonContent>
       </IonModal>
-      {selectedUserRequest && (
+      {selectedApproval && (
         <LeaveApprovalDetailModal
           showModal={showDetailModal}
-          requestId={selectedUserRequest.request.id!}
-          firstName={selectedUserRequest.user.first_name}
-          lastName={selectedUserRequest.user.last_name}
-          userType={selectedUserRequest.user.user_type}
-          startDate={selectedUserRequest.request.start_date}
-          endDate={selectedUserRequest.request.end_date}
+          approval={selectedApproval}
           duration={getDateDifference(
-            selectedUserRequest.request.start_date,
-            selectedUserRequest.request.end_date
+            selectedApproval.pto_request.start_date,
+            selectedApproval.pto_request.end_date
           )}
-          type={selectedUserRequest.request.type}
           onCloseModal={handleCloseDetailModal}
         />
       )}

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "portal1",
+    "value": {
+      "supabase": {
+        "url": "http://localhost:54323",
+        "accessToken": "",
+        "refreshToken": ""
+      },
+      "resourceId": 1,
+      "role": "contractor"
+    }
+  }
+]

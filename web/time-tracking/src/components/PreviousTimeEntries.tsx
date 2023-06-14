@@ -7,17 +7,13 @@ import {
   IonListHeader,
 } from "@ionic/react";
 import { time } from "ionicons/icons";
-import companies from "../companies.json";
-import { Entry } from "../definitions";
 
-const PreviousTimeEntries: React.FC<{ timeEntries: Entry[] }> = ({
-  timeEntries,
-}) => {
+const PreviousTimeEntries = () => {
   return (
     <>
       <IonListHeader>Previous Time Entries</IonListHeader>
       <IonList inset={true}>
-        {timeEntries.map((entry) => (
+        {/* {timeEntries.map((entry) => (
           <IonItem button detail={false} lines="full" key={entry.id}>
             <IonIcon
               size="small"
@@ -27,11 +23,11 @@ const PreviousTimeEntries: React.FC<{ timeEntries: Entry[] }> = ({
             />
             <IonLabel>
               <h3>
-                {
+                {/* {
                   companies.find((company) => company.id === entry.companyId)
                     ?.name
-                }
-              </h3>
+                } */}
+              {/* </h3>
               <p>
                 {entry.length} hours | {entry.date}
               </p>
@@ -45,8 +41,8 @@ const PreviousTimeEntries: React.FC<{ timeEntries: Entry[] }> = ({
                 Pending
               </IonNote>
             )}
-          </IonItem>
-        ))}
+          </IonItem> */}
+        {/* ))} */}
       </IonList>
     </>
   );

@@ -13,21 +13,21 @@ const TimeOffItem: React.FC<TimeOffItemProps> = ({ label, note, status }) => {
 
   switch (status) {
     case 0:
+      color = "medium";
+      statusText = "Pending";
+      break;
+    case 1:
       color = "success";
       statusText = "Approved";
       break;
-    case 1:
+    case 2:
       color = "danger";
       statusText = "Denied";
-      break;
-    case 2:
-      color = "medium";
-      statusText = "Pending";
       break;
   }
 
   return (
-    <IonItem button detail={false} lines="full">
+    <IonItem detail={false} lines="inset">
       <IonIcon
         size="small"
         icon={calendar}

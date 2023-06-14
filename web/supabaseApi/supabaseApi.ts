@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { Customer, PTORequest, User } from "./types";
+import { TimesheetApproval, TimesheetRequest } from "./types";
 
 const supabaseUrl = "http://localhost:54321";
 const supabaseKey =
@@ -8,90 +8,137 @@ const serviceKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
 const supabase = createClient(supabaseUrl, serviceKey!);
 
-export const loadCustomers = async (uuid: string) => {
-  const { data, error } = await supabase
-    .from("customer")
-    .select("*")
-    .eq("salesperson", uuid);
-  if (error) {
-    console.error("Error:", error);
-  }
-  return data;
+export const setSession = async (accessToken: string, refreshToken: string) => {
+  const { data, error } = await supabase.auth.setSession({
+    access_token: accessToken,
+    refresh_token: refreshToken,
+  });
 };
 
-export const createCustomer = async (customer: Customer) => {
-  const { error } = await supabase.from("customer").insert([
-    {
-      created_at: customer.created_at,
-      salesperson: customer.salesperson,
-      name: customer.name,
-    },
-  ]);
-  if (error) {
-    console.error("Error:", error);
-  }
+export const getCustomersByEmployee = async (employeeId: string) => {
+  let { data, error } = await supabase.rpc("get_customers_by_employee", {
+    employee_id: employeeId,
+  });
+
+  if (error) console.error(error);
+  else return data;
 };
 
-export const loadUserPTORequests = async (uuid: string) => {
-  const { data, error } = await supabase
-    .from("pto_requests")
-    .select("*")
-    .eq("requester", uuid);
-  if (error) {
-    console.error("Error:", error);
-  }
-  return data;
-};
-
-export const createPTORequest = async (request: PTORequest) => {
-  const { error } = await supabase.from("pto_requests").insert([
-    {
-      requested_at: request.requested_at,
-      requester: request.requester,
-      approver: request.approver,
-      start_date: request.start_date,
-      end_date: request.end_date,
-      type: request.type,
-      approval_status: request.approval_status,
-    },
-  ]);
-  if (error) {
-    console.error("Error:", error);
-  }
-};
-
-export const loadAssignedPTORequests = async (uuid: string) => {
-  const { data, error } = await supabase
-    .from("pto_requests")
-    .select("*")
-    .eq("approver", uuid);
-  if (error) {
-    console.error("Error:", error);
-  }
-  return data;
-};
-
-export const processPTORequest = async (
-  requestId: number,
-  approvalStatus: number
+export const createCustomer = async (
+  customerName: string,
+  requesterId: string
 ) => {
-  const { error } = await supabase
-    .from("pto_requests")
-    .update({ approval_status: approvalStatus })
-    .eq("id", requestId);
-  if (error) {
-    console.error("Error:", error);
-  }
+  let { data, error } = await supabase.rpc("insert_customer", {
+    customer_name: customerName,
+    requester_id: requesterId,
+  });
+  if (error) console.error(error);
+  return data;
 };
 
-export const loadUser = async (uuid: string) => {
-  const { data, error } = await supabase
-    .from("employees")
-    .select("*")
-    .eq("id", uuid);
-  if (error) {
-    console.error("Error:", error);
-  }
-  const user: User = data?.[0] as User;
-  return user;
+export const getPTORequests = async (requesterId: string) => {
+  let { data, error } = await supabase.rpc("get_pto_requests", {
+    requester_id: requesterId,
+  });
+  if (error) console.error(error);
+  else return data;
+};
+
+export const createPTORequest = async (
+  requester_id: string,
+  request_start_date: string,
+  request_end_date: string,
+  request_type: string
+) => {
+  let { data, error } = await supabase.rpc("insert_pto_request", {
+    request_end_date,
+    request_start_date,
+    request_type,
+    requester_id,
+  });
+
+  if (error) console.error(error);
+  else return data;
+};
+
+export const approvePTO = async (ptoId: number) => {
+  let { data, error } = await supabase.rpc("approve_pto", {
+    pto_id: ptoId,
+  });
+
+  if (error) console.error(error);
+  else return data;
+};
+
+export const rejectPTO = async (ptoId: number) => {
+  let { data, error } = await supabase.rpc("reject_pto", {
+    pto_id: ptoId,
+  });
+
+  if (error) console.error(error);
+  else console.log(data);
+};
+
+export const getEmployee = async (employeeId: string) => {
+  let { data, error } = await supabase.rpc("get_employee", {
+    employee_id: employeeId,
+  });
+
+  if (error) console.error(error);
+  else return data;
+};
+
+export const getPendingPTOApprovals = async (managerId: string) => {
+  let { data, error } = await supabase.rpc("get_pending_pto_approvals", {
+    manager_id: managerId,
+  });
+
+  if (error) console.error(error);
+  else return data;
+};
+
+export const getTimesheetRequests = async (contractorId: string) => {
+  let { data, error } = await supabase.rpc("get_timesheet_requests_with_data", {
+    contractor_id: contractorId,
+  });
+  if (error) console.error(error);
+  else return data as TimesheetRequest[];
+};
+
+export const createTimesheetRequests = async (
+  customerId: number,
+  requesterId: string,
+  timesheetDate: string,
+  timesheetStartTime: string,
+  timesheetEndTime: string
+) => {
+  let { data, error } = await supabase.rpc("insert_timesheet_request", {
+    customer_id: customerId,
+    requester_id: requesterId,
+    timesheet_date: timesheetDate,
+    timesheet_end_time: timesheetEndTime,
+    timesheet_start_time: timesheetStartTime,
+  });
+
+  if (error) console.error(error);
+  else return data;
+};
+
+export const getCustomers = async () => {
+  let { data, error } = await supabase.rpc("get_customers");
+
+  if (error) console.error(error);
+  else return data;
+};
+
+export const getTimesheetApprovals = async (managerId: string) => {
+  let { data, error } = await supabase.rpc(
+    "get_pending_timesheet_approvals_with_data",
+    {
+      manager_id: managerId,
+    }
+  );
+
+  if (error) console.error(error);
+  else return data as TimesheetApproval[];
 };

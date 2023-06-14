@@ -10,42 +10,90 @@ import {
   IonBackButton,
   IonButton,
   IonFooter,
+  IonLoading,
+  IonListHeader,
+  IonList,
+  IonItem,
+  IonLabel,
 } from "@ionic/react";
-import { add } from "ionicons/icons";
-import PreviousTimeEntries from "../PreviousTimeEntries";
-import { SessionObj, Entry } from "../../definitions";
-import timeEntries from "../../time-entries.json";
+import { add, chevronBack } from "ionicons/icons";
 import CreateTimeEntryModal from "./CreateTImeEntryModal";
+import {
+  Customer,
+  SessionObj,
+  TimesheetRequest,
+} from "../../../supabaseApi/types";
+import {
+  createTimesheetRequests,
+  getCustomers,
+  getTimesheetRequests,
+} from "../../../supabaseApi/supabaseApi";
+import TimesheetItem from "./TimesheetItem";
 
 const TimeTrackingContractor: React.FC<{ session: SessionObj }> = ({
   session,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [requests, setRequests] = useState<TimesheetRequest[]>();
+  const [customers, setCustomers] = useState<Customer[]>();
 
-  const handleOpenModal = () => {
-    setShowModal(true);
+  const handleGetTimesheetRequests = async () => {
+    const requests = await getTimesheetRequests(session.user.id);
+    setRequests(requests);
   };
 
-  const handleCloseModal = () => {
+  const handleCreateTimesheetRequest = async (
+    customerId: number,
+    date: string,
+    startTime: string,
+    endTime: string
+  ) => {
+    await createTimesheetRequests(
+      customerId,
+      session.user.id,
+      date,
+      startTime,
+      endTime
+    );
+  };
+
+  const handleGetCustomers = async () => {
+    const customers: Customer[] = await getCustomers();
+    setCustomers(customers);
+  };
+
+  const getCustomerNameById = (customerId: number) => {
+    const customer = customers!.find((c) => c.id === customerId);
+    return customer && customer.name;
+  };
+
+  const handleCloseModal = async () => {
+    await handleGetTimesheetRequests();
     setShowModal(false);
   };
 
-  const handleCreateEntry = () => {
-    setShowModal(false);
-  };
+  useEffect(() => {
+    handleGetTimesheetRequests();
+    handleGetCustomers();
+  }, []);
 
-  const [times, setTimes] = useState(timeEntries);
+  if (!requests || !customers) {
+    return <IonLoading />;
+  }
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton text={"Dashboard"} />
+          <IonButtons>
+            <IonButton>
+              <IonIcon icon={chevronBack} />
+              Dashboard
+            </IonButton>
           </IonButtons>
           <IonTitle>Time Tracking</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleOpenModal}>
+            <IonButton onClick={() => setShowModal(true)}>
               <IonIcon icon={add}></IonIcon>
             </IonButton>
           </IonButtons>
@@ -57,18 +105,36 @@ const TimeTrackingContractor: React.FC<{ session: SessionObj }> = ({
             <IonTitle size="large">Time Tracking</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <PreviousTimeEntries timeEntries={times}></PreviousTimeEntries>
+        <IonListHeader>Previous Time Entries</IonListHeader>
+        <IonList inset={true}>
+          {requests.length > 0 ? (
+            requests.map((request) => (
+              <TimesheetItem
+                key={request.time_entry.id}
+                label={request.customer.name}
+                startTime={request.time_entry.start_time}
+                endTime={request.time_entry.end_time}
+                date={request.time_entry.date}
+                status={request.time_entry.approval_status}
+              />
+            ))
+          ) : (
+            <IonItem>
+              <IonLabel>No Requests!</IonLabel>
+            </IonItem>
+          )}
+        </IonList>
         <CreateTimeEntryModal
           showModal={showModal}
+          customers={customers}
           onCloseModal={handleCloseModal}
-          onCreateEntry={handleCreateEntry}
+          onCreateTimesheetRequest={handleCreateTimesheetRequest}
         />
       </IonContent>
-      <IonFooter>
+      <IonFooter className="ion-no-border">
         <IonToolbar>
           <IonButton
-            onClick={handleOpenModal}
-            id="open-entry-modal"
+            onClick={() => setShowModal(true)}
             expand="block"
             style={{ margin: "16px" }}
           >

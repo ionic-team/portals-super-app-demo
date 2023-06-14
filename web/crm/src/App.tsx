@@ -1,8 +1,6 @@
-import { IonApp, IonButton, setupIonicReact } from "@ionic/react";
-import { useState } from "react";
-import userList from "../../supabaseApi/users.json";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import CustomerRelationshipManagement from "./components/CustomerRelationshipManagement";
-import { Customer, SessionObj } from "../../supabaseApi/types";
+import sessions from "../../supabaseApi/sessions.json";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -26,14 +24,9 @@ import "./theme/variables.css";
 setupIonicReact();
 
 const App: React.FC = () => {
-  const user = userList[0];
-  const [session, setSession] = useState<SessionObj>({
-    user,
-  });
-
   return (
     <IonApp>
-      <CustomerRelationshipManagement session={session} />
+      <CustomerRelationshipManagement session={sessions[0]} />
     </IonApp>
   );
 };

@@ -6,52 +6,42 @@ import {
   IonTitle,
   IonToolbar,
   IonButtons,
-  IonBackButton,
   IonButton,
   IonList,
   IonListHeader,
+  IonIcon,
+  IonLoading,
+  IonItem,
+  IonLabel,
 } from "@ionic/react";
 import LeaveRequestModal from "./LeaveRequestModal";
 import TimeOffItem from "./TimeOffItem";
 import {
   createPTORequest,
-  loadUserPTORequests,
+  getPTORequests,
 } from "../../../supabaseApi/supabaseApi";
 import { SessionObj, PTORequest } from "../../../supabaseApi/types";
+import { chevronBack } from "ionicons/icons";
 
 const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
   session,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const [requests, setRequests] = useState<PTORequest[] | null>();
+  const [requests, setRequests] = useState<PTORequest[]>();
 
-  const useLoadContractorPTO = async () => {
-    const requests = (await loadUserPTORequests(session.user.id)) as PTORequest[];
+  const handleGetPTORequests = async () => {
+    const requests: PTORequest[] = await getPTORequests(session.user.id);
     setRequests(requests);
   };
 
-  const useCreatePTORequest = async (
+  const handleCreatePTORequest = async (
     startDate: string,
     endDate: string,
     type: string
   ) => {
-    const request: PTORequest = {
-      requested_at: new Date().toDateString(),
-      requester: session.user.id,
-      approver: session.user.manager,
-      start_date: startDate,
-      end_date: endDate,
-      type: type,
-      approval_status: 2,
-    };
-    console.log(request);
-    await createPTORequest(request);
-    await useLoadContractorPTO();
+    await createPTORequest(session.user.id, startDate, endDate, type);
+    await handleGetPTORequests();
   };
-
-  useEffect(() => {
-    useLoadContractorPTO();
-  }, []);
 
   const formatDate = (date: string) => {
     const [year, month, day] = date.split("-");
@@ -59,12 +49,23 @@ const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
     return convertedDate;
   };
 
+  useEffect(() => {
+    handleGetPTORequests();
+  }, []);
+
+  if (!requests) {
+    return <IonLoading />;
+  }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/" text="Dashboard" />
+          <IonButtons>
+            <IonButton>
+              <IonIcon icon={chevronBack} />
+              Dashboard
+            </IonButton>
           </IonButtons>
           <IonTitle>Human Resources</IonTitle>
         </IonToolbar>
@@ -77,30 +78,36 @@ const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
         </IonHeader>
         <IonButton
           expand="block"
-          style={{ margin: "23px 16px 8px 16px" }}
+          style={{ margin: 16 }}
           onClick={() => setShowModal(true)}
         >
           Request Time Off
         </IonButton>
         <IonListHeader>My Time Off Requests</IonListHeader>
         <IonList inset={true}>
-          {requests?.map((request) => (
-            <TimeOffItem
-              key={request.id}
-              label={
-                formatDate(request.start_date) +
-                " - " +
-                formatDate(request.end_date)
-              }
-              note={"Requested: " + formatDate(request.requested_at)}
-              status={request.approval_status}
-            />
-          ))}
+          {requests.length > 0 ? (
+            requests.map((request) => (
+              <TimeOffItem
+                key={request.id}
+                label={
+                  formatDate(request.start_date) +
+                  " - " +
+                  formatDate(request.end_date)
+                }
+                note={"Requested: " + formatDate(request.requested_at)}
+                status={request.approval_status}
+              />
+            ))
+          ) : (
+            <IonItem>
+              <IonLabel>No Requests!</IonLabel>
+            </IonItem>
+          )}
         </IonList>
         <LeaveRequestModal
           showModal={showModal}
           onCloseModal={() => setShowModal(false)}
-          onSubmitRequest={useCreatePTORequest}
+          onCreatePTORequest={handleCreatePTORequest}
         />
       </IonContent>
     </IonPage>

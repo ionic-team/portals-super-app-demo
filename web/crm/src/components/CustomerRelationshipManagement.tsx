@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -12,62 +12,56 @@ import {
   IonItem,
   IonLabel,
   IonListHeader,
+  IonIcon,
+  IonLoading,
 } from "@ionic/react";
 import AddCustomerModal from "./AddCustomerModal";
 import {
-  loadCustomers,
   createCustomer,
+  getCustomersByEmployee,
 } from "../../../supabaseApi/supabaseApi";
 import { Customer, SessionObj } from "../../../supabaseApi/types";
+import { chevronBack } from "ionicons/icons";
 
-interface TimeTrackingSalespersonProps {
+interface CustomerRelationshipManagementProps {
   session: SessionObj;
 }
 
 const CustomerRelationshipManagement: React.FC<
-  TimeTrackingSalespersonProps
+  CustomerRelationshipManagementProps
 > = ({ session }) => {
-  const [customers, setCustomers] = useState<Customer[] | null>();
+  const [showModal, setShowModal] = useState(false);
+  const [customers, setCustomers] = useState<Customer[]>();
 
-  const useLoadCustomers = async () => {
-    const result = await loadCustomers(session.user.id);
-    const customers: Customer[] | null = result ? (result as Customer[]) : null;
+  const handleGetCustomers = async () => {
+    const customers = await getCustomersByEmployee(
+      "e7b98125-6d84-4b17-ad54-8e95e0b2a952"
+    );
     setCustomers(customers);
   };
 
-  const useCreateCustomer = (name: string) => {
-    const customer: Customer = {
-      created_at: new Date().toString(),
-      salesperson: session.user.id,
-      name: name,
-    };
-    createCustomer(customer);
+  const handleCreateCustomer = async (customerName: string) => {
+    await createCustomer(customerName, "e7b98125-6d84-4b17-ad54-8e95e0b2a952");
+    await handleGetCustomers();
   };
 
   useEffect(() => {
-    useLoadCustomers();
+    handleGetCustomers();
   }, []);
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleAddCustomer = (name: string) => {
-    useCreateCustomer(name);
-  };
+  if (!customers) {
+    return <IonLoading />;
+  }
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton text={"Dashboard"} />
+          <IonButtons>
+            <IonButton>
+              <IonIcon icon={chevronBack} />
+              Dashboard
+            </IonButton>
           </IonButtons>
           <IonTitle>CRM</IonTitle>
         </IonToolbar>
@@ -79,25 +73,30 @@ const CustomerRelationshipManagement: React.FC<
           </IonToolbar>
         </IonHeader>
         <IonButton
-          id="open-modal"
           expand="block"
-          style={{ margin: "23px 16px 23px 16px" }}
-          onClick={handleOpenModal}
+          style={{ margin: 16 }}
+          onClick={() => setShowModal(true)}
         >
           Add Customer
         </IonButton>
         <IonListHeader>Existing Customers</IonListHeader>
         <IonList inset={true}>
-          {customers?.map((c) => (
-            <IonItem detail={false} lines="full" key={c.id}>
-              <IonLabel>{c.name}</IonLabel>
+          {customers.length > 0 ? (
+            customers.map((c) => (
+              <IonItem detail={false} lines="full" key={c.id}>
+                <IonLabel>{c.name}</IonLabel>
+              </IonItem>
+            ))
+          ) : (
+            <IonItem>
+              <IonLabel>No customers</IonLabel>
             </IonItem>
-          ))}
+          )}
         </IonList>
         <AddCustomerModal
           showModal={showModal}
-          onCloseModal={handleCloseModal}
-          onAddCustomer={handleAddCustomer}
+          onCreateCustomer={handleCreateCustomer}
+          onCloseModal={() => setShowModal(false)}
         />
       </IonContent>
     </IonPage>

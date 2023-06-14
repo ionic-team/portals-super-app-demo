@@ -1,4 +1,3 @@
-import { DatetimeChangeEventDetail, IonDatetimeCustomEvent } from "@ionic/core";
 import {
   IonModal,
   IonHeader,
@@ -15,56 +14,60 @@ import {
   IonSelect,
   IonSelectOption,
   IonPopover,
-  IonText,
 } from "@ionic/react";
-import { useEffect, useRef, useState } from "react";
-import { PTORequest } from "../../../supabaseApi/types";
+import { useEffect, useState } from "react";
 
 interface LeaveRequestModalProps {
   showModal: boolean;
   onCloseModal: () => void;
-  onSubmitRequest: (startDate: string, endDate: string, type: string) => void;
+  onCreatePTORequest: (
+    startDate: string,
+    endDate: string,
+    type: string
+  ) => void;
 }
 
 const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
   showModal,
   onCloseModal,
-  onSubmitRequest,
+  onCreatePTORequest,
 }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [type, setType] = useState("Vacation");
-  const [validDates, setValidDates] = useState(true);
+  const [startDate, setStartDate] = useState(new Date().toDateString());
+  const [endDate, setEndDate] = useState(new Date().toDateString());
+  const [type, setType] = useState("");
+  const [validDates, setValidDates] = useState(false);
 
   const handleStartDateChange = (value: any) => {
-    setStartDate(new Date(value));
-    updateValidDates();
+    const date = new Date(value).toDateString();
+    setStartDate(date);
   };
 
   const handleEndDateChange = (value: any) => {
-    setEndDate(new Date(value));
-    updateValidDates();
+    const date = new Date(value).toDateString();
+    setEndDate(date);
   };
 
-  const updateValidDates = () => {
-    setValidDates(startDate <= endDate);
+  const validateRequest = () => {
+    setValidDates(
+      new Date(startDate).getDate() <= new Date(endDate).getDate() && !!type
+    );
   };
 
   const handleCloseModal = () => {
     onCloseModal();
-    setStartDate(new Date());
-    setEndDate(new Date());
-    setValidDates(true);
+    setStartDate(new Date().toDateString());
+    setEndDate(new Date().toDateString());
+    setType("");
   };
 
   const handleSubmitRequest = () => {
-    onSubmitRequest(startDate.toDateString(), endDate.toDateString(), type);
+    onCreatePTORequest(startDate, endDate, type);
     handleCloseModal();
   };
 
   useEffect(() => {
-    updateValidDates();
-  }, [startDate, endDate]);
+    validateRequest();
+  }, [startDate, endDate, type]);
 
   return (
     <IonModal
@@ -72,9 +75,9 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
       onDidDismiss={handleCloseModal}
       showBackdrop={true}
     >
-      <IonHeader className="ion-no-border ios-no-background">
+      <IonHeader className="ion-no-border">
         <IonToolbar>
-          <IonButtons slot="start">
+          <IonButtons>
             <IonButton onClick={handleCloseModal}>Cancel</IonButton>
           </IonButtons>
           <IonTitle>Request Time Off</IonTitle>
@@ -95,8 +98,7 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
             <IonSelect
               label="Type"
               interface="popover"
-              placeholder="Vacation"
-              defaultValue="Vacation"
+              placeholder="Select"
               onIonChange={(e) => setType(e.detail.value)}
             >
               <IonSelectOption>Vacation</IonSelectOption>

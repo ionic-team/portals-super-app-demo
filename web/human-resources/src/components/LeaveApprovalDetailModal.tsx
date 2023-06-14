@@ -9,40 +9,42 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonNote,
   IonFooter,
+  IonIcon,
 } from "@ionic/react";
 import UserCard from "./UserCard";
-import { processPTORequest } from "../../../supabaseApi/supabaseApi";
+import { approvePTO, rejectPTO } from "../../../supabaseApi/supabaseApi";
+import { PTOApproval } from "../../../supabaseApi/types";
+import { chevronBack } from "ionicons/icons";
 
 interface LeaveApprovalDetailModal {
   showModal: boolean;
-  requestId: number;
-  firstName: string;
-  lastName: string;
-  userType: string;
-  startDate: string;
-  endDate: string;
+  approval: PTOApproval;
   duration: string;
-  type: string;
   onCloseModal: () => void;
 }
 
 const LeaveApprovalDetailModal: React.FC<LeaveApprovalDetailModal> = ({
   showModal,
-  requestId,
-  firstName,
-  lastName,
-  userType,
-  startDate,
-  endDate,
+  approval,
   duration,
-  type,
   onCloseModal,
 }) => {
-  const handleProcessRequest = async (approvalStatus: number) => {
-    await processPTORequest(requestId, approvalStatus);
+  const handleApprovePTO = async () => {
+    await approvePTO(approval.pto_request.id);
     onCloseModal();
+  };
+
+  const handleRejectPTO = async () => {
+    await rejectPTO(approval.pto_request.id);
+    onCloseModal();
+  };
+
+  const formatDate = (date: string) => {
+    return new Date(date)
+      .toDateString()
+      .slice(4)
+      .replace(/(.{6})/, "$1,");
   };
 
   return (
@@ -54,7 +56,10 @@ const LeaveApprovalDetailModal: React.FC<LeaveApprovalDetailModal> = ({
       <IonHeader className="ion-no-border ios-no-background">
         <IonToolbar>
           <IonButtons slot="start">
-            <IonButton onClick={onCloseModal}>Back</IonButton>
+            <IonButton onClick={onCloseModal}>
+              <IonIcon icon={chevronBack} />
+              Back
+            </IonButton>
           </IonButtons>
           <IonTitle>Approve Leave</IonTitle>
         </IonToolbar>
@@ -62,40 +67,55 @@ const LeaveApprovalDetailModal: React.FC<LeaveApprovalDetailModal> = ({
       <IonContent>
         <IonList inset={true}>
           <UserCard
-            firstName={firstName}
-            lastName={lastName}
-            primaryDetail={userType}
+            firstName={approval.employee.first_name}
+            lastName={approval.employee.last_name}
+            primaryDetail={
+              approval.employee.role.charAt(0).toUpperCase() +
+              approval.employee.role.slice(1)
+            }
             isButton={false}
           />
         </IonList>
         <IonList inset={true}>
           <IonItem>
             <IonLabel>From</IonLabel>
-            <IonButton disabled={true}>{startDate}</IonButton>
+            <IonButton
+              color="light"
+              size="small"
+              style={{ height: "30px", fontSize: "16px", fontWeight: 400 }}
+            >
+              {formatDate(approval.pto_request.start_date)}
+            </IonButton>
           </IonItem>
           <IonItem>
             <IonLabel>To</IonLabel>
-            <IonButton disabled={true}>{endDate}</IonButton>
+            <IonButton
+              color="light"
+              size="small"
+              style={{ height: "30px", fontSize: "16px", fontWeight: 400 }}
+            >
+              {formatDate(approval.pto_request.end_date)}
+            </IonButton>
           </IonItem>
           <IonItem>
             <IonLabel>Total</IonLabel>
-            <IonNote slot="end">{duration}</IonNote>
+            <IonLabel slot="end">{duration}</IonLabel>
           </IonItem>
         </IonList>
         <IonList inset={true}>
           <IonItem>
             <IonLabel>Type</IonLabel>
-            <IonNote slot="end">{type}</IonNote>
+            <IonLabel slot="end">{approval.pto_request.type}</IonLabel>
           </IonItem>
         </IonList>
       </IonContent>
-      <IonFooter>
+      <IonFooter className="ion-no-border">
         <IonToolbar>
-          <IonButton expand="block" onClick={() => handleProcessRequest(0)}>
+          <IonButton expand="block" onClick={handleApprovePTO}>
             Approve Leave
           </IonButton>
-          <IonButton expand="block" onClick={() => handleProcessRequest(1)}>
-            Deny Time
+          <IonButton color="secondary" expand="block" onClick={handleRejectPTO}>
+            Decline
           </IonButton>
         </IonToolbar>
       </IonFooter>

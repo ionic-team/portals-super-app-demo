@@ -1,12 +1,12 @@
 import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { SessionObj, Entry, Event } from "./definitions";
 import { useState } from "react";
-import userList from "./users.json";
+import userList from "../../supabaseApi/users.json";
 import Home from "./pages/Home";
 import TimeTrackingContractor from "./components/TimeTrackingContractor";
 import TimeTrackingManager from "./components/TimeTrackingManager";
+import { SessionObj } from "../../supabaseApi/types";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -31,18 +31,13 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const user = userList[0];
-  const [session, setSession] = useState<SessionObj>({
+  const manager = userList[1];
+  const [contractorSession, setContractorSession] = useState<SessionObj>({
     user,
   });
-  const [events, setEvents] = useState<Event[]>([
-    {
-      id: "1",
-      username: "will@ionic.io",
-      src: "time",
-      rel: "timesheet-approved",
-      text: "Timesheet Approved",
-    },
-  ]);
+  const [managerSession, setManagerSession] = useState<SessionObj>({
+    user: manager,
+  });
 
   return (
     <IonApp>
@@ -52,10 +47,10 @@ const App: React.FC = () => {
             <Home />
           </Route>
           <Route exact path="/time-tracking/contractor">
-            <TimeTrackingContractor session={session} />
+            <TimeTrackingContractor session={contractorSession} />
           </Route>
           <Route exact path="/time-tracking/manager">
-            <TimeTrackingManager session={session} />
+            <TimeTrackingManager session={managerSession} />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>

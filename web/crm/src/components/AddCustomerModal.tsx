@@ -14,38 +14,36 @@ import { useState } from "react";
 
 interface AddCustomerModalProps {
   showModal: boolean;
+  onCreateCustomer: (customerName: string) => void;
   onCloseModal: () => void;
-  onAddCustomer: (name: string) => void;
 }
 
 const AddCustomerModal: React.FC<AddCustomerModalProps> = ({
   showModal,
+  onCreateCustomer,
   onCloseModal,
-  onAddCustomer,
 }) => {
   const [customerName, setCustomerName] = useState("");
 
-  const handleInputChange = (value: string) => {
-    setCustomerName(value);
-  };
-
-  const handleAddCustomer = (name: string) => {
-    onAddCustomer(name);
-    onCloseModal();
+  const handleAddCustomer = () => {
+    onCreateCustomer(customerName);
     setCustomerName("");
+    onCloseModal();
   };
 
   return (
     <IonModal isOpen={showModal} onDidDismiss={onCloseModal}>
-      <IonHeader>
+      <IonHeader className="ion-no-border">
         <IonToolbar>
-          <IonButtons slot="start">
+          <IonButtons>
             <IonButton onClick={onCloseModal}>Cancel</IonButton>
           </IonButtons>
           <IonTitle>Add Customer</IonTitle>
           <IonButtons slot="end">
             <IonButton
-              onClick={() => handleAddCustomer(customerName)}
+              onClick={() => {
+                handleAddCustomer();
+              }}
               strong={true}
               disabled={!customerName}
             >
@@ -60,12 +58,11 @@ const AddCustomerModal: React.FC<AddCustomerModalProps> = ({
             <IonInput
               label="Customer Name"
               placeholder="Enter"
-              value={customerName}
               onInput={(e) =>
-                handleInputChange((e.target as HTMLInputElement).value)
+                setCustomerName((e.target as HTMLInputElement).value)
               }
               style={{ textAlign: "end" }}
-            ></IonInput>
+            />
           </IonItem>
         </IonList>
       </IonContent>
