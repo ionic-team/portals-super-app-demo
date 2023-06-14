@@ -18,11 +18,13 @@ import {
 import ApprovalListModal from "./ApprovalListModal";
 import TimeOffItem from "./TimeOffItem";
 import { getPendingPTOApprovals } from "../../../supabaseApi/supabaseApi";
-import { PTOApproval, SessionObj } from "../../../supabaseApi/types";
+import { PTOApproval } from "../../../supabaseApi/types";
 import { chevronBack } from "ionicons/icons";
+import { Session } from "../../../supabaseApi/supabaseApi";
+import { dismissPlugin } from "../super-app";
 
 interface HumanResourcesManagerProps {
-  session: SessionObj;
+  session: Session;
 }
 
 const HumanResourcesManager: React.FC<HumanResourcesManagerProps> = ({
@@ -53,7 +55,11 @@ const HumanResourcesManager: React.FC<HumanResourcesManagerProps> = ({
       <IonHeader>
         <IonToolbar>
           <IonButtons>
-            <IonButton>
+            <IonButton
+              onClick={() => {
+                dismissPlugin.dismiss();
+              }}
+            >
               <IonIcon icon={chevronBack} />
               Dashboard
             </IonButton>

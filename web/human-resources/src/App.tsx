@@ -1,8 +1,6 @@
-import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { useState, useEffect } from "react";
-import Home from "./pages/Home";
 import HumanResourcesContractor from "./components/HumanResourcesContractor";
 import HumanResourcesManager from "./components/HumanResourcesManager";
 import { supabase, Session } from "../../supabaseApi/supabaseApi";
@@ -59,15 +57,11 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route exact path="/human-resources/manager">
+          {session.user.app_metadata.app_role === "manager" ? (
             <HumanResourcesManager session={session} />
-          </Route>
-          <Route exact path="/human-resources/contractor">
+          ) : (
             <HumanResourcesContractor session={session} />
-          </Route>
+          )}
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

@@ -20,10 +20,12 @@ import {
   createPTORequest,
   getPTORequests,
 } from "../../../supabaseApi/supabaseApi";
-import { SessionObj, PTORequest } from "../../../supabaseApi/types";
+import { PTORequest } from "../../../supabaseApi/types";
 import { chevronBack } from "ionicons/icons";
+import { Session } from "../../../supabaseApi/supabaseApi";
+import { dismissPlugin } from "../super-app";
 
-const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
+const HumanResourcesContractor: React.FC<{ session: Session }> = ({
   session,
 }) => {
   const [showModal, setShowModal] = useState(false);
@@ -62,7 +64,11 @@ const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
       <IonHeader>
         <IonToolbar>
           <IonButtons>
-            <IonButton>
+            <IonButton
+              onClick={() => {
+                dismissPlugin.dismiss();
+              }}
+            >
               <IonIcon icon={chevronBack} />
               Dashboard
             </IonButton>
