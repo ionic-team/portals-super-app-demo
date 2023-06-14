@@ -82,9 +82,8 @@ struct LoginFeature: ReducerProtocol {
         
         case .useCurrentSessionIfAvailable:
             return .run { send in
-                guard let session = try await existingSession() else {
-                    await send(.loginFailed)
-                    return
+                guard let session = await existingSession() else {
+                    return await send(.loginFailed)
                 }
                 
                 await send(.loginSucceeded(sessionToken: session.accessToken, refreshToken: session.refreshToken))

@@ -16,10 +16,10 @@ struct MiniAppView: View {
     var body: some View {
         WithViewStore(store) { vs in
             PortalView(
-                portal: .create(from: vs.state) {
-                    vs.sendOnMainThread(action: .dismiss)
-                } onLoad: {
-                    vs.sendOnMainThread(action: .fadeIn, animation: .linear(duration: 0.25))
+                portal: .create(from: vs.state) { @MainActor in
+                    vs.send(.dismiss)
+                } onLoad: { @MainActor in
+                    vs.send(.fadeIn, animation: .linear(duration: 0.25))
                 }
             ){$0.webView?.isInspectable = true}
             .onAppear { vs.send(.hideNavBar) }
@@ -27,13 +27,5 @@ struct MiniAppView: View {
             .ignoresSafeArea()
             .opacity(vs.fadeIn ? 1.0 : 0.0)
         }
-    }
-}
-
-extension ViewStore {
-    @MainActor
-    @discardableResult
-    func sendOnMainThread(action: ViewAction, animation: Animation? = nil) -> ViewStoreTask {
-        send(action, animation: animation)
     }
 }

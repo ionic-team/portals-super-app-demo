@@ -7,12 +7,10 @@
 
 import ComposableArchitecture
 
-typealias AppAction = AppFeature.Action
-
 struct AppFeature: ReducerProtocol {
     struct State: Equatable {
-        var dashboardState: DashboardFeature.State = .init()
-        var loginState: LoginFeature.State = .init()
+        var dashboardState = DashboardFeature.State()
+        var loginState = LoginFeature.State()
     }
     
     enum Action {

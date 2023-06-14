@@ -11,24 +11,33 @@ import ComposableArchitecture
 
 struct AppView: View {
     let store: StoreOf<AppFeature>
-
+    
     var body: some View {
         NavigationStackStore(store.scope(state: \.dashboardState.path, action: { .dashboardAction(.path($0)) })) {
             WithViewStore(store, observe: \.loginState.isLoggedOut) { vs in
-                DashboardView(store: store.scope(state: \.dashboardState, action: AppAction.dashboardAction))
-                    .fullScreenCover(isPresented: .constant(vs.state)) {
-                        LoginView(store: store.scope(state: \.loginState, action: AppAction.loginAction))
+                DashboardView(
+                    store: store.scope(
+                        state: \.dashboardState,
+                        action: AppFeature.Action.dashboardAction
+                    )
+                )
+                .fullScreenCover(isPresented: .constant(vs.state)) {
+                    LoginView(
+                        store: store.scope(
+                            state: \.loginState,
+                            action: AppFeature.Action.loginAction
+                        )
+                    )
+                }
+                .toolbar {
+                    Button("Log Out") {
+                        vs.send(.loginAction(.logout))
                     }
-                    .toolbar {
-                        Button("Log Out") {
-                            vs.send(.loginAction(.logout))
-                        }
-                        .tint(Color.superPrimary)
-                    }
-                    .task { @MainActor in
-                        try? await Task.sleep(for: .seconds(2))
-                        vs.send(.loginAction(.useCurrentSessionIfAvailable))
-                    }
+                    .tint(Color.superPrimary)
+                }
+                .task { @MainActor in
+                    vs.send(.loginAction(.useCurrentSessionIfAvailable))
+                }
             }
         } destination: {
             MiniAppView(store: $0)
