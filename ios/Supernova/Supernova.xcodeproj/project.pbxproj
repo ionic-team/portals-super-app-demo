@@ -120,18 +120,17 @@
 		A7477F7F2A1BBCCF00D79747 /* Supernova */ = {
 			isa = PBXGroup;
 			children = (
-				A757F9D12A2E2C8C002A443A /* News */,
-				A757F9C82A2A5889002A443A /* Utilities */,
-				A757F9BF2A28EDDE002A443A /* MiniApp */,
 				A7F805272A1D701B0060A74D /* Info.plist */,
-				A7F805192A1D440E0060A74D /* App */,
-				A7F805102A1D3F3C0060A74D /* Model */,
-				A7F8050F2A1D3EF60060A74D /* Dashboard */,
-				A7999FEA2A1BE59400D08C51 /* Login */,
 				A7477F802A1BBCCF00D79747 /* SupernovaApp.swift */,
 				A7477F842A1BBCD100D79747 /* Assets.xcassets */,
+				A7F805192A1D440E0060A74D /* App */,
+				A7F8050F2A1D3EF60060A74D /* Dashboard */,
+				A7999FEA2A1BE59400D08C51 /* Login */,
+				A757F9BF2A28EDDE002A443A /* MiniApp */,
+				A7F805102A1D3F3C0060A74D /* Model */,
+				A757F9D12A2E2C8C002A443A /* News */,
 				A7477F862A1BBCD100D79747 /* Preview Content */,
-				A7999FE52A1BC6E000D08C51 /* Dependencies.swift */,
+				A757F9C82A2A5889002A443A /* Utilities */,
 			);
 			path = Supernova;
 			sourceTree = "<group>";
@@ -157,6 +156,7 @@
 		A757F9C82A2A5889002A443A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A7999FE52A1BC6E000D08C51 /* Dependencies.swift */,
 				A757F9C92A2A5896002A443A /* Color+Theme.swift */,
 				A757F9CB2A2A58BE002A443A /* Image+Ionicons.swift */,
 				A757F9CD2A2A58E0002A443A /* URL+ExprByStringLiteral.swift */,
