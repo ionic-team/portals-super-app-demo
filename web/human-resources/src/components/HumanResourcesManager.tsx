@@ -15,9 +15,9 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/react";
-import LeaveApprovalListModal from "./LeaveApprovalListModal";
+import ApprovalListModal from "./ApprovalListModal";
 import TimeOffItem from "./TimeOffItem";
-import { getPendingPTOApprovalsNew } from "../../../supabaseApi/supabaseApi";
+import { getPendingPTOApprovals } from "../../../supabaseApi/supabaseApi";
 import { PTOApproval, SessionObj } from "../../../supabaseApi/types";
 import { chevronBack } from "ionicons/icons";
 
@@ -32,9 +32,7 @@ const HumanResourcesManager: React.FC<HumanResourcesManagerProps> = ({
   const [approvals, setApprovals] = useState<PTOApproval[]>();
 
   const handleGetApprovals = async () => {
-    const approvals: PTOApproval[] = await getPendingPTOApprovalsNew(
-      session.user.id
-    );
+    const approvals = await getPendingPTOApprovals(session.user.id);
     setApprovals(approvals);
   };
 
@@ -100,7 +98,7 @@ const HumanResourcesManager: React.FC<HumanResourcesManagerProps> = ({
             </IonItem>
           )}
         </IonList>
-        <LeaveApprovalListModal
+        <ApprovalListModal
           showModal={showModal}
           approvals={approvals}
           onCloseModal={() => setShowModal(false)}

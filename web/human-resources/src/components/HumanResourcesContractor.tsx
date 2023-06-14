@@ -14,7 +14,7 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/react";
-import LeaveRequestModal from "./LeaveRequestModal";
+import RequestModal from "./RequestModal";
 import TimeOffItem from "./TimeOffItem";
 import {
   createPTORequest,
@@ -104,7 +104,7 @@ const HumanResourcesContractor: React.FC<{ session: SessionObj }> = ({
             </IonItem>
           )}
         </IonList>
-        <LeaveRequestModal
+        <RequestModal
           showModal={showModal}
           onCloseModal={() => setShowModal(false)}
           onCreatePTORequest={handleCreatePTORequest}

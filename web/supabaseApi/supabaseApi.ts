@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { TimesheetApproval, TimesheetRequest } from "./types";
+import { PTOApproval, TimesheetApproval, TimesheetRequest } from "./types";
 
 const supabaseUrl = "http://localhost:54321";
 const supabaseKey =
@@ -89,12 +89,11 @@ export const getEmployee = async (employeeId: string) => {
 };
 
 export const getPendingPTOApprovals = async (managerId: string) => {
-  let { data, error } = await supabase.rpc("get_pending_pto_approvals", {
+  let { data, error } = await supabase.rpc("get_pending_pto_approvals_with_data", {
     manager_id: managerId,
   });
-
   if (error) console.error(error);
-  else return data;
+  else return data as PTOApproval[];
 };
 
 export const getTimesheetRequests = async (contractorId: string) => {
@@ -131,7 +130,7 @@ export const getCustomers = async () => {
   else return data;
 };
 
-export const getTimesheetApprovals = async (managerId: string) => {
+export const getPendingTimesheetApprovals = async (managerId: string) => {
   let { data, error } = await supabase.rpc(
     "get_pending_timesheet_approvals_with_data",
     {

@@ -17,14 +17,14 @@ import { approvePTO, rejectPTO } from "../../../supabaseApi/supabaseApi";
 import { PTOApproval } from "../../../supabaseApi/types";
 import { chevronBack } from "ionicons/icons";
 
-interface LeaveApprovalDetailModal {
+interface ApprovalDetailModal {
   showModal: boolean;
   approval: PTOApproval;
   duration: string;
   onCloseModal: () => void;
 }
 
-const LeaveApprovalDetailModal: React.FC<LeaveApprovalDetailModal> = ({
+const ApprovalDetailModal: React.FC<ApprovalDetailModal> = ({
   showModal,
   approval,
   duration,
@@ -123,4 +123,4 @@ const LeaveApprovalDetailModal: React.FC<LeaveApprovalDetailModal> = ({
   );
 };
 
-export default LeaveApprovalDetailModal;
+export default ApprovalDetailModal;

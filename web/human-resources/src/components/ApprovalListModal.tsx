@@ -11,18 +11,18 @@ import {
 } from "@ionic/react";
 import { useState } from "react";
 import UserCard from "./UserCard";
-import LeaveApprovalDetailModal from "./LeaveApprovalDetailModal";
 import { Employee, PTOApproval } from "../../../supabaseApi/types";
 import { getEmployee } from "../../../supabaseApi/supabaseApi";
+import ApprovalDetailModal from "./ApprovalDetailModal";
 
-interface LeaveRequestListModalProps {
+interface ApprovalListModalProps {
   showModal: boolean;
   approvals: PTOApproval[];
   onCloseModal: () => void;
   onReloadApprovals: () => void;
 }
 
-const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
+const ApprovalListModal: React.FC<ApprovalListModalProps> = ({
   showModal,
   approvals,
   onCloseModal,
@@ -98,7 +98,7 @@ const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
         </IonContent>
       </IonModal>
       {selectedApproval && (
-        <LeaveApprovalDetailModal
+        <ApprovalDetailModal
           showModal={showDetailModal}
           approval={selectedApproval}
           duration={getDateDifference(
@@ -112,4 +112,4 @@ const LeaveApprovalListModal: React.FC<LeaveRequestListModalProps> = ({
   );
 };
 
-export default LeaveApprovalListModal;
+export default ApprovalListModal;

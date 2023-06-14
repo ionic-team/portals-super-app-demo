@@ -17,7 +17,7 @@ import {
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 
-interface LeaveRequestModalProps {
+interface RequestModalProps {
   showModal: boolean;
   onCloseModal: () => void;
   onCreatePTORequest: (
@@ -27,7 +27,7 @@ interface LeaveRequestModalProps {
   ) => void;
 }
 
-const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
+const RequestModal: React.FC<RequestModalProps> = ({
   showModal,
   onCloseModal,
   onCreatePTORequest,
@@ -35,7 +35,6 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
   const [startDate, setStartDate] = useState(new Date().toDateString());
   const [endDate, setEndDate] = useState(new Date().toDateString());
   const [type, setType] = useState("");
-  const [validDates, setValidDates] = useState(false);
 
   const handleStartDateChange = (value: any) => {
     const date = new Date(value).toDateString();
@@ -45,12 +44,6 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
   const handleEndDateChange = (value: any) => {
     const date = new Date(value).toDateString();
     setEndDate(date);
-  };
-
-  const validateRequest = () => {
-    setValidDates(
-      new Date(startDate).getDate() <= new Date(endDate).getDate() && !!type
-    );
   };
 
   const handleCloseModal = () => {
@@ -64,10 +57,6 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
     onCreatePTORequest(startDate, endDate, type);
     handleCloseModal();
   };
-
-  useEffect(() => {
-    validateRequest();
-  }, [startDate, endDate, type]);
 
   return (
     <IonModal
@@ -85,7 +74,12 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
             <IonButton
               strong={true}
               onClick={handleSubmitRequest}
-              disabled={!validDates}
+              disabled={
+                !(
+                  new Date(startDate).getDate() <=
+                    new Date(endDate).getDate() && !!type
+                )
+              }
             >
               Submit
             </IonButton>
@@ -135,4 +129,4 @@ const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
   );
 };
 
-export default LeaveRequestModal;
+export default RequestModal;

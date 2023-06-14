@@ -23,7 +23,7 @@ import {
 import { SessionObj, TimesheetApproval } from "../../../supabaseApi/types";
 import UserCard from "./UserCard";
 import { chevronBack } from "ionicons/icons";
-import { getTimesheetApprovals } from "../../../supabaseApi/supabaseApi";
+import { getPendingTimesheetApprovals } from "../../../supabaseApi/supabaseApi";
 import TimesheetItem from "./TimesheetItem";
 
 const TimeTrackingManager: React.FC<{
@@ -33,7 +33,7 @@ const TimeTrackingManager: React.FC<{
   const [approvals, setApprovals] = useState<TimesheetApproval[]>();
 
   const handleGetTimesheetApprovals = async () => {
-    const approvals = await getTimesheetApprovals(session.user.id);
+    const approvals = await getPendingTimesheetApprovals(session.user.id);
     setApprovals(approvals);
   };
 
