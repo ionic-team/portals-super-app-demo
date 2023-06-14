@@ -38,6 +38,7 @@ struct Event: Equatable {
     var title: String
     var kind: Kind
     var read: Bool
+    var miniApp: MiniApp? = nil
 }
 
 extension Event: Identifiable {

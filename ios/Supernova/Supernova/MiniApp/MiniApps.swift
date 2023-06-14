@@ -7,9 +7,6 @@
 
 import ComposableArchitecture
 
-typealias MiniAppState = MiniAppFeature.State
-typealias MiniAppAction = MiniAppFeature.Action
-
 struct MiniAppFeature: ReducerProtocol {
     @Dependency(\.dismiss) private var dismiss
 

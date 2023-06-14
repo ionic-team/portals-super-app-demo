@@ -17,7 +17,7 @@ private enum ClientKey: DependencyKey {
         @Dependency(\.clientSecret) var secret
         
         let supabase = SupabaseClient(supabaseURL: url, supabaseKey: secret)
-
+        
         return Client(
             signIn: { email, password in
                 let session = try await supabase.auth.signIn(email: email, password: password)
@@ -35,15 +35,10 @@ private enum ClientKey: DependencyKey {
                 try await supabase.auth.signOut()
             },
             getApps: {
-                do {
-                    let session = try await supabase.auth.session
-                    return try await supabase.database.rpc(fn: "get_apps", params: ["employee_id": session.user.id])
-                        .execute()
-                        .value as [MiniApp]
-                } catch let error {
-                    print(error.localizedDescription)
-                    return []
-                }
+                let session = try await supabase.auth.session
+                return try await supabase.database.rpc(fn: "get_apps", params: ["employee_id": session.user.id])
+                    .execute()
+                    .value as [MiniApp]
             },
             getNewsFeed: {
                 return try await supabase.database.from("newsfeed")
@@ -51,19 +46,23 @@ private enum ClientKey: DependencyKey {
                     .value as [NewsItem]
             },
             getEvents: {
-                do {
-                    let session = try await supabase.auth.session
-                    return try await supabase.database.rpc(fn: "get_events", params: ["employee_id": session.user.id])
-                        .execute()
-                        .value as [Event]
-                } catch let error {
-                    print(error.localizedDescription)
-                    return []
+                @Dependency(\.client.getApps) var getApps
+                let apps = try await getApps()
+
+                let session = try await supabase.auth.session
+                var events = try await supabase.database.rpc(fn: "get_events", params: ["employee_id": session.user.id])
+                    .execute()
+                    .value as [Event]
+                
+                for idx in events.indices {
+                    events[idx].miniApp = apps.first { $0.id == events[idx].kind.type }
                 }
+                
+                return events
             }
         )
     }()
-
+    
     static let testValue = Client(
         signIn: unimplemented(),
         existingSession: unimplemented(),
@@ -72,7 +71,7 @@ private enum ClientKey: DependencyKey {
         getNewsFeed: unimplemented(),
         getEvents: unimplemented()
     )
-
+    
     static let previewValue: Client = {
         // We want to be able to simulate network latency for the preview
         @Dependency(\.continuousClock) var clock
@@ -178,7 +177,7 @@ extension DependencyValues {
 
 struct Client {
     var signIn: (_ email: String, _ password: String) async throws -> (acessToken: String, refreshToken: String)
-    var existingSession: () async throws -> (accessToken: String, refreshToken: String)?
+    var existingSession: () async -> (accessToken: String, refreshToken: String)?
     var signout: () async throws -> Void
     var getApps: () async throws -> [MiniApp]
     var getNewsFeed: () async throws -> [NewsItem]
