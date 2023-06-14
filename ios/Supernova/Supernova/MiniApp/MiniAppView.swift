@@ -21,7 +21,7 @@ struct MiniAppView: View {
                 } onLoad: {
                     vs.sendOnMainThread(action: .fadeIn, animation: .linear(duration: 0.25))
                 }
-            )
+            ){$0.webView?.isInspectable = true}
             .onAppear { vs.send(.hideNavBar) }
             .toolbar(vs.hideNavBar ? .hidden : .automatic, for: .navigationBar)
             .ignoresSafeArea()

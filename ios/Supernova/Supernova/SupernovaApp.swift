@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 import IonicPortals
+import Dependencies
 
 @main
 struct SupernovaApp: App {
@@ -17,11 +18,16 @@ struct SupernovaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AppView(
-                store: Store(initialState: .init()) {
-                    AppFeature()
-                }
-            )
+            withDependencies { dependencies in
+                dependencies.clientUrl = "http://0.0.0.0:54321"
+            } operation: {
+                AppView(
+                    store: Store(initialState: .init()) {
+                        AppFeature()
+                    }
+                )
+            }
+
         }
     }
 }
