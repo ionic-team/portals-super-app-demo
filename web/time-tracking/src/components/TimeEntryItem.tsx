@@ -1,7 +1,7 @@
 import { IonItem, IonIcon, IonLabel, IonNote } from "@ionic/react";
 import { calendar, time } from "ionicons/icons";
 
-interface TimesheetItemProps {
+interface TimeEntryItemProps {
   label: string;
   startTime: string;
   endTime: string;
@@ -9,7 +9,7 @@ interface TimesheetItemProps {
   status: number;
 }
 
-const TimesheetItem: React.FC<TimesheetItemProps> = ({
+const TimeEntryItem: React.FC<TimeEntryItemProps> = ({
   label,
   startTime,
   endTime,
@@ -86,4 +86,4 @@ const TimesheetItem: React.FC<TimesheetItemProps> = ({
   );
 };
 
-export default TimesheetItem;
+export default TimeEntryItem;

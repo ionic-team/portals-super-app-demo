@@ -7,12 +7,10 @@ import {
   IonTitle,
   IonContent,
   IonList,
-  IonLoading,
 } from "@ionic/react";
 import { useState } from "react";
 import UserCard from "./UserCard";
-import { Employee, PTOApproval } from "../../../supabaseApi/types";
-import { getEmployee } from "../../../supabaseApi/supabaseApi";
+import { PTOApproval } from "../../../supabaseApi/types";
 import ApprovalDetailModal from "./ApprovalDetailModal";
 
 interface ApprovalListModalProps {
@@ -52,11 +50,6 @@ const ApprovalListModal: React.FC<ApprovalListModalProps> = ({
     const lengthInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)) + 1;
     const text = lengthInDays > 1 ? " days" : " day";
     return lengthInDays + text;
-  };
-
-  const handleGetEmployee = async (id: string) => {
-    const employee: Employee = await getEmployee(id);
-    return employee;
   };
 
   return (

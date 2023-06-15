@@ -20,14 +20,17 @@ import {
   IonLoading,
   IonListHeader,
 } from "@ionic/react";
-import { SessionObj, TimesheetApproval } from "../../../supabaseApi/types";
+import { TimesheetApproval } from "../../../supabaseApi/types";
 import UserCard from "./UserCard";
 import { chevronBack } from "ionicons/icons";
 import { getPendingTimesheetApprovals } from "../../../supabaseApi/supabaseApi";
-import TimesheetItem from "./TimesheetItem";
+import TimesheetItem from "./TimeEntryItem";
+import ApprovalListModal from "./ApprovalListModal";
+import { Session } from "../../../supabaseApi/supabaseApi";
+import { dismissPlugin } from "../super-app";
 
 const TimeTrackingManager: React.FC<{
-  session: SessionObj;
+  session: Session;
 }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
   const [approvals, setApprovals] = useState<TimesheetApproval[]>();
@@ -38,14 +41,6 @@ const TimeTrackingManager: React.FC<{
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleApproveTime = () => {
-    setShowModal(false);
-  };
-
-  const handleDenyTime = () => {
     setShowModal(false);
   };
 
@@ -63,7 +58,12 @@ const TimeTrackingManager: React.FC<{
         <IonToolbar>
           <IonButtons>
             <IonButton>
-              <IonIcon icon={chevronBack} />
+              <IonIcon
+                icon={chevronBack}
+                onClick={() => {
+                  dismissPlugin.dismiss();
+                }}
+              />
               Dashboard
             </IonButton>
           </IonButtons>
@@ -102,6 +102,12 @@ const TimeTrackingManager: React.FC<{
             </IonItem>
           )}
         </IonList>
+        <ApprovalListModal
+          showModal={showModal}
+          approvals={approvals}
+          onCloseModal={handleCloseModal}
+          onReloadApprovals={handleGetTimesheetApprovals}
+        />
       </IonContent>
     </IonPage>
   );

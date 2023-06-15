@@ -84,9 +84,12 @@ export const getEmployee = async (employeeId: string) => {
 };
 
 export const getPendingPTOApprovals = async (managerId: string) => {
-  let { data, error } = await supabase.rpc("get_pending_pto_approvals_with_data", {
-    manager_id: managerId,
-  });
+  let { data, error } = await supabase.rpc(
+    "get_pending_pto_approvals_with_data",
+    {
+      manager_id: managerId,
+    }
+  );
   if (error) console.error(error);
   else return data as PTOApproval[];
 };

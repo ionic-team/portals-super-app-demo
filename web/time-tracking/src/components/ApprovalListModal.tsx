@@ -14,14 +14,57 @@ import {
   IonNote,
   IonFooter,
 } from "@ionic/react";
-import UserCard from "./UserCard";
+import UserCard from "../../../human-resources/src/components/UserCard";
+import { TimesheetApproval } from "../../../supabaseApi/types";
+import { useState } from "react";
+import ApprovalDetailModal from "./ApprovalDetailModal";
 
 interface ApprovalListModalProps {
-    showModal: boolean;
-    onCloseModal: () => void;
+  showModal: boolean;
+  approvals: TimesheetApproval[];
+  onCloseModal: () => void;
+  onReloadApprovals: () => void;
 }
 
-const ApprovalListModal: React.FC<ApprovalListModalProps> = ({showModal, onCloseModal}) => {
+const ApprovalListModal: React.FC<ApprovalListModalProps> = ({
+  showModal,
+  approvals,
+  onCloseModal,
+  onReloadApprovals,
+}) => {
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedApproval, setSelectedApproval] = useState<TimesheetApproval>();
+
+  const handleCloseDetailModal = () => {
+    onReloadApprovals();
+    setShowDetailModal(false);
+  };
+
+  const handleShowDetails = (approval: TimesheetApproval) => {
+    setSelectedApproval(approval);
+    setShowDetailModal(true);
+  };
+
+  const formatDate = (date: string) => {
+    return new Date(date).toDateString().replace(/(.{3})/, "$1,");
+  };
+
+  const getDuration = (startTime: string, endTime: string) => {
+    const [hours1, minutes1] = startTime.split(":");
+    const [hours2, minutes2] = endTime.split(":");
+    const hours = Number(hours2) - Number(hours1);
+    const hoursText =
+      hours === 0 ? "" : hours > 1 ? hours + " hours" : hours + " hour";
+    const minutes = (Number(minutes2) - Number(minutes1) + 60) % 60;
+    const minutesText =
+      minutes === 0
+        ? ""
+        : minutes > 1
+        ? minutes + " minutes"
+        : minutes + " minute";
+    return hoursText + " " + minutesText;
+  };
+
   return (
     <IonModal
       isOpen={showModal}
@@ -33,64 +76,44 @@ const ApprovalListModal: React.FC<ApprovalListModalProps> = ({showModal, onClose
           <IonButtons slot="start">
             <IonButton onClick={onCloseModal}>Cancel</IonButton>
           </IonButtons>
-          <IonTitle>Approve Time</IonTitle>
+          <IonTitle>{`Time Tracking Requests (${approvals.length})`}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonList inset={true}>
-          <UserCard
-            firstName="Trevor"
-            lastName="Lambert"
-            primaryDetail="Contractor"
-            secondaryDetail="8 Hours | DMV"
+          {approvals.map((approval) => (
+            <UserCard
+              key={approval.time_entry.id}
+              firstName={approval.employee.first_name}
+              lastName={approval.employee.last_name}
+              primaryDetail={formatDate(approval.time_entry.date)}
+              secondaryDetail={
+                getDuration(
+                  approval.time_entry.start_time,
+                  approval.time_entry.end_time
+                ) +
+                " | " +
+                approval.customer.name
+              }
+              isButton={true}
+              onClick={() => handleShowDetails(approval)}
+            />
+          ))}
+        </IonList>
+        {selectedApproval && (
+          <ApprovalDetailModal
+            showModal={showDetailModal}
+            approval={selectedApproval}
+            duration={getDuration(
+              selectedApproval.time_entry.start_time,
+              selectedApproval.time_entry.end_time
+            )}
+            onCloseModal={handleCloseDetailModal}
           />
-        </IonList>
-        <IonList inset={true}>
-          <IonItem>
-            <IonLabel>Start Time</IonLabel>
-            <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
-            <IonModal keepContentsMounted={true}>
-              <IonDatetime id="datetime" value="2023-05-22T01:29"></IonDatetime>
-            </IonModal>
-          </IonItem>
-          <IonItem>
-            <IonLabel>End Time</IonLabel>
-            <IonDatetimeButton datetime="datetime2"></IonDatetimeButton>
-            <IonModal keepContentsMounted={true}>
-              <IonDatetime
-                id="datetime2"
-                value="2023-05-22T04:29"
-              ></IonDatetime>
-            </IonModal>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Total</IonLabel>
-            <IonNote slot="end"> 3 hours</IonNote>
-          </IonItem>
-        </IonList>
-        <IonList inset={true}>
-          <IonItem>
-            <IonLabel>Customer</IonLabel>
-            <IonNote slot="end">Acme Corporation</IonNote>
-          </IonItem>
-        </IonList>
+        )}
       </IonContent>
-      <IonFooter>
-        <IonToolbar>
-          <IonButton
-            style={{ "--background-activated": "#fd7568" }}
-            expand="block"
-          >
-            Approve Time
-          </IonButton>
-          <IonButton
-            style={{ "--background": "#FFEDEE", "--color": "#FD686A" }}
-            expand="block"
-          >
-            Deny Time
-          </IonButton>
-        </IonToolbar>
-      </IonFooter>
     </IonModal>
   );
 };
+
+export default ApprovalListModal;

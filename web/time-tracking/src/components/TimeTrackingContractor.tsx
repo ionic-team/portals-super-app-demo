@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   IonContent,
   IonHeader,
@@ -18,19 +18,17 @@ import {
 } from "@ionic/react";
 import { add, chevronBack } from "ionicons/icons";
 import CreateTimeEntryModal from "./CreateTImeEntryModal";
-import {
-  Customer,
-  SessionObj,
-  TimesheetRequest,
-} from "../../../supabaseApi/types";
+import { Customer, TimesheetRequest } from "../../../supabaseApi/types";
 import {
   createTimesheetRequests,
   getCustomers,
   getTimesheetRequests,
 } from "../../../supabaseApi/supabaseApi";
-import TimesheetItem from "./TimesheetItem";
+import TimesheetItem from "./TimeEntryItem";
+import { Session } from "../../../supabaseApi/supabaseApi";
+import { dismissPlugin } from "../super-app";
 
-const TimeTrackingContractor: React.FC<{ session: SessionObj }> = ({
+const TimeTrackingContractor: React.FC<{ session: Session }> = ({
   session,
 }) => {
   const [showModal, setShowModal] = useState(false);
@@ -62,11 +60,6 @@ const TimeTrackingContractor: React.FC<{ session: SessionObj }> = ({
     setCustomers(customers);
   };
 
-  const getCustomerNameById = (customerId: number) => {
-    const customer = customers!.find((c) => c.id === customerId);
-    return customer && customer.name;
-  };
-
   const handleCloseModal = async () => {
     await handleGetTimesheetRequests();
     setShowModal(false);
@@ -87,7 +80,12 @@ const TimeTrackingContractor: React.FC<{ session: SessionObj }> = ({
         <IonToolbar>
           <IonButtons>
             <IonButton>
-              <IonIcon icon={chevronBack} />
+              <IonIcon
+                icon={chevronBack}
+                onClick={() => {
+                  dismissPlugin.dismiss();
+                }}
+              />
               Dashboard
             </IonButton>
           </IonButtons>

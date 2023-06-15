@@ -20,11 +20,13 @@ import {
   createCustomer,
   getCustomersByEmployee,
 } from "../../../supabaseApi/supabaseApi";
-import { Customer, SessionObj } from "../../../supabaseApi/types";
+import { Customer } from "../../../supabaseApi/types";
 import { chevronBack } from "ionicons/icons";
+import { Session } from "../../../supabaseApi/supabaseApi";
+import { dismissPlugin } from "../super-app";
 
 interface CustomerRelationshipManagementProps {
-  session: SessionObj;
+  session: Session;
 }
 
 const CustomerRelationshipManagement: React.FC<
@@ -59,7 +61,12 @@ const CustomerRelationshipManagement: React.FC<
         <IonToolbar>
           <IonButtons>
             <IonButton>
-              <IonIcon icon={chevronBack} />
+              <IonIcon
+                icon={chevronBack}
+                onClick={() => {
+                  dismissPlugin.dismiss();
+                }}
+              />
               Dashboard
             </IonButton>
           </IonButtons>
