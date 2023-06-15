@@ -17,7 +17,7 @@ struct MiniAppsView: View {
             if vs.apps?.count == 0 {
                 Text("Nothing to see here")
             } else {
-                SkeletonForEach(with: vs.apps ?? [], quantity: 3) { isLoading, app in
+                SkeletonForEach(with: vs.apps ?? [], quantity: 2) { isLoading, app in
                     NavigationLink(state: MiniAppFeature.State(app: app, with: vs.credentials)) {
                         HStack(spacing: 0) {
                             Group {
