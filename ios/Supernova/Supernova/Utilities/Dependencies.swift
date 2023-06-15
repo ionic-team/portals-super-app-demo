@@ -10,6 +10,7 @@ import Supabase
 import PostgREST
 import Dependencies
 import XCTestDynamicOverlay
+import IonicLiveUpdates
 
 private enum ClientKey: DependencyKey {
     static let liveValue: Client = {
@@ -17,6 +18,7 @@ private enum ClientKey: DependencyKey {
         @Dependency(\.clientSecret) var secret
 
         let supabase = SupabaseClient(supabaseURL: url, supabaseKey: secret)
+        var updatesHaveBeenAdded = false
 
         return Client(
             signIn: { email, password in
@@ -36,9 +38,26 @@ private enum ClientKey: DependencyKey {
             },
             getApps: {
                 let session = try await supabase.auth.session
-                return try await supabase.database.rpc(fn: "get_apps", params: ["employee_id": session.user.id])
+                let apps = try await supabase.database.rpc(fn: "get_apps", params: ["employee_id": session.user.id])
                     .execute()
                     .value as [MiniApp]
+
+                let liveUpdates = apps.map {
+                    LiveUpdate(appId: $0.appFlowId, channel: "production", syncOnAdd: false)
+                }
+
+                if !updatesHaveBeenAdded {
+                    updatesHaveBeenAdded = true
+                    try LiveUpdateManager.shared.add(liveUpdates)
+
+                    await withCheckedContinuation { cont in
+                        LiveUpdateManager.shared.sync {
+                            cont.resume()
+                        }
+                    }
+                }
+
+                return apps
             },
             getNewsFeed: {
                 return try await supabase.database.from("newsfeed")

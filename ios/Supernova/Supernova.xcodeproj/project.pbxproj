@@ -104,6 +104,7 @@
 		A7477F742A1BBCCF00D79747 = {
 			isa = PBXGroup;
 			children = (
+				A79630372A3B80F000F77B73 /* Packages */,
 				A7477F7F2A1BBCCF00D79747 /* Supernova */,
 				A7477F7E2A1BBCCF00D79747 /* Products */,
 				A7E10EDA2A3AB3F900F9D489 /* Frameworks */,
@@ -174,6 +175,13 @@
 				A7E10ECB2A3970FC00F9D489 /* NewsFeature.swift */,
 			);
 			path = News;
+			sourceTree = "<group>";
+		};
+		A79630372A3B80F000F77B73 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		A7999FEA2A1BE59400D08C51 /* Login */ = {
@@ -315,7 +323,6 @@
 				A7F805242A1D61CE0060A74D /* XCRemoteSwiftPackageReference "ionic-portals-ios" */,
 				A757F9BC2A213EEA002A443A /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 				A757F9D42A2E7522002A443A /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
-				A79630332A3AC5A800F77B73 /* XCRemoteSwiftPackageReference "SwiftFormat" */,
 				A79630342A3ACA7600F77B73 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			productRefGroup = A7477F7E2A1BBCCF00D79747 /* Products */;
@@ -628,14 +635,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
-			};
-		};
-		A79630332A3AC5A800F77B73 /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nicklockwood/SwiftFormat";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.51.12;
 			};
 		};
 		A79630342A3ACA7600F77B73 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {

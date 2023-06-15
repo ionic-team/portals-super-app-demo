@@ -7,6 +7,7 @@
 
 import Capacitor
 import IonicPortals
+import IonicLiveUpdates
 
 extension Portal {
     private static let encoder = JSONEncoder()
@@ -28,7 +29,12 @@ extension Portal {
         return Portal(
             name: selectedApp.app.id,
             startDir: "portals/\(selectedApp.app.id)",
-            initialContext: initialContext
+            initialContext: initialContext,
+            liveUpdateConfig: .init(
+                appId: selectedApp.app.appFlowId,
+                channel: "production",
+                syncOnAdd: false
+            )
         )
         .adding(Dismiss(dismiss: dismiss))
         .adding(WebVitalsPlugin { _, _ in Task.detached { await onLoad() } })

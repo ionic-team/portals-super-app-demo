@@ -22,10 +22,18 @@ struct MiniAppView: View {
                     vs.send(.fadeIn, animation: .linear(duration: 0.25))
                 }
             ) {$0.webView?.isInspectable = true}
-            .onAppear { vs.send(.hideNavBar) }
+            .onAppear {
+                vs.send(.hideNavBar)
+                vs.send(.showSpinner)
+            }
             .toolbar(vs.hideNavBar ? .hidden : .automatic, for: .navigationBar)
             .ignoresSafeArea()
             .opacity(vs.fadeIn ? 1.0 : 0.0)
+            .overlay(alignment: .center) {
+                if vs.showSpinner {
+                    ProgressView()
+                }
+            }
         }
     }
 }

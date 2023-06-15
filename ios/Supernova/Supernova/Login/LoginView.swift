@@ -27,11 +27,11 @@ struct LoginView: View {
                     LoginPair(
                         email: vs.binding(
                             get: \.email,
-                            send: LoginAction.setEmail
+                            send: LoginFeature.Action.setEmail
                         ),
                         password: vs.binding(
                             get: \.password,
-                            send: LoginAction.setPassword
+                            send: LoginFeature.Action.setPassword
                         )
                     )
 

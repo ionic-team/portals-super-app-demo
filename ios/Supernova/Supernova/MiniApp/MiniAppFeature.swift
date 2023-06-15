@@ -15,12 +15,14 @@ struct MiniAppFeature: ReducerProtocol {
         let credentials: Credentials
         var id: UInt?
         var hideNavBar = false
-        var fadeIn = false
+        var fadeIn = true
+        var showSpinner = false
     }
 
     enum Action {
         case dismiss
         case hideNavBar
+        case showSpinner
         case fadeIn
     }
 
@@ -31,12 +33,18 @@ struct MiniAppFeature: ReducerProtocol {
                 await dismiss()
             }
 
+        case .showSpinner:
+            state.showSpinner = true
+            state.fadeIn = false
+            return .none
+
         case .hideNavBar:
             state.hideNavBar = true
             return .none
 
         case .fadeIn:
             state.fadeIn = true
+            state.showSpinner = false
             return .none
         }
     }
