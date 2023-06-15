@@ -1,8 +1,5 @@
-import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
 import { useEffect, useState } from "react";
-import Home from "./pages/Home";
 import TimeTrackingContractor from "./components/TimeTrackingContractor";
 import TimeTrackingManager from "./components/TimeTrackingManager";
 

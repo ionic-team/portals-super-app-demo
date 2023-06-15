@@ -60,13 +60,12 @@ const CustomerRelationshipManagement: React.FC<
       <IonHeader>
         <IonToolbar>
           <IonButtons>
-            <IonButton>
-              <IonIcon
-                icon={chevronBack}
-                onClick={() => {
-                  dismissPlugin.dismiss();
-                }}
-              />
+            <IonButton
+              onClick={() => {
+                dismissPlugin.dismiss();
+              }}
+            >
+              <IonIcon icon={chevronBack} />
               Dashboard
             </IonButton>
           </IonButtons>
