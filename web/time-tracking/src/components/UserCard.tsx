@@ -1,11 +1,11 @@
-import { IonAvatar, IonIcon, IonItem, IonLabel, IonText } from "@ionic/react";
-import { add, arrowForward } from "ionicons/icons";
+import { IonAvatar, IonItem, IonLabel } from "@ionic/react";
 
 interface UserCardProps {
   firstName: string;
   lastName: string;
   primaryDetail: string;
   secondaryDetail?: string;
+  isButton: boolean;
   onClick?: () => void;
 }
 
@@ -14,6 +14,7 @@ const UserCard: React.FC<UserCardProps> = ({
   lastName,
   primaryDetail,
   secondaryDetail,
+  isButton,
   onClick,
 }) => {
   const getInitials = (firstName: string, lastName: string) => {
@@ -44,29 +45,29 @@ const UserCard: React.FC<UserCardProps> = ({
   };
 
   return (
-    <IonItem button onClick={onClick}>
+    <IonItem button={isButton} onClick={onClick}>
       <IonAvatar
         slot="start"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          "background-color": generateColor(),
+          backgroundColor: generateColor(),
         }}
       >
         {initials}
       </IonAvatar>
       <IonLabel>
-        <IonLabel style={{ "fontSize": "17px", "fontWeight": "600" }}>
+        <IonLabel style={{ fontSize: "17px", fontWeight: "600" }}>
           {firstName + " " + lastName}
         </IonLabel>
-        <IonLabel style={{ "fontSize": "15px", "fontWeight": "400" }}>
+        <IonLabel style={{ fontSize: "15px", fontWeight: "400" }}>
           {primaryDetail}
         </IonLabel>
         <IonLabel
           style={{
-            "fontSize": "13px",
-            "fontWeight": "400",
+            fontSize: "13px",
+            fontWeight: "400",
             color: "#808080",
           }}
         >

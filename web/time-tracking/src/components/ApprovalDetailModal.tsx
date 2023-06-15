@@ -12,7 +12,7 @@ import {
   IonFooter,
   IonIcon,
 } from "@ionic/react";
-import UserCard from "../../../human-resources/src/components/UserCard";
+import UserCard from "./UserCard";
 import { chevronBack } from "ionicons/icons";
 import { TimesheetApproval } from "../../../supabaseApi/types";
 

@@ -21,7 +21,6 @@ import {
   IonListHeader,
 } from "@ionic/react";
 import { TimesheetApproval } from "../../../supabaseApi/types";
-import UserCard from "./UserCard";
 import { chevronBack } from "ionicons/icons";
 import { getPendingTimesheetApprovals } from "../../../supabaseApi/supabaseApi";
 import TimesheetItem from "./TimeEntryItem";

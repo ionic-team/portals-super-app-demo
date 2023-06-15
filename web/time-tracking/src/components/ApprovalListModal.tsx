@@ -7,14 +7,8 @@ import {
   IonTitle,
   IonContent,
   IonList,
-  IonItem,
-  IonLabel,
-  IonDatetimeButton,
-  IonDatetime,
-  IonNote,
-  IonFooter,
 } from "@ionic/react";
-import UserCard from "../../../human-resources/src/components/UserCard";
+import UserCard from "./UserCard";
 import { TimesheetApproval } from "../../../supabaseApi/types";
 import { useState } from "react";
 import ApprovalDetailModal from "./ApprovalDetailModal";
