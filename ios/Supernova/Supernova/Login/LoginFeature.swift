@@ -16,7 +16,7 @@ struct LoginFeature: ReducerProtocol {
     @Dependency(\.client.signIn) var signin
     @Dependency(\.client.signout) var signout
     @Dependency(\.client.existingSession) var existingSession
-    
+
     enum LoginStatus {
         case loggedOut, loggedIn, inProcess
     }
@@ -25,12 +25,12 @@ struct LoginFeature: ReducerProtocol {
         var loginStatus: LoginStatus = .inProcess
         var email: String = ""
         var password: String = ""
-        
+
         var isLoggedOut: Bool {
             loginStatus == .loggedOut
         }
     }
-   
+
     enum Action {
         case login
         case setEmail(String)
@@ -40,14 +40,13 @@ struct LoginFeature: ReducerProtocol {
         case logout
         case useCurrentSessionIfAvailable
     }
-    
-    
+
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .setEmail(let email):
             state.email = email
             return .none
-            
+
         case .setPassword(let password):
             state.password = password
             return .none
@@ -63,15 +62,15 @@ struct LoginFeature: ReducerProtocol {
                     await send(.loginFailed)
                 }
             }
-            
+
         case .loginFailed:
             state.loginStatus = .loggedOut
             return .none
-        
+
         case .loginSucceeded:
             state.loginStatus = .loggedIn
             return .none
-            
+
         case .logout:
             state.loginStatus = .loggedOut
             state.password = ""
@@ -79,13 +78,13 @@ struct LoginFeature: ReducerProtocol {
             return .run { _ in
                 try await signout()
             }
-        
+
         case .useCurrentSessionIfAvailable:
             return .run { send in
                 guard let session = await existingSession() else {
                     return await send(.loginFailed)
                 }
-                
+
                 await send(.loginSucceeded(sessionToken: session.accessToken, refreshToken: session.refreshToken))
             }
         }

@@ -8,10 +8,9 @@
 import SwiftUI
 import ComposableArchitecture
 
-
 struct AppView: View {
     let store: StoreOf<AppFeature>
-    
+
     var body: some View {
         NavigationStackStore(store.scope(state: \.dashboardState.path, action: { .dashboardAction(.path($0)) })) {
             WithViewStore(store, observe: \.loginState.isLoggedOut) { vs in

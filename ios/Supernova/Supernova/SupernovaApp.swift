@@ -13,22 +13,17 @@ import Dependencies
 @main
 struct SupernovaApp: App {
     init() {
-        PortalsRegistrationManager.shared.register(key:"YOUR_KEY_HERE")
+        PortalsRegistrationManager.shared.register(key: "YOUR_KEY_HERE")
     }
 
     var body: some Scene {
         WindowGroup {
-            withDependencies { dependencies in
-                dependencies.clientUrl = "http://0.0.0.0:54321"
-            } operation: {
-                AppView(
-                    store: Store(initialState: .init()) {
-                        AppFeature()
-                    }
-                )
-            }
-
+            AppView(
+                store: Store(initialState: .init()) {
+                    AppFeature()
+                        .dependency(\.clientUrl, "http://0.0.0.0:54321")
+                }
+            )
         }
     }
 }
-

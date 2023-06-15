@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct DashboardView: View {
     let store: StoreOf<DashboardFeature>
-    
+
     var body: some View {
         List {
             Section {
@@ -21,7 +21,7 @@ struct DashboardView: View {
                     )
                 )
             }
-            
+
             Section {
                 EventsView(
                     store: store.scope(
@@ -36,7 +36,7 @@ struct DashboardView: View {
                 }
                 .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 0))
             }
-            
+
             Section {
                 NewsFeedView(
                     store: store.scope(
@@ -77,4 +77,3 @@ struct DashboardView_Previews: PreviewProvider {
         }
     }
 }
-

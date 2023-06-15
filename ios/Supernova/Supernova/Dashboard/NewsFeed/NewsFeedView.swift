@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 struct NewsFeedView: View {
     let store: StoreOf<NewsFeedFeature>
-    
+
     var body: some View {
         WithViewStore(store) { vs in
             if vs.feed?.count == 0 {
@@ -22,18 +22,18 @@ struct NewsFeedView: View {
                         Image.news
                             .resizableAndScaledToFit()
                             .frame(width: 20, height: 20)
-                        
+
                         Spacer()
                             .frame(minWidth: 8, maxWidth: 12)
-                        
+
                         Text(item?.title)
                             .skeleton(with: isLoading)
                             .shape(type: .rounded(.radius(20, style: .continuous)))
                             .frame(maxHeight: isLoading ? 20 : .infinity)
                     }
                     .frame(maxHeight: 46)
-                    .alignmentGuide(.listRowSeparatorLeading) { d in
-                        d[.leading]
+                    .alignmentGuide(.listRowSeparatorLeading) { dimension in
+                        dimension[.leading]
                     }
                     .background(
                         Button {

@@ -15,9 +15,9 @@ private enum ClientKey: DependencyKey {
     static let liveValue: Client = {
         @Dependency(\.clientUrl) var url
         @Dependency(\.clientSecret) var secret
-        
+
         let supabase = SupabaseClient(supabaseURL: url, supabaseKey: secret)
-        
+
         return Client(
             signIn: { email, password in
                 let session = try await supabase.auth.signIn(email: email, password: password)
@@ -53,16 +53,16 @@ private enum ClientKey: DependencyKey {
                 var events = try await supabase.database.rpc(fn: "get_events", params: ["employee_id": session.user.id])
                     .execute()
                     .value as [Event]
-                
+
                 for idx in events.indices {
                     events[idx].miniApp = apps.first { $0.id == events[idx].kind.type }
                 }
-                
+
                 return events
             }
         )
     }()
-    
+
     static let testValue = Client(
         signIn: unimplemented(),
         existingSession: unimplemented(),
@@ -71,12 +71,12 @@ private enum ClientKey: DependencyKey {
         getNewsFeed: unimplemented(),
         getEvents: unimplemented()
     )
-    
+
     static let previewValue: Client = {
         // We want to be able to simulate network latency for the preview
         @Dependency(\.continuousClock) var clock
         return Client(
-            signIn: { email, password in
+            signIn: { email, _ in
                 try await clock.sleep(for: .seconds(1))
                 print("Signed in \(email)")
                 return ("accessToken", "refreshToken")
@@ -152,6 +152,7 @@ private enum ClientUrlKey: DependencyKey {
 }
 
 private enum ClientSecretKey: DependencyKey {
+    // swiftlint:disable:next line_length
     static let liveValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
     static let testValue = "testsecret"
     static let previewValue = testValue
@@ -162,18 +163,17 @@ extension DependencyValues {
         get { self[ClientKey.self] }
         set { self[ClientKey.self] = newValue }
     }
-    
+
     var clientUrl: URL {
         get { self[ClientUrlKey.self] }
         set { self[ClientUrlKey.self] = newValue }
     }
-    
+
     var clientSecret: String {
         get { self[ClientSecretKey.self] }
         set { self[ClientSecretKey.self] = newValue }
     }
 }
-
 
 struct Client {
     var signIn: (_ email: String, _ password: String) async throws -> (acessToken: String, refreshToken: String)

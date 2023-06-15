@@ -10,8 +10,8 @@ import SwiftUI
 
 struct Event: Equatable {
     enum Kind: Equatable {
-        case time(UInt), hr(UInt), perks(UInt)
-        
+        case time(UInt), hr(UInt), perks(UInt), crm(UInt)
+
         var id: UInt {
             switch self {
             case let .time(id):
@@ -20,9 +20,11 @@ struct Event: Equatable {
                 return id
             case let .perks(id):
                 return id
+            case let .crm(id):
+                return id
             }
         }
-        
+
         var type: String {
             switch self {
             case .time:
@@ -31,14 +33,16 @@ struct Event: Equatable {
                 return "hr"
             case .perks:
                 return "perks"
+            case .crm:
+                return "crm"
             }
         }
     }
-    
+
     var title: String
     var kind: Kind
     var read: Bool
-    var miniApp: MiniApp? = nil
+    var miniApp: MiniApp?
 }
 
 extension Event: Identifiable {
@@ -46,6 +50,12 @@ extension Event: Identifiable {
 }
 
 extension Event: Codable {
+    private struct KindError: Error, LocalizedError {
+        var errorDescription: String? {
+            "The event kind could not be decoded"
+        }
+    }
+
     enum CodingKeys: CodingKey {
         case id, fk, type, read, description
     }
@@ -56,7 +66,7 @@ extension Event: Codable {
         let fk = try container.decode(UInt.self, forKey: .fk)
 
         let kind: Kind
-        
+
         switch type {
         case "time":
             kind = .time(fk)
@@ -64,15 +74,17 @@ extension Event: Codable {
             kind = .perks(fk)
         case "hr":
             kind = .hr(fk)
+        case "crm":
+            kind = .crm(fk)
         default:
-            throw NSError()
+            throw KindError()
         }
-        
+
         self.kind = kind
         self.title = try container.decode(String.self, forKey: .description)
         self.read = try container.decode(Bool.self, forKey: .read)
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(read, forKey: .read)

@@ -16,7 +16,7 @@ struct DashboardFeature: ReducerProtocol {
         @PresentationState
         var newsItem: NewsItem?
     }
-    
+
     enum Action {
         case appsAction(MiniAppsFeature.Action)
         case newsAction(NewsFeedFeature.Action)
@@ -28,20 +28,20 @@ struct DashboardFeature: ReducerProtocol {
         case reset
         case logoutButtonTapped
     }
-    
+
     var body: some ReducerProtocolOf<Self> {
         Scope(state: \.appsState, action: /Action.appsAction) {
             MiniAppsFeature()
         }
-        
+
         Scope(state: \.eventsState, action: /Action.eventsAction) {
             EventsFeature()
         }
-        
+
         Scope(state: \.newsState, action: /Action.newsAction) {
             NewsFeedFeature()
         }
-        
+
         Reduce { state, action in
             switch action {
             case .fetchAll:
@@ -50,22 +50,22 @@ struct DashboardFeature: ReducerProtocol {
                     await send(.eventsAction(.fetchEvents))
                     await send(.newsAction(.fetchNewsFeed))
                 }
-                
+
             case let .authorizedUser(credentials):
                 state.appsState.credentials = credentials
                 state.eventsState.credentials = credentials
                 return .none
-                
+
             case .reset:
                 state.appsState = MiniAppsFeature.State()
                 state.newsState = NewsFeedFeature.State()
                 state.eventsState = EventsFeature.State()
                 return .none
-                
+
             case let .newsAction(.newsItemSelected(item)):
                 state.newsItem = item
                 return .none
-                
+
             case .path, .logoutButtonTapped, .present, .appsAction, .eventsAction, .newsAction:
                 return .none
             }

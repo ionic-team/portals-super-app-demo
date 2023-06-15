@@ -13,4 +13,3 @@ extension Image {
             .scaledToFit()
     }
 }
-

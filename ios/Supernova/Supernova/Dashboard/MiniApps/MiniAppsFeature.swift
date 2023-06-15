@@ -9,17 +9,17 @@ import ComposableArchitecture
 
 struct MiniAppsFeature: ReducerProtocol {
     @Dependency(\.client.getApps) var getApps
-    
+
     struct State: Equatable {
-        var apps: [MiniApp]? = nil
-        var credentials: Credentials? = nil
+        var apps: [MiniApp]?
+        var credentials: Credentials?
     }
-    
+
     enum Action {
         case fetchApps
         case appsReceived([MiniApp])
     }
-    
+
     var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
@@ -28,7 +28,7 @@ struct MiniAppsFeature: ReducerProtocol {
                     let apps = try await getApps()
                     await send(.appsReceived(apps), animation: .linear)
                 }
-                
+
             case .appsReceived(let apps):
                 state.apps = apps
                 return .none

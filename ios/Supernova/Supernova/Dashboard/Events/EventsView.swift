@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 struct EventsView: View {
     let store: StoreOf<EventsFeature>
-    
+
     var body: some View {
         WithViewStore(store) { vs in
             if vs.events?.count == 0 {
@@ -31,10 +31,10 @@ struct EventsView: View {
                             }
                         }
                         .frame(width: 20, height: 20)
-                        
+
                         Spacer()
                             .frame(minWidth: 8, maxWidth: 12)
-                        
+
                         Text(event?.title)
                             .skeleton(with: isLoading)
                             .frame(maxHeight: isLoading ? 20 : .infinity)
@@ -42,12 +42,19 @@ struct EventsView: View {
                             .foregroundColor(event?.read ?? false ? .primary.opacity(0.6) : .primary)
                     }
                     .frame(height: 36)
-                    .alignmentGuide(.listRowSeparatorLeading) { d in
-                        d[.leading]
+                    .alignmentGuide(.listRowSeparatorLeading) { dimension in
+                        dimension[.leading]
                     }
                     .background(
-                        NavigationLink(state: MiniAppFeature.State(app: event?.miniApp, with: vs.credentials, for: event?.kind.id)) {}
-                            .opacity(0)
+                        NavigationLink(
+                            state: MiniAppFeature.State(
+                                app: event?.miniApp,
+                                with: vs.credentials,
+                                for: event?.kind.id
+                            ),
+                            label: {}
+                        )
+                        .opacity(0)
                     )
                 }
             }
@@ -64,6 +71,8 @@ extension Event {
             return .hr
         case .perks:
             return .perks
+        case .crm:
+            return .lock
         }
     }
 }

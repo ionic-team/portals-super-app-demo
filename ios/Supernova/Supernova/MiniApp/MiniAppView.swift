@@ -12,7 +12,7 @@ import SwiftUI
 
 struct MiniAppView: View {
     let store: StoreOf<MiniAppFeature>
-    
+
     var body: some View {
         WithViewStore(store) { vs in
             PortalView(
@@ -21,7 +21,7 @@ struct MiniAppView: View {
                 } onLoad: { @MainActor in
                     vs.send(.fadeIn, animation: .linear(duration: 0.25))
                 }
-            ){$0.webView?.isInspectable = true}
+            ) {$0.webView?.isInspectable = true}
             .onAppear { vs.send(.hideNavBar) }
             .toolbar(vs.hideNavBar ? .hidden : .automatic, for: .navigationBar)
             .ignoresSafeArea()

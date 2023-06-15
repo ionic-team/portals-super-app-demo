@@ -10,10 +10,9 @@ import Supabase
 import ComposableArchitecture
 import Dependencies
 
-
 struct LoginView: View {
     let store: StoreOf<LoginFeature>
-    
+
     var body: some View {
         WithViewStore(store) { vs in
             VStack {
@@ -24,7 +23,7 @@ struct LoginView: View {
                 VStack(alignment: .leading) {
                     Text("Log in")
                         .font(.system(size: 34, weight: .bold, design: .default))
-                    
+
                     LoginPair(
                         email: vs.binding(
                             get: \.email,
@@ -35,7 +34,7 @@ struct LoginView: View {
                             send: LoginAction.setPassword
                         )
                     )
-                    
+
                     Button {
                         vs.send(.login, animation: .linear)
                     } label: {
@@ -57,7 +56,7 @@ struct LoginView: View {
                     .font(.system(size: 17, weight: .semibold, design: .rounded))
                 }
                 .padding([.leading, .trailing], 32)
-                
+
                 Spacer()
             }
         }
@@ -121,7 +120,7 @@ struct LoginPair: View {
                 .keyboardType(.emailAddress)
             }
             .modifier(LoginModifier())
-            
+
             Spacer()
                 .frame(height: 20)
 

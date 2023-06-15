@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 struct MiniAppsView: View {
     var store: StoreOf<MiniAppsFeature>
-    
+
     var body: some View {
         WithViewStore(store) { vs in
             if vs.apps?.count == 0 {
@@ -30,24 +30,23 @@ struct MiniAppsView: View {
                                 }
                             }
                             .frame(width: 32, height: 32)
-                            
+
                             Spacer()
                                 .frame(minWidth: 8, maxWidth: 23)
-                            
+
                             Text(app?.name ?? "")
                                 .skeleton(with: isLoading)
                                 .frame(maxHeight: isLoading ? 32 : .infinity)
                                 .font(.system(size: 17, weight: .semibold))
                         }
                         .padding([.top, .bottom], 3)
-                        .alignmentGuide(.listRowSeparatorLeading) { d in
-                            d[.leading]
+                        .alignmentGuide(.listRowSeparatorLeading) { dimension in
+                            dimension[.leading]
                         }
                     }
                     .buttonStyle(.plain)
                 }
             }
-            
         }
     }
 }
