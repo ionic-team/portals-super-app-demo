@@ -34,6 +34,7 @@ private enum ClientKey: DependencyKey {
                 }
             },
             signout: {
+                updatesHaveBeenAdded = false
                 try await supabase.auth.signOut()
             },
             getApps: {
@@ -50,10 +51,11 @@ private enum ClientKey: DependencyKey {
                     updatesHaveBeenAdded = true
                     try LiveUpdateManager.shared.add(liveUpdates)
 
-                    await withCheckedContinuation { cont in
-                        LiveUpdateManager.shared.sync {
-                            cont.resume()
-                        }
+                }
+
+                await withCheckedContinuation { cont in
+                    LiveUpdateManager.shared.sync {
+                        cont.resume()
                     }
                 }
 
