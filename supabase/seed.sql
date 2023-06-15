@@ -77,3 +77,18 @@ INSERT INTO public.apps
 (id, name, appflow_id, role_access)
 VALUES
 ('crm', 'Customer Relations', 'jkl012', array['sales']);
+
+INSERT INTO public.perks
+(created_at, giver, receiver, amount, reason)
+VALUES
+('2023-06-01 13:10:31.458239+00', '2881fea5-2f8e-478c-85c1-03077d0b41a8', '59ce5d8a-5cad-4658-9ae0-c8d335543201', 20, 'the CLI bug fix');
+
+INSERT INTO public.perks
+(created_at, giver, receiver, amount, reason)
+VALUES
+('2023-06-10 13:10:31.458239+00', 'cbe724e3-3d97-48e1-a7f2-9eafbe6e35ab', '2881fea5-2f8e-478c-85c1-03077d0b41a8', 50, 'writing great code');
+
+INSERT INTO public.perks
+(created_at, giver, receiver, amount, reason)
+VALUES
+('2023-06-12 13:10:31.458239+00', '59ce5d8a-5cad-4658-9ae0-c8d335543201', '2881fea5-2f8e-478c-85c1-03077d0b41a8', 100, 'being really nice');
