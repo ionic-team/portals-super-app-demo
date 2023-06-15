@@ -90,7 +90,7 @@ const TimeTrackingContractor: React.FC<{ session: Session }> = ({
           </IonButtons>
           <IonTitle>Time Tracking</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={() => setShowModal(true)}>
+            <IonButton>
               <IonIcon icon={add}></IonIcon>
             </IonButton>
           </IonButtons>
