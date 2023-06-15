@@ -7,26 +7,23 @@
 
 import ComposableArchitecture
 
-typealias MiniAppState = MiniAppFeature.State
-typealias MiniAppAction = MiniAppFeature.Action
-
 struct MiniAppFeature: ReducerProtocol {
     @Dependency(\.dismiss) private var dismiss
 
     struct State: Equatable {
         let app: MiniApp
         let credentials: Credentials
-        var id: UInt? = nil
+        var id: UInt?
         var hideNavBar = false
         var fadeIn = false
     }
-    
+
     enum Action {
         case dismiss
         case hideNavBar
         case fadeIn
     }
-    
+
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .dismiss:
@@ -37,7 +34,7 @@ struct MiniAppFeature: ReducerProtocol {
         case .hideNavBar:
             state.hideNavBar = true
             return .none
-            
+
         case .fadeIn:
             state.fadeIn = true
             return .none
@@ -45,3 +42,9 @@ struct MiniAppFeature: ReducerProtocol {
     }
 }
 
+extension MiniAppFeature.State {
+    init?(app: MiniApp?, with credentials: Credentials?, for id: UInt? = nil) {
+        guard let app, let credentials else { return nil }
+        self.init(app: app, credentials: credentials, id: id)
+    }
+}

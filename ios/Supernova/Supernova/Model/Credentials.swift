@@ -12,7 +12,7 @@ struct Credentials: Encodable, Hashable {
     var url: URL
     var accessToken: String
     var refreshToken: String
-    
+
     init(accessToken: String, refreshToken: String) {
         @Dependency(\.clientUrl) var url
         self.url = url

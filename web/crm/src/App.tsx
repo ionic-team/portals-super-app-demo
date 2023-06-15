@@ -1,8 +1,6 @@
-import { IonApp, IonButton, setupIonicReact } from "@ionic/react";
-import { useState } from "react";
-import userList from "../../supabaseApi/users.json";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import CustomerRelationshipManagement from "./components/CustomerRelationshipManagement";
-import { Customer, SessionObj } from "../../supabaseApi/types";
+import userList from "../../supabaseApi/users.json";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -22,14 +20,38 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import { useEffect, useState } from "react";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "../../supabaseApi/supabaseApi";
+import { initialContext } from "./super-app";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const user = userList[0];
-  const [session, setSession] = useState<SessionObj>({
-    user,
-  });
+  const [session, setSession] = useState<Session | null>();
+
+  useEffect(() => {
+    supabase.auth
+      .setSession({
+        access_token: initialContext.supabase.accessToken,
+        refresh_token: initialContext.supabase.refreshToken,
+      })
+      .then(({ data }) => {
+        setSession(data.session);
+      });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (!session) {
+    return <></>;
+  }
 
   return (
     <IonApp>

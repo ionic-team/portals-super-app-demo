@@ -7,97 +7,74 @@
 
 import ComposableArchitecture
 
-typealias DashboardState = DashboardFeature.State
-typealias DashboardAction = DashboardFeature.Action
-
 struct DashboardFeature: ReducerProtocol {
-    @Dependency(\.client.getApps) var getApps
-    @Dependency(\.client.getNewsFeed) var getNewsFeed
-    @Dependency(\.client.getEvents) var getEvents
-    
     struct State: Equatable {
-        var apps: [MiniApp]?
-        var newsFeed: [NewsItem]?
-        var events: [Event]?
-        var credentials: Credentials?
-        var path = StackState<MiniAppState>()
+        var appsState = MiniAppsFeature.State()
+        var newsState = NewsFeedFeature.State()
+        var eventsState = EventsFeature.State()
+        var path = StackState<MiniAppFeature.State>()
+        @PresentationState
+        var newsItem: NewsItem?
     }
-    
-    
+
     enum Action {
-        case appsReceived([MiniApp])
-        case newsFeedReceived([NewsItem])
-        case eventsReceived([Event])
+        case appsAction(MiniAppsFeature.Action)
+        case newsAction(NewsFeedFeature.Action)
+        case eventsAction(EventsFeature.Action)
         case authorizedUser(Credentials?)
-        case path(StackAction<MiniAppState, MiniAppAction>)
+        case path(StackAction<MiniAppFeature.State, MiniAppFeature.Action>)
+        case present(PresentationAction<Never>)
         case fetchAll
-        case fetchApps
-        case fetchNewsFeed
-        case fetchEvents
         case reset
         case logoutButtonTapped
     }
-    
+
     var body: some ReducerProtocolOf<Self> {
+        Scope(state: \.appsState, action: /Action.appsAction) {
+            MiniAppsFeature()
+        }
+
+        Scope(state: \.eventsState, action: /Action.eventsAction) {
+            EventsFeature()
+        }
+
+        Scope(state: \.newsState, action: /Action.newsAction) {
+            NewsFeedFeature()
+        }
+
         Reduce { state, action in
             switch action {
             case .fetchAll:
                 return .run(priority: .userInitiated) { send in
-                    await send(.fetchApps)
-                    await send(.fetchEvents)
-                    await send(.fetchNewsFeed)
+                    await send(.appsAction(.fetchApps))
+                    await send(.eventsAction(.fetchEvents))
+                    await send(.newsAction(.fetchNewsFeed))
                 }
-                
-            case .fetchEvents:
-                return .run(priority: .userInitiated) { send in
-                    print("getting events")
-                    let events = try await getEvents()
-                    await send(.eventsReceived(events), animation: .linear)
-                }
-                
-            case .fetchApps:
-                return .run(priority: .userInitiated) { send in
-                    print("getting apps")
-                    let apps = try await getApps()
-                    await send(.appsReceived(apps), animation: .linear)
-                }
-                
-            case .fetchNewsFeed:
-                return .run(priority: .userInitiated) { send in
-                    print("getting news")
-                    let news = try await getNewsFeed()
-                    await send(.newsFeedReceived(news), animation: .linear)
-                }
-                
-            case let .appsReceived(apps):
-                state.apps = apps
-                return .none
-                
-            case let .newsFeedReceived(newsFeed):
-                state.newsFeed = newsFeed
-                return .none
-                
-            case let .eventsReceived(events):
-                state.events = events
-                return .none
-                
+
             case let .authorizedUser(credentials):
-                state.credentials = credentials
+                state.appsState.credentials = credentials
+                state.eventsState.credentials = credentials
                 return .none
-                
+
             case .reset:
-                state.apps = nil
-                state.events = nil
-                state.newsFeed = nil
+                state.appsState = MiniAppsFeature.State()
+                state.newsState = NewsFeedFeature.State()
+                state.eventsState = EventsFeature.State()
                 return .none
-                
-            case .path, .logoutButtonTapped:
+
+            case let .newsAction(.newsItemSelected(item)):
+                state.newsItem = item
+                return .none
+
+            case .path, .logoutButtonTapped, .present, .appsAction, .eventsAction, .newsAction:
                 return .none
             }
         }
         .forEach(\.path, action: /Action.path) {
             MiniAppFeature()
         }
+        .ifLet(\.$newsItem, action: /Action.present) {
+            NewsFeature()
+        }
     }
 }
-

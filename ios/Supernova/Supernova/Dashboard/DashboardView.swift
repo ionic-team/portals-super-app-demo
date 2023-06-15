@@ -6,44 +6,60 @@
 //
 
 import SwiftUI
-import SkeletonUI
 import ComposableArchitecture
 
 struct DashboardView: View {
     let store: StoreOf<DashboardFeature>
-    
+
     var body: some View {
-        WithViewStore(store) { vs in
-            List {
-                Section {
-                    MiniAppsView(miniApps: vs.apps, credentials: vs.credentials)
-                }
-                
-                Section {
-                    EventsView(events: vs.events, credentials: vs.credentials)
-                } header: {
-                    HStack {
-                        Text("Recent Activity")
-                            .font(.system(size: 22, weight: .bold))
-                    }
-                    .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 0))
-                }
-                
-                Section {
-                    NewsFeedView(newsFeed: vs.newsFeed)
-                } header: {
-                    HStack {
-                        Text("Newsfeed")
-                            .font(.system(size: 22, weight: .bold))
-                    }
-                    .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 0))
-                }
+        List {
+            Section {
+                MiniAppsView(
+                    store: store.scope(
+                        state: \.appsState,
+                        action: DashboardFeature.Action.appsAction
+                    )
+                )
             }
-            .listRowBackground(Color.pink)
-            .background(Color.pink)
-            .listStyle(.insetGrouped)
-            .headerProminence(.increased)
-            .navigationTitle("Dashboard")
+
+            Section {
+                EventsView(
+                    store: store.scope(
+                        state: \.eventsState,
+                        action: DashboardFeature.Action.eventsAction
+                    )
+                )
+            } header: {
+                HStack {
+                    Text("Recent Activity")
+                        .font(.system(size: 22, weight: .bold))
+                }
+                .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 0))
+            }
+
+            Section {
+                NewsFeedView(
+                    store: store.scope(
+                        state: \.newsState,
+                        action: DashboardFeature.Action.newsAction
+                    )
+                )
+            } header: {
+                HStack {
+                    Text("Newsfeed")
+                        .font(.system(size: 22, weight: .bold))
+                }
+                .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 0))
+            }
+        }
+        .listRowBackground(Color.pink)
+        .background(Color.pink)
+        .listStyle(.insetGrouped)
+        .headerProminence(.increased)
+        .navigationTitle("Dashboard")
+        .sheet(store: store.scope(state: \.$newsItem, action: { .present($0) })) { store in
+            NewsItemView(store: store)
+                .padding([.top, .leading, .trailing])
         }
     }
 }
@@ -61,4 +77,3 @@ struct DashboardView_Previews: PreviewProvider {
         }
     }
 }
-

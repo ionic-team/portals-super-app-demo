@@ -4,6 +4,7 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
   --supernova-red: #fd686a;
+  --supernova-light-red: #ffedee;
   --supernova-yellow: #fbb82c;
   --supernova-green: #105152;
   --supernova-teal: #00c1ba;
@@ -20,9 +21,9 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-tint: #4c8dff;
 
   /** secondary **/
-  --ion-color-secondary: var(--supernova-yellow);
+  --ion-color-secondary: var(--supernova-light-red);
   --ion-color-secondary-rgb: 61, 194, 255;
-  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast: var(--supernova-red);
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #36abe0;
   --ion-color-secondary-tint: #50c8ff;

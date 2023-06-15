@@ -10,14 +10,15 @@ import IonicPortals
 
 extension Portal {
     private static let encoder = JSONEncoder()
+
     static func create(
-        from selectedApp: MiniAppState,
-        dismiss: @escaping () -> Void,
-        onLoad: @escaping () -> Void
+        from selectedApp: MiniAppFeature.State,
+        dismiss: @escaping () async -> Void,
+        onLoad: @escaping () async -> Void
     ) -> Portal {
         let creds = (try? encoder.encodeJsObject(selectedApp.credentials)) ?? [:]
         var initialContext: [String: JSValue] = [
-            "supabase": creds,
+            "supabase": creds
         ]
 
         if let resourceId = selectedApp.id {
@@ -30,7 +31,7 @@ extension Portal {
             initialContext: initialContext
         )
         .adding(Dismiss(dismiss: dismiss))
-        .adding(WebVitalsPlugin { _, _ in onLoad() })
+        .adding(WebVitalsPlugin { _, _ in Task.detached { await onLoad() } })
     }
 }
 
@@ -40,24 +41,18 @@ private class Dismiss: CAPInstancePlugin, CAPBridgedPlugin {
     let pluginMethods: [CAPPluginMethod] = [
         .init(name: "dismiss", returnType: CAPPluginReturnPromise)
     ]
-    
-    private let _dismiss: () -> Void
-    
-    init(dismiss: @escaping () -> Void) {
+
+    private let _dismiss: () async -> Void
+
+    init(dismiss: @escaping () async -> Void) {
         _dismiss = dismiss
         super.init()
     }
-    
+
     @objc func dismiss(_ call: CAPPluginCall) {
-        _dismiss()
-        call.resolve()
+        Task.detached { [weak self] in
+            await self?._dismiss()
+            call.resolve()
+        }
     }
 }
-
-extension MiniAppState {
-    init?(app: MiniApp?, with credentials: Credentials?, for id: UInt? = nil) {
-        guard let app, let credentials else { return nil }
-        self.init(app: app, credentials: credentials, id: id)
-    }
-}
-

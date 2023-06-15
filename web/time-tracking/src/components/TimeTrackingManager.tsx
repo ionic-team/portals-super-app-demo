@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -16,39 +16,56 @@ import {
   IonDatetimeButton,
   IonDatetime,
   IonNote,
+  IonIcon,
+  IonLoading,
+  IonListHeader,
 } from "@ionic/react";
-import PreviousTimeEntries from "../PreviousTimeEntries";
-import { SessionObj, Entry } from "../../definitions";
-import times from "../../time-entries.json";
-import UserCard from "../UserCard";
+import { TimesheetApproval } from "../../../supabaseApi/types";
+import UserCard from "./UserCard";
+import { chevronBack } from "ionicons/icons";
+import { getPendingTimesheetApprovals } from "../../../supabaseApi/supabaseApi";
+import TimesheetItem from "./TimeEntryItem";
+import ApprovalListModal from "./ApprovalListModal";
+import { Session } from "../../../supabaseApi/supabaseApi";
+import { dismissPlugin } from "../super-app";
 
 const TimeTrackingManager: React.FC<{
-  session: SessionObj;
+  session: Session;
 }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
+  const [approvals, setApprovals] = useState<TimesheetApproval[]>();
 
-  const handleOpenModal = () => {
-    setShowModal(true);
+  const handleGetTimesheetApprovals = async () => {
+    const approvals = await getPendingTimesheetApprovals(session.user.id);
+    setApprovals(approvals);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
-  const handleApproveTime = () => {
-    setShowModal(false);
-  };
+  useEffect(() => {
+    handleGetTimesheetApprovals();
+  });
 
-  const handleDenyTime = () => {
-    setShowModal(false);
-  };
+  if (!approvals) {
+    return <IonLoading />;
+  }
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton text={"Dashboard"} />
+          <IonButtons>
+            <IonButton>
+              <IonIcon
+                icon={chevronBack}
+                onClick={() => {
+                  dismissPlugin.dismiss();
+                }}
+              />
+              Dashboard
+            </IonButton>
           </IonButtons>
           <IonTitle>Time Tracking</IonTitle>
         </IonToolbar>
@@ -58,90 +75,39 @@ const TimeTrackingManager: React.FC<{
           <IonToolbar>
             <IonTitle size="large">Time Tracking</IonTitle>
           </IonToolbar>
+          <IonButton
+            expand="block"
+            style={{ margin: 16 }}
+            onClick={() => setShowModal(true)}
+          >
+            {`Time Off Requests (${approvals.length})`}
+          </IonButton>
         </IonHeader>
-        <IonButton
-          id="open-modal"
-          expand="block"
-          style={{ margin: "23px 16px 23px 16px" }}
-          onClick={handleOpenModal}
-        >
-          Tracking Requests (0)
-        </IonButton>
-        <PreviousTimeEntries timeEntries={times}></PreviousTimeEntries>
-        <IonModal
-          isOpen={showModal}
-          onDidDismiss={handleCloseModal}
-          showBackdrop={true}
-        >
-          <IonHeader className="ion-no-border ios-no-background">
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonButton onClick={handleCloseModal}>Cancel</IonButton>
-              </IonButtons>
-              <IonTitle>Approve Time</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent>
-            <IonList inset={true}>
-              <UserCard
-                firstName="Trevor"
-                lastName="Lambert"
-                primaryDetail="Contractor"
-                secondaryDetail="8 Hours | DMV"
+        <IonListHeader>Pending Time Entries</IonListHeader>
+        <IonList inset={true}>
+          {approvals.length > 0 ? (
+            approvals.map((approval) => (
+              <TimesheetItem
+                key={approval.time_entry.id}
+                label={approval.customer.name}
+                startTime={approval.time_entry.start_time}
+                endTime={approval.time_entry.end_time}
+                date={approval.time_entry.date}
+                status={approval.time_entry.approval_status}
               />
-            </IonList>
-            <IonList inset={true}>
-              <IonItem>
-                <IonLabel>Start Time</IonLabel>
-                <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
-                <IonModal keepContentsMounted={true}>
-                  <IonDatetime
-                    id="datetime"
-                    value="2023-05-22T01:29"
-                  ></IonDatetime>
-                </IonModal>
-              </IonItem>
-              <IonItem>
-                <IonLabel>End Time</IonLabel>
-                <IonDatetimeButton datetime="datetime2"></IonDatetimeButton>
-                <IonModal keepContentsMounted={true}>
-                  <IonDatetime
-                    id="datetime2"
-                    value="2023-05-22T04:29"
-                  ></IonDatetime>
-                </IonModal>
-              </IonItem>
-              <IonItem>
-                <IonLabel>Total</IonLabel>
-                <IonNote slot="end"> 3 hours</IonNote>
-              </IonItem>
-            </IonList>
-            <IonList inset={true}>
-              <IonItem>
-                <IonLabel>Customer</IonLabel>
-                <IonNote slot="end">Acme Corporation</IonNote>
-              </IonItem>
-            </IonList>
-          </IonContent>
-          <IonFooter>
-            <IonToolbar>
-              <IonButton
-                style={{ "--background-activated": "#fd7568" }}
-                expand="block"
-                onClick={handleApproveTime}
-              >
-                Approve Time
-              </IonButton>
-              <IonButton
-                style={{ "--background": "#FFEDEE", "--color": "#FD686A" }}
-                expand="block"
-                onClick={handleDenyTime}
-              >
-                Deny Time
-              </IonButton>
-            </IonToolbar>
-          </IonFooter>
-        </IonModal>
+            ))
+          ) : (
+            <IonItem>
+              <IonLabel>No Requests!</IonLabel>
+            </IonItem>
+          )}
+        </IonList>
+        <ApprovalListModal
+          showModal={showModal}
+          approvals={approvals}
+          onCloseModal={handleCloseModal}
+          onReloadApprovals={handleGetTimesheetApprovals}
+        />
       </IonContent>
     </IonPage>
   );

@@ -20,6 +20,7 @@
     "@capacitor/status-bar": "5.0.2",
     "@ebay/nice-modal-react": "^1.2.10",
     "@ionic/core": "^7.0.10",
+    "@ionic/portals": "^0.8.1",
     "@ionic/react": "^7.0.10",
     "@ionic/react-router": "^7.0.0",
     "@reduxjs/toolkit": "^1.9.5",

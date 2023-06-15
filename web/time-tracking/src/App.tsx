@@ -1,9 +1,7 @@
 import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { SessionObj, Entry, Event } from "./definitions";
-import { useState } from "react";
-import userList from "./users.json";
+import { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import TimeTrackingContractor from "./components/TimeTrackingContractor";
 import TimeTrackingManager from "./components/TimeTrackingManager";
@@ -26,39 +24,44 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import { Session, supabase } from "../../supabaseApi/supabaseApi";
+import { initialContext } from "./super-app";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const user = userList[0];
-  const [session, setSession] = useState<SessionObj>({
-    user,
-  });
-  const [events, setEvents] = useState<Event[]>([
-    {
-      id: "1",
-      username: "will@ionic.io",
-      src: "time",
-      rel: "timesheet-approved",
-      text: "Timesheet Approved",
-    },
-  ]);
+  const [session, setSession] = useState<Session | null>();
+
+  useEffect(() => {
+    supabase.auth
+      .setSession({
+        access_token: initialContext.supabase.accessToken,
+        refresh_token: initialContext.supabase.refreshToken,
+      })
+      .then(({ data }) => {
+        setSession(data.session);
+      });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (!session) {
+    return <></>;
+  }
 
   return (
     <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route exact path="/time-tracking/contractor">
-            <TimeTrackingContractor session={session} />
-          </Route>
-          <Route exact path="/time-tracking/manager">
-            <TimeTrackingManager session={session} />
-          </Route>
-        </IonRouterOutlet>
-      </IonReactRouter>
+      {session.user.app_metadata.app_role === "manager" ? (
+        <TimeTrackingManager session={session} />
+      ) : (
+        <TimeTrackingContractor session={session} />
+      )}
     </IonApp>
   );
 };
