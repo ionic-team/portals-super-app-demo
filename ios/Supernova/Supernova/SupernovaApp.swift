@@ -19,7 +19,14 @@ struct SupernovaApp: App {
     var body: some Scene {
         WindowGroup {
             AppView(
-                store: Store(initialState: .init()) {
+                store: Store(
+                    initialState: AppFeature.State(
+                        loginState: .init(
+                            email: "jeremiah@supernova.com",
+                            password: "il0vedogs"
+                        )
+                    )
+                ) {
                     AppFeature()
                         .dependency(\.clientUrl, "http://0.0.0.0:54321")
                 }
