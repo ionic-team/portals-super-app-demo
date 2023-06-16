@@ -15,6 +15,10 @@ import {
 import UserCard from "./UserCard";
 import { chevronBack } from "ionicons/icons";
 import { TimesheetApproval } from "../../../supabaseApi/types";
+import {
+  approveTimesheetRequest,
+  rejectTimesheetRequest,
+} from "../../../supabaseApi/supabaseApi";
 
 interface ApprovalDetailModal {
   showModal: boolean;
@@ -30,10 +34,12 @@ const ApprovalDetailModal: React.FC<ApprovalDetailModal> = ({
   onCloseModal,
 }) => {
   const handleApprovePTO = async () => {
+    await approveTimesheetRequest(approval.time_entry.id);
     onCloseModal();
   };
 
   const handleRejectPTO = async () => {
+    await rejectTimesheetRequest(approval.time_entry.id);
     onCloseModal();
   };
 
@@ -58,7 +64,7 @@ const ApprovalDetailModal: React.FC<ApprovalDetailModal> = ({
               Back
             </IonButton>
           </IonButtons>
-          <IonTitle>Approve Leave</IonTitle>
+          <IonTitle>Approve Time</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -123,7 +129,7 @@ const ApprovalDetailModal: React.FC<ApprovalDetailModal> = ({
       <IonFooter className="ion-no-border">
         <IonToolbar>
           <IonButton expand="block" onClick={handleApprovePTO}>
-            Approve Leave
+            Approve Time
           </IonButton>
           <IonButton color="secondary" expand="block" onClick={handleRejectPTO}>
             Decline

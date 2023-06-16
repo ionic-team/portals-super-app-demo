@@ -78,7 +78,7 @@ const TimeTrackingManager: React.FC<{
             style={{ margin: 16 }}
             onClick={() => setShowModal(true)}
           >
-            {`Time Off Requests (${approvals.length})`}
+            {`Tracking Requests (${approvals.length})`}
           </IonButton>
         </IonHeader>
         <IonListHeader>Pending Time Entries</IonListHeader>

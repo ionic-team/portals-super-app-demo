@@ -102,6 +102,24 @@ export const getTimesheetRequests = async (contractorId: string) => {
   else return data as TimesheetRequest[];
 };
 
+export const approveTimesheetRequest = async (timesheetId: number) => {
+  let { data, error } = await supabase.rpc("approve_timesheet", {
+    timesheet_id: timesheetId,
+  });
+
+  if (error) console.error(error);
+  else return data;
+};
+
+export const rejectTimesheetRequest = async (timesheetId: number) => {
+  let { data, error } = await supabase.rpc("reject_timesheet", {
+    timesheet_id: timesheetId,
+  });
+
+  if (error) console.error(error);
+  else return data;
+};
+
 export const createTimesheetRequests = async (
   customerId: number,
   requesterId: string,

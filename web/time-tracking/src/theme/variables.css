@@ -13,19 +13,19 @@ http://ionicframework.com/docs/theming/ */
 
   /** primary **/
   --ion-color-primary: var(--supernova-red);
-	--ion-color-primary-rgb: 253,104,106;
-	--ion-color-primary-contrast: #ffffff;
-	--ion-color-primary-contrast-rgb: 0,0,0;
-	--ion-color-primary-shade: #df5c5d;
-  --ion-color-primary-tint: #fd7779
+  --ion-color-primary-rgb: 253, 104, 106;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #df5c5d;
+  --ion-color-primary-tint: #fd7779;
 
   /** secondary **/
-  --ion-color-secondary: var(--supernova-yellow);
-  --ion-color-secondary-rgb: 61, 194, 255;
-  --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #36abe0;
-  --ion-color-secondary-tint: #50c8ff;
+  --ion-color-secondary: #fedeee;
+  --ion-color-secondary-rgb: 254, 222, 238;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #e0c3d1;
+  --ion-color-secondary-tint: #fee1f0;
 
   /** tertiary **/
   --ion-color-tertiary: var(--supernova-teal);
