@@ -17,11 +17,11 @@ body {
 
   /** primary **/
   --ion-color-primary: var(--supernova-red);
-  --ion-color-primary-rgb: 56, 128, 255;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #3171e0;
-  --ion-color-primary-tint: #4c8dff;
+	--ion-color-primary-rgb: 253,104,106;
+	--ion-color-primary-contrast: #ffffff;
+	--ion-color-primary-contrast-rgb: 0,0,0;
+	--ion-color-primary-shade: #df5c5d;
+  --ion-color-primary-tint: #fd7779
 
   /** secondary **/
   --ion-color-secondary: var(--supernova-yellow);
