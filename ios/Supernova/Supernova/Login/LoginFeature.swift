@@ -20,8 +20,8 @@ struct LoginFeature: ReducerProtocol {
 
     struct State: Equatable {
         var loginStatus: LoginStatus = .inProcess
-        var email: String = ""
-        var password: String = ""
+        var email: String = "jeremiah@supernova.com"
+        var password: String = "il0vedogs"
 
         var isLoggedOut: Bool {
             loginStatus == .loggedOut
@@ -70,9 +70,8 @@ struct LoginFeature: ReducerProtocol {
                 return .none
 
             case .logout:
+                state = .init()
                 state.loginStatus = .loggedOut
-                state.password = ""
-                state.email = ""
                 return .run { _ in
                     try await signout()
                 }
