@@ -29,7 +29,7 @@ The usernames and passwords are as follows.
 
 # Android Supabase Configuration
 
-The Android superapp is configured to look for the Supabase instance at the default host IP address from the perspective of an emulator: `http://10.0.2.2:54321`. If you are testing this demo on a physical device you will need to change this URL to point to the host running the Supabase instance. The URL is located in the DataManager class: https://github.com/ionic-team/portals-super-app-demo/blob/e54c5617dfbe6525489426083a497f21efae4756/android/app/src/main/java/io/ionic/superapp/data/DataManager.kt#L22
+The Android superapp is configured to look for the Supabase instance at the default host IP address from the perspective of an emulator: `http://10.0.2.2:54321`. If you are testing this demo on a physical device you will need to change this URL to point to the host running the Supabase instance. The URL is located in the DataManager class: https://github.com/ionic-team/portals-super-app-demo/blob/a0747b07a747458d2a7e504442d227924eca926f/android/app/src/main/java/io/ionic/superapp/data/DataManager.kt#L22
 
 # Temporary Android Workaround
 
