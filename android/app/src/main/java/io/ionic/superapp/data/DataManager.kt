@@ -17,6 +17,7 @@ import io.ionic.superapp.data.model.App
 import io.ionic.superapp.data.model.Employee
 import io.ionic.superapp.data.model.Event
 import io.ionic.superapp.data.model.News
+import org.json.JSONObject
 import java.lang.Exception
 
 class DataManager {
@@ -81,14 +82,15 @@ class DataManager {
         return listOf(timeApp, hrApp, perksApp)
     }
 
-    fun getSessionObject(): HashMap<String, String> {
-        val sessionMap = HashMap<String, String>()
+    fun getSessionObject(): JSONObject {
+        val supabaseObject = JSONObject()
         session?.let {
-            sessionMap["refreshToken"] = it.refreshToken
-            sessionMap["accessToken"] = it.accessToken
+            supabaseObject.put("url","http://10.0.2.2:54321")
+            supabaseObject.put("refreshToken", it.refreshToken)
+            supabaseObject.put("accessToken", it.accessToken)
         }
 
-        return sessionMap
+        return supabaseObject
     }
 
     suspend fun logout() {
