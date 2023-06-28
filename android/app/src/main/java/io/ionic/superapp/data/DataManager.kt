@@ -1,7 +1,5 @@
 package io.ionic.superapp.data
 
-import android.content.Context
-import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.BadRequestRestException
@@ -21,13 +19,14 @@ import org.json.JSONObject
 import java.lang.Exception
 
 class DataManager {
+    val SUPABASE_URL = "http://10.0.2.2:54321"
 
     companion object {
         val instance = DataManager()
     }
 
     private val client: SupabaseClient = createSupabaseClient(
-        supabaseUrl = "http://10.0.2.2:54321",
+        supabaseUrl = SUPABASE_URL,
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
     ) {
         install(GoTrue)
@@ -85,7 +84,7 @@ class DataManager {
     fun getSessionObject(): JSONObject {
         val supabaseObject = JSONObject()
         session?.let {
-            supabaseObject.put("url","http://10.0.2.2:54321")
+            supabaseObject.put("url",SUPABASE_URL)
             supabaseObject.put("refreshToken", it.refreshToken)
             supabaseObject.put("accessToken", it.accessToken)
         }
