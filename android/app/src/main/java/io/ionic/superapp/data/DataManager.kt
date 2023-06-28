@@ -10,7 +10,6 @@ import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
-import io.ionic.superapp.R
 import io.ionic.superapp.data.model.App
 import io.ionic.superapp.data.model.Employee
 import io.ionic.superapp.data.model.Event
@@ -42,7 +41,7 @@ class DataManager {
                 this.password = password
             }
         } catch (e: Exception) {
-            if (e is BadRequestRestException){
+            if (e is BadRequestRestException) {
                 return false
             }
         }
@@ -73,18 +72,23 @@ class DataManager {
         return emptyList()
     }
 
-    fun getApps(): List<App> {
-        val timeApp = App("Time Tracking", "time", R.drawable.time)
-        val hrApp = App("Human Resources", "hr", R.drawable.people)
-        val perksApp = App("People Perks", "perks", R.drawable.sparkles)
+    suspend fun getApps(): List<App> {
+        val appList = mutableListOf<App>()
 
-        return listOf(timeApp, hrApp, perksApp)
+        val userId = session?.user?.id
+        if (userId != null) {
+            return client.postgrest.rpc("get_apps", Employee(employee_id = userId)).decodeList()
+        } else {
+            logout()
+        }
+
+        return appList
     }
 
     fun getSessionObject(): JSONObject {
         val supabaseObject = JSONObject()
         session?.let {
-            supabaseObject.put("url",SUPABASE_URL)
+            supabaseObject.put("url", SUPABASE_URL)
             supabaseObject.put("refreshToken", it.refreshToken)
             supabaseObject.put("accessToken", it.accessToken)
         }

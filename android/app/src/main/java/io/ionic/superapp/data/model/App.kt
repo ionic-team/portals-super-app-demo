@@ -1,3 +1,12 @@
 package io.ionic.superapp.data.model
 
-data class App(val name: String, val portalName: String, val drawableId: Int)
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class App(
+    val id: String,
+    val created_at: String,
+    val name: String,
+    val appflow_id: String,
+    val role_access: List<String>
+)
