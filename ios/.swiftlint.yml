@@ -1,0 +1,8 @@
+identifier_name:
+  excluded:
+    - vs
+    - id
+    - fk
+    - hr
+disabled_rules:
+  - line_length

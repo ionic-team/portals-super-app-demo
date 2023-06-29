@@ -15,27 +15,23 @@ class SuperApplication : Application() {
         PortalManager.register("YOUR_PORTALS_KEY")
 
         // Time Tracking Portal
-        val timeContext = HashMap<String, String>()
-        timeContext["startingRoute"] = "/time"
         PortalManager.newPortal("time")
-            .setStartDir("webapp")
-            .setInitialContext(timeContext)
+            .setStartDir("time-tracking")
             .create()
 
         // Human Resources Portal
-        val hrContext = HashMap<String, String>()
-        hrContext["startingRoute"] = "/hr"
         PortalManager.newPortal("hr")
-            .setStartDir("webapp")
-            .setInitialContext(hrContext)
+            .setStartDir("human-resources")
             .create()
 
         // People Perks Portal
-        val perksContext = HashMap<String, String>()
-        perksContext["startingRoute"] = "/perks"
         PortalManager.newPortal("perks")
-            .setStartDir("webapp")
-            .setInitialContext(perksContext)
+            .setStartDir("perks")
+            .create()
+
+        // CRM Portal
+        PortalManager.newPortal("crm")
+            .setStartDir("crm")
             .create()
     }
 }

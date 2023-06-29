@@ -1,7 +1,5 @@
 package io.ionic.superapp.data
 
-import android.content.Context
-import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.BadRequestRestException
@@ -12,21 +10,22 @@ import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
-import io.ionic.superapp.R
 import io.ionic.superapp.data.model.App
 import io.ionic.superapp.data.model.Employee
 import io.ionic.superapp.data.model.Event
 import io.ionic.superapp.data.model.News
+import org.json.JSONObject
 import java.lang.Exception
 
 class DataManager {
+    val SUPABASE_URL = "http://10.0.2.2:54321"
 
     companion object {
         val instance = DataManager()
     }
 
     private val client: SupabaseClient = createSupabaseClient(
-        supabaseUrl = "http://10.0.2.2:54321",
+        supabaseUrl = SUPABASE_URL,
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
     ) {
         install(GoTrue)
@@ -42,7 +41,7 @@ class DataManager {
                 this.password = password
             }
         } catch (e: Exception) {
-            if (e is BadRequestRestException){
+            if (e is BadRequestRestException) {
                 return false
             }
         }
@@ -73,22 +72,28 @@ class DataManager {
         return emptyList()
     }
 
-    fun getApps(): List<App> {
-        val timeApp = App("Time Tracking", "time", R.drawable.time)
-        val hrApp = App("Human Resources", "hr", R.drawable.people)
-        val perksApp = App("People Perks", "perks", R.drawable.sparkles)
+    suspend fun getApps(): List<App> {
+        val appList = mutableListOf<App>()
 
-        return listOf(timeApp, hrApp, perksApp)
-    }
-
-    fun getSessionObject(): HashMap<String, String> {
-        val sessionMap = HashMap<String, String>()
-        session?.let {
-            sessionMap["refreshToken"] = it.refreshToken
-            sessionMap["accessToken"] = it.accessToken
+        val userId = session?.user?.id
+        if (userId != null) {
+            return client.postgrest.rpc("get_apps", Employee(employee_id = userId)).decodeList()
+        } else {
+            logout()
         }
 
-        return sessionMap
+        return appList
+    }
+
+    fun getSessionObject(): JSONObject {
+        val supabaseObject = JSONObject()
+        session?.let {
+            supabaseObject.put("url", SUPABASE_URL)
+            supabaseObject.put("refreshToken", it.refreshToken)
+            supabaseObject.put("accessToken", it.accessToken)
+        }
+
+        return supabaseObject
     }
 
     suspend fun logout() {

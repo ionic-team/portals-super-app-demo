@@ -1,0 +1,19 @@
+[
+    {
+      "id": "59ce5d8a-5cad-4658-9ae0-c8d335543201",
+      "first_name": "Trevor",
+      "last_name": "DeLaney",
+      "user_name": "trevor-delaney@supernova.com",
+      "user_type": "contractor",
+      "manager": "e7b98125-6d84-4b17-ad54-8e95e0b2a952"
+    },
+    {
+      "id": "e7b98125-6d84-4b17-ad54-8e95e0b2a952",
+      "first_name": "Tanya",
+      "last_name": "Harding",
+      "user_name": "tanya-harding@supernova.com",
+      "user_type": "manager",
+      "manager": ""
+    }
+  ]
+  

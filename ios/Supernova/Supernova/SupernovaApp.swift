@@ -7,27 +7,30 @@
 
 import SwiftUI
 import ComposableArchitecture
+import IonicPortals
+import Dependencies
 
 @main
 struct SupernovaApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    init() {
+        PortalsRegistrationManager.shared.register(key: "YOUR_KEY_HERE")
+    }
 
     var body: some Scene {
         WindowGroup {
             AppView(
-                store: Store(initialState: .init()) {
+                store: Store(
+                    initialState: AppFeature.State(
+                        loginState: .init(
+                            email: "jeremiah@supernova.com",
+                            password: "il0vedogs"
+                        )
+                    )
+                ) {
                     AppFeature()
+                        .dependency(\.clientUrl, "http://0.0.0.0:54321")
                 }
             )
         }
-    }
-}
-
-import Supabase
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-    @Dependency(\.client.signout) var client
-    func applicationWillTerminate(_ application: UIApplication) {
-        Task { try await client() }
     }
 }

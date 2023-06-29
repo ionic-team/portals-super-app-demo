@@ -1,0 +1,9 @@
+{
+  "appId": "io.ionic.perks",
+  "appName": "perks",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "url": "https://one23-dev.outsystems.app/PerksApp/Perks"
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "firstName": "Josh",
+    "lastName": "Thomas",
+    "userName": "josh@ionic.io",
+    "userType": "manager",
+    "avatarUrl": "/avatars/josh-thomas.jpg"
+  },
+  {
+    "id": 2,
+    "firstName": "William",
+    "lastName": "Brown",
+    "userName": "will@ionic.io",
+    "userType": "contractor",
+    "avatarUrl": "/avatars/other.jpg"
+  }
+]
