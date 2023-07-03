@@ -10,10 +10,10 @@ cd supabaseApi && npm install && cd ..
 ```
 
 ```bash
-cd crm && npm install && npm build && cd ..
-cd human-resources && npm install && npm build && cd ..
-cd perks && npm install && npm build && cd ..
-cd time-tracking && npm install && npm build && cd ..
+cd crm && npm install && npm run build && cd ..
+cd human-resources && npm install && npm run build && cd ..
+cd perks && npm install && npm run build && cd ..
+cd time-tracking && npm install && npm run build && cd ..
 ```
 
 Once built, the mini apps will be pulled into the Android and iOS projects automatically when the native superapps are built.
