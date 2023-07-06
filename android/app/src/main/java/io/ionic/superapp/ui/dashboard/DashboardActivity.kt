@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import io.ionic.portals.PortalManager
 import io.ionic.superapp.R
 import io.ionic.superapp.data.DataManager
 import io.ionic.superapp.databinding.ActivityDashboardBinding
@@ -81,7 +82,12 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(1400L)
+            val apps = DataManager.instance.getApps()
+            for (app in apps) {
+                PortalManager.newPortal(app.id).create()
+            }
+
+            delay(800L)
             dashboardViewModel.update()
         }
     }

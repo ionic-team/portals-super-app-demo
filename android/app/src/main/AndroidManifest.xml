@@ -34,6 +34,7 @@
 
         <activity
             android:name=".ui.login.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:label="@string/title_activity_login">
 

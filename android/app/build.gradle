@@ -67,7 +67,7 @@ task CopyPerksWebAssets(type: Copy) {
 task CopyHRWebAssets(type: Copy) {
     def webBuildFolder = '../../web/human-resources/dist'
     from webBuildFolder
-    into layout.projectDirectory.dir("src/main/assets/human-resources")
+    into layout.projectDirectory.dir("src/main/assets/hr")
 }
 
 task CopyCRMWebAssets(type: Copy) {
@@ -79,7 +79,7 @@ task CopyCRMWebAssets(type: Copy) {
 task CopyTimeWebAssets(type: Copy) {
     def webBuildFolder = '../../web/time-tracking/dist'
     from webBuildFolder
-    into layout.projectDirectory.dir("src/main/assets/time-tracking")
+    into layout.projectDirectory.dir("src/main/assets/time")
 }
 
 preBuild.dependsOn(CopyPerksWebAssets)
