@@ -40,7 +40,9 @@ The web apps are currently hardcoded to `localhost` to look for the Supabase ins
 /web/supabaseApi/supabaseApi.ts
 ```
 
-Once changed, make sure to rebuild the web apps. This will be adjusted to work differently in a future update.
+# Android Live Update Demo
+
+To test Live Updates with the Time Tracking app, change the `appflow_id` of the app in the `apps` table in Supabase to `798e6905` and restart the app.
 
 # Running Database Migrations
 

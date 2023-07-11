@@ -43,7 +43,7 @@ class AppAdapter(private val apps: List<App>, private val activity: Activity) : 
                     putExtra("portalName", appItem.id)
                 })
             } else {
-                Toast.makeText(activity, "App is downloading, please wait...", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "App is downloading, try again in a moment...", Toast.LENGTH_LONG).show()
                 LiveUpdateManager.sync(activity)
             }
         }
