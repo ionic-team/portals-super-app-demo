@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import io.ionic.liveupdates.LiveUpdate
 import io.ionic.portals.PortalManager
 import io.ionic.superapp.R
 import io.ionic.superapp.data.DataManager
@@ -84,7 +85,9 @@ class DashboardActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val apps = DataManager.instance.getApps()
             for (app in apps) {
-                PortalManager.newPortal(app.id).create()
+                val liveUpdateConfig = LiveUpdate(app.id, "production")
+                PortalManager.newPortal(app.id)
+                    .setLiveUpdateConfig(this@DashboardActivity, liveUpdateConfig).create()
             }
 
             delay(800L)

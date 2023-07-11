@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import io.ionic.liveupdates.LiveUpdateManager
 import io.ionic.superapp.R
 import io.ionic.superapp.data.model.App
 import io.ionic.superapp.databinding.AppRowItemBinding
@@ -36,11 +38,24 @@ class AppAdapter(private val apps: List<App>, private val activity: Activity) : 
         }
 
         holder.itemView.setOnClickListener {
-            activity.startActivity(Intent(activity, AppActivity::class.java).apply {
-                putExtra("portalName", appItem.id)
-            })
+            if(portalIsPresent(appItem.id)) {
+                activity.startActivity(Intent(activity, AppActivity::class.java).apply {
+                    putExtra("portalName", appItem.id)
+                })
+            } else {
+                Toast.makeText(activity, "App is downloading, please wait...", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
     class AppViewHolder(val binding: AppRowItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    private fun portalIsPresent(portalId: String): Boolean {
+        val localCopyPresent = activity.getResources().getAssets().list("")?.contains(portalId)
+        return if (localCopyPresent != null) {
+            true
+        } else {
+            LiveUpdateManager.getLatestAppDirectory(activity, portalId) != null
+        }
+    }
 }

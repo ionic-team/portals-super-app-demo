@@ -38,6 +38,8 @@ android {
 
 dependencies {
     implementation 'io.ionic:portals:0.8.0'
+    implementation 'io.ionic:liveupdates:0.4.1'
+
     implementation 'com.faltenreich:skeletonlayout:4.0.0'
 
     implementation(platform("io.github.jan-tennert.supabase:bom:0.9.5"))
