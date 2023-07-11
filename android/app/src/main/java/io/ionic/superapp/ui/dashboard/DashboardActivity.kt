@@ -85,7 +85,7 @@ class DashboardActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val apps = DataManager.instance.getApps()
             for (app in apps) {
-                val liveUpdateConfig = LiveUpdate(app.id, "production")
+                val liveUpdateConfig = LiveUpdate(app.appflow_id, "production")
                 PortalManager.newPortal(app.id)
                     .setLiveUpdateConfig(this@DashboardActivity, liveUpdateConfig).create()
             }
