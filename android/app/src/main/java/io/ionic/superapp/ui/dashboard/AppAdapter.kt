@@ -38,7 +38,7 @@ class AppAdapter(private val apps: List<App>, private val activity: Activity) : 
         }
 
         holder.itemView.setOnClickListener {
-            if(portalIsPresent(appItem.id)) {
+            if(portalIsPresent(appItem.id, appItem.appflow_id)) {
                 activity.startActivity(Intent(activity, AppActivity::class.java).apply {
                     putExtra("portalName", appItem.id)
                 })
@@ -50,12 +50,12 @@ class AppAdapter(private val apps: List<App>, private val activity: Activity) : 
 
     class AppViewHolder(val binding: AppRowItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private fun portalIsPresent(portalId: String): Boolean {
+    private fun portalIsPresent(portalId: String, liveUpdateId: String): Boolean {
         val localCopyPresent = activity.getResources().getAssets().list("")?.contains(portalId)
-        return if (localCopyPresent != null) {
+        return if (localCopyPresent == true) {
             true
         } else {
-            LiveUpdateManager.getLatestAppDirectory(activity, portalId) != null
+            LiveUpdateManager.getLatestAppDirectory(activity, liveUpdateId) != null
         }
     }
 }
