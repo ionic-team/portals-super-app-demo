@@ -44,6 +44,7 @@ class AppAdapter(private val apps: List<App>, private val activity: Activity) : 
                 })
             } else {
                 Toast.makeText(activity, "App is downloading, please wait...", Toast.LENGTH_LONG).show()
+                LiveUpdateManager.sync(activity)
             }
         }
     }

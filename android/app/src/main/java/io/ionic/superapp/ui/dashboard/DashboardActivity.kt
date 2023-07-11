@@ -88,7 +88,7 @@ class DashboardActivity : AppCompatActivity() {
                 if (app.appflow_id.isNotEmpty()) {
                     val liveUpdateConfig = LiveUpdate(app.appflow_id, "production")
                     PortalManager.newPortal(app.id)
-                        .setLiveUpdateConfig(this@DashboardActivity, liveUpdateConfig).create()
+                        .setLiveUpdateConfig(this@DashboardActivity, liveUpdateConfig, false).create()
                 } else {
                     PortalManager.newPortal(app.id).create()
                 }
