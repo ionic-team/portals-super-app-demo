@@ -38,6 +38,8 @@ android {
 
 dependencies {
     implementation 'io.ionic:portals:0.8.0'
+    implementation 'io.ionic:liveupdates:0.4.1'
+
     implementation 'com.faltenreich:skeletonlayout:4.0.0'
 
     implementation(platform("io.github.jan-tennert.supabase:bom:0.9.5"))
@@ -76,13 +78,13 @@ task CopyCRMWebAssets(type: Copy) {
     into layout.projectDirectory.dir("src/main/assets/crm")
 }
 
-task CopyTimeWebAssets(type: Copy) {
-    def webBuildFolder = '../../web/time-tracking/dist'
-    from webBuildFolder
-    into layout.projectDirectory.dir("src/main/assets/time")
-}
+//task CopyTimeWebAssets(type: Copy) {
+//    def webBuildFolder = '../../web/time-tracking/dist'
+//    from webBuildFolder
+//    into layout.projectDirectory.dir("src/main/assets/time")
+//}
 
 preBuild.dependsOn(CopyPerksWebAssets)
 preBuild.dependsOn(CopyHRWebAssets)
 preBuild.dependsOn(CopyCRMWebAssets)
-preBuild.dependsOn(CopyTimeWebAssets)
+//preBuild.dependsOn(CopyTimeWebAssets)
