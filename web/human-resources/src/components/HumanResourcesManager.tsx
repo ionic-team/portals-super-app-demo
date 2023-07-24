@@ -17,11 +17,11 @@ import {
 } from "@ionic/react";
 import ApprovalListModal from "./ApprovalListModal";
 import TimeOffItem from "./TimeOffItem";
-import { getPendingPTOApprovals } from "../../../supabaseApi/supabaseApi";
-import { PTOApproval } from "../../../supabaseApi/types";
+import { getPendingPTOApprovals } from "../../../data/supabaseApi";
+import { PTOApproval } from "../../../data/types";
 import { chevronBack } from "ionicons/icons";
-import { Session } from "../../../supabaseApi/supabaseApi";
-import { dismissPlugin } from "../super-app";
+import { Session } from "../../../data/supabaseApi";
+import { dismissPlugin } from "../../../data/superAppHandoff";
 
 interface HumanResourcesManagerProps {
   session: Session;

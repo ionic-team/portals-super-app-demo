@@ -14,11 +14,11 @@ import {
 } from "@ionic/react";
 import UserCard from "./UserCard";
 import { chevronBack } from "ionicons/icons";
-import { TimesheetApproval } from "../../../supabaseApi/types";
+import { TimesheetApproval } from "../../../data/types";
 import {
   approveTimesheetRequest,
   rejectTimesheetRequest,
-} from "../../../supabaseApi/supabaseApi";
+} from "../../../data/supabaseApi";
 
 interface ApprovalDetailModal {
   showModal: boolean;

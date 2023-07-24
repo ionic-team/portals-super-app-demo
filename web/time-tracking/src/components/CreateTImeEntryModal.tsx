@@ -16,7 +16,7 @@ import {
   IonPopover,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { Customer } from "../../../supabaseApi/types";
+import { Customer } from "../../../data/types";
 
 interface CreateTimeEntryModalProps {
   showModal: boolean;

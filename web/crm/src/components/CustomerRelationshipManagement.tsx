@@ -19,11 +19,11 @@ import AddCustomerModal from "./AddCustomerModal";
 import {
   createCustomer,
   getCustomersByEmployee,
-} from "../../../supabaseApi/supabaseApi";
-import { Customer } from "../../../supabaseApi/types";
+} from "../../../data/supabaseApi";
+import { Customer } from "../../../data/types";
 import { chevronBack } from "ionicons/icons";
-import { Session } from "../../../supabaseApi/supabaseApi";
-import { dismissPlugin } from "../super-app";
+import { Session } from "../../../data/supabaseApi";
+import { dismissPlugin } from "../../../data/superAppHandoff";
 
 interface CustomerRelationshipManagementProps {
   session: Session;

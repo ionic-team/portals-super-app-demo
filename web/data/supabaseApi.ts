@@ -1,9 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
-import { PTOApproval, TimesheetApproval, TimesheetRequest } from "./types";
+import {
+  Context,
+  PTOApproval,
+  TimesheetApproval,
+  TimesheetRequest,
+} from "./types";
+import { initialContext } from "./superAppHandoff";
 
 export type { Session } from "@supabase/supabase-js";
 
-const supabaseUrl = "http://localhost:54321";
+const supabaseUrl = initialContext.supabase.url;
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
 const serviceKey =

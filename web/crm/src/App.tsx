@@ -1,6 +1,9 @@
 import { IonApp, setupIonicReact } from "@ionic/react";
 import CustomerRelationshipManagement from "./components/CustomerRelationshipManagement";
-import userList from "../../supabaseApi/users.json";
+import { useEffect, useState } from "react";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "../../data/supabaseApi";
+import { initialContext } from "../../data/superAppHandoff";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -20,10 +23,6 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import { useEffect, useState } from "react";
-import { Session } from "@supabase/supabase-js";
-import { supabase } from "../../supabaseApi/supabaseApi";
-import { initialContext } from "./super-app";
 
 setupIonicReact();
 

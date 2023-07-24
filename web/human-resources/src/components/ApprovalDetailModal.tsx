@@ -13,8 +13,8 @@ import {
   IonIcon,
 } from "@ionic/react";
 import UserCard from "./UserCard";
-import { approvePTO, rejectPTO } from "../../../supabaseApi/supabaseApi";
-import { PTOApproval } from "../../../supabaseApi/types";
+import { approvePTO, rejectPTO } from "../../../data/supabaseApi";
+import { PTOApproval } from "../../../data/types";
 import { chevronBack } from "ionicons/icons";
 
 interface ApprovalDetailModal {

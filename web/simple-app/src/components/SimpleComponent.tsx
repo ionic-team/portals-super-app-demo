@@ -9,7 +9,7 @@ import {
   IonButton,
 } from "@ionic/react";
 import { chevronBack } from "ionicons/icons";
-import { dismissPlugin } from "../super-app";
+import { dismissPlugin } from "../../../data/superAppHandoff";
 
 const SimpleComponent: React.FC = () => {
   return (

@@ -16,14 +16,11 @@ import {
 } from "@ionic/react";
 import RequestModal from "./RequestModal";
 import TimeOffItem from "./TimeOffItem";
-import {
-  createPTORequest,
-  getPTORequests,
-} from "../../../supabaseApi/supabaseApi";
-import { PTORequest } from "../../../supabaseApi/types";
+import { createPTORequest, getPTORequests } from "../../../data/supabaseApi";
+import { PTORequest } from "../../../data/types";
 import { chevronBack } from "ionicons/icons";
-import { Session } from "../../../supabaseApi/supabaseApi";
-import { dismissPlugin } from "../super-app";
+import { Session } from "../../../data/supabaseApi";
+import { dismissPlugin } from "../../../data/superAppHandoff";
 
 const HumanResourcesContractor: React.FC<{ session: Session }> = ({
   session,

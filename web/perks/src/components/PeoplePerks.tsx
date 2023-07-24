@@ -21,7 +21,7 @@ import { chevronBackOutline } from "ionicons/icons";
 import PreviousPerksGiven from "../components/PreviousPerksGiven";
 import { PerkEvent, User } from "../definitions";
 import { createPerksEntry, getPerks, getUsers, Session } from "../supabase-api";
-import { dismissPlugin } from "../super-app";
+import { dismissPlugin } from "../../../data/superAppHandoff";
 
 const PeoplePerks: React.FC<{ session: Session }> = ({ session }) => {
   const [showModal, setShowModal] = useState(false);

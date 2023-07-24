@@ -15,7 +15,7 @@ import {
   IonSelectOption,
   IonPopover,
 } from "@ionic/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface RequestModalProps {
   showModal: boolean;

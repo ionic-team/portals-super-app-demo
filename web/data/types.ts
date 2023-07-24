@@ -61,3 +61,12 @@ export type TimesheetApproval = {
   customer: Customer;
   employee: Employee;
 };
+
+export type Context = {
+  supabase: {
+    url: string;
+    accessToken: string;
+    refreshToken: string;
+  };
+  resourceId: number;
+};

@@ -20,13 +20,13 @@ import {
   IonLoading,
   IonListHeader,
 } from "@ionic/react";
-import { TimesheetApproval } from "../../../supabaseApi/types";
+import { TimesheetApproval } from "../../../data/types";
 import { chevronBack } from "ionicons/icons";
-import { getPendingTimesheetApprovals } from "../../../supabaseApi/supabaseApi";
+import { getPendingTimesheetApprovals } from "../../../data/supabaseApi";
 import TimesheetItem from "./TimeEntryItem";
 import ApprovalListModal from "./ApprovalListModal";
-import { Session } from "../../../supabaseApi/supabaseApi";
-import { dismissPlugin } from "../super-app";
+import { Session } from "../../../data/supabaseApi";
+import { dismissPlugin } from "../../../data/superAppHandoff";
 
 const TimeTrackingManager: React.FC<{
   session: Session;

@@ -2,11 +2,11 @@
 
 To get started have Docker installed and then run `npx supabase start` from the root of the project.
 
-Go into each web app directory starting with `supabaseApi` and `npm install` them. Run `npm run build` for the CRM, Human Resources, Perks, and Time Tracking apps:
+Go into each web app directory starting with `data` and `npm install` them. Run `npm run build` for the CRM, Human Resources, Perks, and Time Tracking apps:
 
 ```bash
 cd web/
-cd supabaseApi && npm install && cd ..
+cd data && npm install && cd ..
 ```
 
 ```bash
@@ -37,7 +37,7 @@ The web apps are currently hardcoded to `localhost` to look for the Supabase ins
 
 ```
 /web/perks/src/supabase-api/index.ts
-/web/supabaseApi/supabaseApi.ts
+/web/data/supabaseApi.ts
 ```
 
 # Android Live Update Demo

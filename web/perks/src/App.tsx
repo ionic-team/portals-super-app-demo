@@ -1,6 +1,6 @@
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { useState, useEffect } from "react";
-import { initialContext } from "./super-app";
+import { initialContext } from "../../data/superAppHandoff";
 import { supabase, Session } from "./supabase-api";
 import PeoplePerks from "./components/PeoplePerks";
 

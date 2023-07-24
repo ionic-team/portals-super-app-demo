@@ -3,8 +3,8 @@ import { IonReactRouter } from "@ionic/react-router";
 import { useState, useEffect } from "react";
 import HumanResourcesContractor from "./components/HumanResourcesContractor";
 import HumanResourcesManager from "./components/HumanResourcesManager";
-import { supabase, Session } from "../../supabaseApi/supabaseApi";
-import { initialContext } from "./super-app";
+import { supabase, Session } from "../../data/supabaseApi";
+import { initialContext } from "../../data/superAppHandoff";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";

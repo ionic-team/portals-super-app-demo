@@ -9,7 +9,7 @@ import {
   IonList,
 } from "@ionic/react";
 import UserCard from "./UserCard";
-import { TimesheetApproval } from "../../../supabaseApi/types";
+import { TimesheetApproval } from "../../../data/types";
 import { useState } from "react";
 import ApprovalDetailModal from "./ApprovalDetailModal";
 

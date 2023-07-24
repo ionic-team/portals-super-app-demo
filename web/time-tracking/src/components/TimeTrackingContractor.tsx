@@ -18,15 +18,15 @@ import {
 } from "@ionic/react";
 import { add, chevronBack } from "ionicons/icons";
 import CreateTimeEntryModal from "./CreateTImeEntryModal";
-import { Customer, TimesheetRequest } from "../../../supabaseApi/types";
+import { Customer, TimesheetRequest } from "../../../data/types";
 import {
   createTimesheetRequests,
   getCustomers,
   getTimesheetRequests,
-} from "../../../supabaseApi/supabaseApi";
+} from "../../../data/supabaseApi";
 import TimesheetItem from "./TimeEntryItem";
-import { Session } from "../../../supabaseApi/supabaseApi";
-import { dismissPlugin } from "../super-app";
+import { Session } from "../../../data/supabaseApi";
+import { dismissPlugin } from "../../../data/superAppHandoff";
 
 const TimeTrackingContractor: React.FC<{ session: Session }> = ({
   session,

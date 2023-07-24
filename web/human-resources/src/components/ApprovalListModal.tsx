@@ -10,7 +10,7 @@ import {
 } from "@ionic/react";
 import { useState } from "react";
 import UserCard from "./UserCard";
-import { PTOApproval } from "../../../supabaseApi/types";
+import { PTOApproval } from "../../../data/types";
 import ApprovalDetailModal from "./ApprovalDetailModal";
 
 interface ApprovalListModalProps {
