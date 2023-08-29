@@ -31,15 +31,6 @@ The usernames and passwords are as follows.
 
 The Android superapp is configured to look for the Supabase instance at the default host IP address from the perspective of an emulator: `http://10.0.2.2:54321`. If you are testing this demo on a physical device you will need to change this URL to point to the host running the Supabase instance. The URL is located in the DataManager class: https://github.com/ionic-team/portals-super-app-demo/blob/a0747b07a747458d2a7e504442d227924eca926f/android/app/src/main/java/io/ionic/superapp/data/DataManager.kt#L22
 
-# Temporary Android Workaround
-
-The web apps are currently hardcoded to `localhost` to look for the Supabase instance but when running the Android app it needs to point to the host machine IP (default `10.0.2.2` when testing on an Android emulator). Update this hardcoded URL in the following files:
-
-```
-/web/perks/src/supabase-api/index.ts
-/web/data/supabaseApi.ts
-```
-
 # Android Live Update Demo
 
 To test Live Updates with the Time Tracking app, change the `appflow_id` of the app in the `apps` table in Supabase to `798e6905` and restart the app.
