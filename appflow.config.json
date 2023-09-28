@@ -3,7 +3,7 @@
     {
       "appId": "869768c1",
       "root": "web/time-tracking",
-      "dependencyInstallCommand": "npm ci && cd ../supabaseApi && npm ci"
+      "dependencyInstallCommand": "npm ci && cd ../data && npm ci"
     }
   ]
 }
