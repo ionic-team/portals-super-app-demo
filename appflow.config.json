@@ -1,14 +1,9 @@
 {
   "apps": [
     {
-      "appId": "75dca618",
+      "appId": "869768c1",
       "root": "web/time-tracking",
       "dependencyInstallCommand": "npm ci && cd ../supabaseApi && npm ci"
-    },
-    {
-      "appId": "798e6905",
-      "root": "web/simple-app",
-      "dependencyInstallCommand": "npm ci"
     }
   ]
 }
